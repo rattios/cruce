@@ -12,6 +12,7 @@ class ClienteController extends Controller
 {
 
     /*Retorna la lista de clietes, tabla clientes*/
+    //
     public function listaClientes()
     {
         $clientes = \App\Cliente::get();
