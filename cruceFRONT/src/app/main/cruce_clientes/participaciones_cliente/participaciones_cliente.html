@@ -1,0 +1,65 @@
+<div id="e-commerce-products" class="page-layout carded fullwidth" layout="row">
+
+    <!-- TOP BACKGROUND -->
+    <div class="top-bg md-accent-bg"></div>
+    <!-- / TOP BACKGROUND -->
+
+    <!-- CENTER -->
+    <div class="center" layout="column" flex>
+
+        <!-- CONTENT HEADER -->
+        <div class="header" layout="row" layout-align="space-between center">
+            
+            <div class="white-fg" layout="column" layout-align="start start">
+                <div class="h1" layout="row" layout-align="start center">
+                    <md-button class="md-fab md-warn" aria-label="volver" ng-click="vm.atras()"><md-icon md-font-icon="icon-arrow-left"></md-icon></md-button>
+                    <md-icon md-font-icon="icon-account"></md-icon>
+                    <span>{{vm.inspector_selec}}</span>
+                </div>
+                <div class="product-count secondary-text">
+                    <span>Total :</span>
+                    <span>{{vm.participaciones.length}}</span>
+                </div>
+            </div>
+
+<!-- 
+            <div class="search" layout="row" layout-align="start center" flex>
+                <md-icon md-font-icon="icon-magnify" class="white-text icon search-icon"></md-icon>
+                <input id="e-commerce-products-search" class="search-input" type="text" placeholder="Buscar" flex>
+            </div> -->
+
+        </div>
+        <!-- / CONTENT HEADER -->
+
+        <!-- CONTENT CARD -->
+        <div class="content-card" layout="column" flex>
+
+            <!-- CONTENT TOOLBAR -->
+
+            <!-- / CONTENT TOOLBAR -->
+
+            <!-- CONTENT -->
+            
+            <div class="content fullpage-datatable" layout="column" flex>
+
+                <br><br>
+                <div ng-if="vm.participaciones.length > 0">Participaciones:</div>
+                <br><br>
+                <div ng-repeat="participacion in ::vm.participaciones">
+                    {{participacion}}
+                    <br><br>
+                </div>
+                           
+
+            </div>
+
+            <!-- / CONTENT -->
+            <loadingl align="center" ng-show="!mostrar"></loadingl>
+
+        </div>
+        <!-- / CONTENT CARD -->
+
+    </div>
+    <!-- / CENTER -->
+
+</div>
