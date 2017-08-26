@@ -12,6 +12,7 @@ class ClienteController extends Controller
 {
 
     /*Retorna la lista de clietes, tabla clientes*/
+    /*Prueba4*/
     //
     public function listaClientes()
     {
