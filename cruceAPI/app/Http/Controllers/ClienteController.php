@@ -11,6 +11,8 @@ use Illuminate\Support\Facades\DB;
 class ClienteController extends Controller
 {
 
+    //PRUEBA FATIMA :)
+
     /*Retorna la lista de clietes, tabla clientes*/
     /*Prueba4*/
     //
