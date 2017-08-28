@@ -191,8 +191,8 @@ class ClienteController extends Controller
 
     public function getParticipaciones($email)
     {
-        //Peticion 1
-        $ch = curl_init();
+ //Peticion 1
+        /*$ch = curl_init();
         curl_setopt($ch, CURLOPT_URL, "http://localhost/cruceAPI/public/sorteo/web/registros/".$email);
         curl_setopt($ch, CURLOPT_HTTPHEADER, array('Content-Type: application/json; charset=utf-8'));
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, TRUE);
@@ -207,10 +207,22 @@ class ClienteController extends Controller
 
         $objSorteoWebEmails = json_decode($responseSorteoWebEmails); 
 
-        $SorteoWebEmails = $objSorteoWebEmails->emails;
+        $SorteoWebEmails = $objSorteoWebEmails->emails;*/
+
+        //Seleccionar los registros de la BD
+        $SorteoWebEmails = DB::select("
+            select
+                *
+            from
+                participante_sorteo_web
+            where 
+                email = '".$email."'
+             ORDER BY fecha
+                "
+                );
 
         //Peticion 2
-        $ch = curl_init();
+        /*$ch = curl_init();
         curl_setopt($ch, CURLOPT_URL, "http://localhost/cruceAPI/public/parse/registros/".$email);
         curl_setopt($ch, CURLOPT_HTTPHEADER, array('Content-Type: application/json; charset=utf-8'));
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, TRUE);
@@ -225,7 +237,19 @@ class ClienteController extends Controller
 
         $objParseEmails = json_decode($responseParseEmails); 
 
-        $ParseEmails = $objParseEmails->emails;
+        $ParseEmails = $objParseEmails->emails;*/
+
+        //Seleccionar los registros de la BD
+        $ParseEmails = DB::select("
+            select
+                *
+            from
+                messages
+            where 
+                email = '".$email."'
+             ORDER BY createdAt
+                "
+                );
 
         //Seleccionar los registros de la BD
         $Cleaned_members = DB::select("
@@ -258,7 +282,7 @@ class ClienteController extends Controller
 
         for ($i=0; $i <count($ParseEmails) ; $i++) { 
             $ParseEmails[$i]->fecha = $ParseEmails[$i]->createdAt;
-            $ParseEmails[$i]->evento = 'Parse Mensajes'; 
+            $ParseEmails[$i]->evento = 'Mongo Mensajes'; 
             array_push($participaciones, $ParseEmails[$i]);
         }
         for ($i=0; $i <count($SorteoWebEmails) ; $i++) {
@@ -272,7 +296,7 @@ class ClienteController extends Controller
         }
         for ($i=0; $i <count($Subscribed_members) ; $i++) { 
             $Subscribed_members[$i]->fecha = $Subscribed_members[$i]->CONFIRM_TIME;
-            $Subscribed_members[$i]->evento = 'Subscribed   members'; 
+            $Subscribed_members[$i]->evento = 'Subscribed members'; 
             array_push($participaciones, $Subscribed_members[$i]);
         }
 
@@ -294,10 +318,7 @@ class ClienteController extends Controller
             'emailsSorteoWeb' => $SorteoWebEmails,
             'countParticipaciones'=>count($participaciones),
             'participaciones' => $participaciones,
-        ],200);
-
-
-        
+        ],200);  
     }
 
     /*Funcion para ordenar un array

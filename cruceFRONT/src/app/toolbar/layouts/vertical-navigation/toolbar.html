@@ -15,7 +15,7 @@
         <md-progress-circular id="toolbar-progress" ng-disabled="!$root.loadingProgress"  class="md-accent" md-diameter="32">
         </md-progress-circular>
 
-        <md-menu-bar id="user-menu">
+        <!-- <md-menu-bar id="user-menu">
             <md-menu md-position-mode="left bottom">
                 <md-button class="user-button" ng-click="$mdOpenMenu()"
                            aria-label="User settings"
@@ -74,13 +74,13 @@
                     </md-menu-item>
                 </md-menu-content>
             </md-menu>
-        </md-menu-bar>
+        </md-menu-bar> -->
 
         <div class="toolbar-separator"></div>
 
         <ms-search-bar on-search="vm.search(query)" on-result-click="vm.searchResultClick(item)" debounce="300"></ms-search-bar>
 
-        <div class="toolbar-separator"></div>
+        <!--<div class="toolbar-separator"></div>
 
         <md-menu id="language-menu" md-offset="0 72" md-position-mode="target-right target">
             <md-button class="language-button" ng-click="$mdOpenMenu()"
@@ -109,6 +109,6 @@
         <md-button id="quick-panel-toggle" class="md-icon-button" ng-click="vm.toggleSidenav('quick-panel')"
                    aria-label="Toggle quick panel" translate translate-attr-aria-label="TOOLBAR.TOGGLE_QUICK_PANEL">
             <md-icon md-font-icon="icon-format-list-bulleted" class="icon"></md-icon>
-        </md-button>
+        </md-button> -->
     </div>
 </div>
