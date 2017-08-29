@@ -27,7 +27,7 @@
     <!-- / HEADER -->
 
     <!-- CONTENT -->
-    <div class="content md-background-bg" layout="column" flex>
+    <div class="content" md-background-bg layout="column" flex>
 
         <!-- DEMO CONTENT -->
         <!-- <div ng-include="'app/main/ui/page-layouts/demo/demo-content.html'"></div> -->
@@ -45,6 +45,10 @@
         <div ng-repeat="participacion in ::vm.participaciones">
             {{participacion}}
             <br><br>
+
+            <div ng-if="participacion.evento == 'Mongo Mensajes' && participacion.fileType == 'image'">
+                <ms-card template="'app/core/directives/ms-card/templates/template-11/template-11.html'" ng-model="participacion"></ms-card>
+            </div>
         </div>
 
     </div>

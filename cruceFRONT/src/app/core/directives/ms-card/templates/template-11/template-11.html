@@ -1,0 +1,19 @@
+<div class="template-11">
+    <div class="media">
+        <img class="image" ng-src="{{card.url}}" alt="Early Sunrise" ng-show="card.url">
+    </div>
+
+    <div class="content pv-24 ph-16">
+        <div class="title h1" ng-if="card.nombre">
+            {{card.nombre}}
+        </div>
+
+        <div class="subtitle secondary-text" ng-if="card.evento">
+            {{card.evento}}
+        </div>
+
+        <div class="text pt-16" ng-if="card.descripcion">
+            {{card.descripcion}}
+        </div>
+    </div>
+</div>
