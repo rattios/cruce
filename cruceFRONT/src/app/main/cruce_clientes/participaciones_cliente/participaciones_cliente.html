@@ -33,22 +33,40 @@
         <!-- <div ng-include="'app/main/ui/page-layouts/demo/demo-content.html'"></div> -->
         <!-- / DEMO CONTENT -->
 
-        <div class="md-title mt-32">Template 1</div>
+        <!-- <div class="md-title mt-32">Template 1</div> -->
 
         <!-- MS-CARD -->
-        <ms-card template="'app/core/directives/ms-card/templates/template-1/template-1.html'" ng-model="vm.cards[0]"></ms-card>
+        <!-- <ms-card template="'app/core/directives/ms-card/templates/template-1/template-1.html'" ng-model="vm.cards[0]"></ms-card> -->
         <!-- / MS-CARD -->
 
-        <br><br>
-        <div ng-if="vm.participaciones.length > 0">Participaciones:</div>
-        <br><br>
         <div ng-repeat="participacion in ::vm.participaciones">
-            {{participacion}}
-            <br><br>
-
+            
             <div ng-if="participacion.evento == 'Mongo Mensajes' && participacion.fileType == 'image'">
                 <ms-card template="'app/core/directives/ms-card/templates/template-11/template-11.html'" ng-model="participacion"></ms-card>
             </div>
+
+            <div ng-if="participacion.evento == 'Mongo Mensajes' && participacion.fileType == 'audio'">
+                <!-- <div class="md-title mt-32">Audio</div>
+                {{participacion}}
+                <br><br>
+                <audio width="300" height="32" src="{{participacion.url}}" controls="controls" autoplay="autoplay" preload="">
+                </audio> -->
+
+                <ms-card template="'app/core/directives/ms-card/templates/template-12/template-12.html'" ng-model="participacion"></ms-card>
+
+                <!-- <audio width="300" height="32"  controls="controls" preload="">
+                    <source src="https://parsefiles.back4app.com/Je0WGiqUlWkywilRqlBKPU2s3EwOLa6bozs2HoCv/a617015ab209661c634c1ef1c660e41b_AUDIO_20170407_195221.mp3" />
+                </audio> -->
+
+            </div>
+
+            <div ng-if="participacion.evento == 'Mongo Mensajes' && participacion.fileType == 'video'">
+                <div class="md-title mt-32">Video</div>
+                {{participacion}}
+                <br><br>
+            </div>
+
+
         </div>
 
     </div>

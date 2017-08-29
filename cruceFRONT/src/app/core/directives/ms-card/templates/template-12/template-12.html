@@ -1,0 +1,28 @@
+<div class="template-12" layout="row" layout-align="space-between">
+    <div class="info" layout="column" layout-align="space-between" layout-fill flex>
+        <div class="p-16">
+            <div class="title h1" ng-if="card.nombre">
+                {{card.nombre}}
+            </div>
+
+            <div class="subtitle h4 secondary-text" ng-if="card.evento">
+                {{card.evento}}
+            </div>
+
+            <div class="text h4 pt-8" ng-if="card.descripcion">
+                {{card.descripcion}}
+            </div>
+        </div>
+
+        <div>
+            <md-divider></md-divider>
+            <div class="p-8" layout="row">
+                <audio width="300" height="32" src="https://parsefiles.back4app.com/Je0WGiqUlWkywilRqlBKPU2s3EwOLa6bozs2HoCv/a617015ab209661c634c1ef1c660e41b_AUDIO_20170407_195221.mp3" controls="controls" preload=""> </audio>
+            </div>
+        </div>
+    </div>
+
+    <div class="media">
+        <img class="image" ng-src="https://lh3.googleusercontent.com/6iGgUOxEhyyLW1HuSCB5LP0_WANtNiZjftQDt8pQCy1E2fxyP9fLVr6y9K5sPK0RFQ=w300" alt="logo" ng-show="true">
+    </div>
+</div>
