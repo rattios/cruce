@@ -6,10 +6,12 @@
         .controller('participaciones_clienteController', participaciones_clienteController);
 
     /** @ngInject */
-    function participaciones_clienteController( URLService, Excel, $state, $scope, $document, $mdDialog, $http, $timeout, localStorageService, $filter)
+    function participaciones_clienteController(Cards, URLService, Excel, $state, $scope, $document, $mdDialog, $http, $timeout, localStorageService, $filter)
     {
         var vm = this;
         vm.url = URLService.url;
+
+        vm.cards = Cards.data;
 
         // Data
         vm.agenda = agenda;

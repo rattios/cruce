@@ -40,8 +40,17 @@
                         templateUrl: 'app/main/cruce_clientes/participaciones_cliente/participaciones_cliente.html',
                         controller : 'participaciones_clienteController as vm'
                     }
+                },
+                resolve: {
+                    Cards: function (msApi)
+                    {
+                        return msApi.resolve('cards@get');
+                    }
                 }
             });
+
+        // Api
+        msApiProvider.register('cards', ['app/data/cards/cards.json']);
 
         // Translation
         //$translatePartialLoaderProvider.addPart('app/main/sample');
