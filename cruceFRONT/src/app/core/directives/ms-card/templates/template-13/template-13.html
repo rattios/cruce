@@ -1,24 +1,4 @@
-<!-- <div class="template-11">
-    <div class="media">
-        <img class="image" ng-src="{{card.url}}" alt="Early Sunrise" ng-show="card.url">
-    </div>
-
-    <div class="content pv-24 ph-16">
-        <div class="title h1" ng-if="card.nombre">
-            {{card.nombre}}
-        </div>
-
-        <div class="subtitle secondary-text" ng-if="card.evento">
-            {{card.evento}}
-        </div>
-
-        <div class="text pt-16" ng-if="card.descripcion">
-            {{card.descripcion}}
-        </div>
-    </div>
-</div> -->
-
-<div class="template-11">
+<div class="template-13">
     <div class="header p-16" layout="row" layout-align="start center">
         <div ng-if="true">
             <img class="avatar mr-16" ng-src="https://lh3.googleusercontent.com/6iGgUOxEhyyLW1HuSCB5LP0_WANtNiZjftQDt8pQCy1E2fxyP9fLVr6y9K5sPK0RFQ=w300" alt="logo">
@@ -40,7 +20,11 @@
     </div>
 
     <div class="media">
-        <img class="image" ng-src="{{card.url}}" alt="imagen" ng-show="card.url">
+        <!-- <img class="image" ng-src="{{card.url}}" alt="imagen" ng-show="card.url"> -->
+
+        <!-- https://parsefiles.back4app.com/Je0WGiqUlWkywilRqlBKPU2s3EwOLa6bozs2HoCv/cf1889c5abf16bc2506f554e96e1d384_VID_20170407_124231.mp4 -->
+
+        <div videos code="card.url"></div>
     </div>
 
     <div class="text p-16" ng-if="card.descripcion">

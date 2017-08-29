@@ -14,47 +14,40 @@
 
         // Data
         //vm.helloText = SampleData.data.helloText;
-        vm.inspectores = inspectores;
+        //vm.inspectores = inspectores;
         $scope.mostrar = false;
+        inicio ();
 
         // Methods
         vm.verAgenda = verAgenda;
 
 
-        //ini
-        var inspectores={
+        function inicio () {
+            var peticion={
             method: 'GET',
             url: vm.url+'/cruceAPI/public/lista/clientes'
-            
-        }
-        $timeout(function() {
-            //alert(localStorageService.get('token'));
-            $http(inspectores).then(function(response) {
-                console.log(response);
-                vm.inspectores=response.data.clientes;
-                
-
-                $timeout(function() {
-                    $scope.mostrar=true;
-                    $scope.$apply();
-                }, 1100);
-
-                
-                
-                }, function(response) {
+            }
+            $timeout(function() {
+                $http(peticion).then(function(response) {
                     console.log(response);
-
-                    $timeout(function() {
-                            $scope.mostrar=true;
-                            $scope.$apply();
-                    }, 1100);
-
-                   
+                    vm.inspectores=response.data.clientes;
                     
+                    $timeout(function() {
+                        $scope.mostrar=true;
+                        $scope.$apply();
+                    }, 1100);
+       
+                    }, function(response) {
+                        console.log(response);
 
-                });
-        }, 200);  
-
+                        $timeout(function() {
+                                $scope.mostrar=true;
+                                $scope.$apply();
+                        }, 1100);
+                    });
+            }, 200);
+        }
+          
 
         vm.dtInstance = {};
         vm.dtOptions = {

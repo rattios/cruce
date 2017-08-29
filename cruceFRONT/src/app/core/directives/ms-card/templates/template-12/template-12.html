@@ -9,6 +9,10 @@
                 {{card.evento}}
             </div>
 
+            <div class="subtitle h4 secondary-text" ng-if="card.fecha" >
+                {{card.fecha | date:"MM/dd/yyyy '-' h:mma"}}
+            </div>
+
             <div class="text h4 pt-8" ng-if="card.descripcion">
                 {{card.descripcion}}
             </div>

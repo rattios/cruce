@@ -46,22 +46,11 @@
             </div>
 
             <div ng-if="participacion.evento == 'Mongo Mensajes' && participacion.fileType == 'audio'">
-                <!-- <div class="md-title mt-32">Audio</div>
-                {{participacion}}
-                <br><br>
-                <audio width="300" height="32" src="{{participacion.url}}" controls="controls" autoplay="autoplay" preload="">
-                </audio> -->
-
                 <ms-card template="'app/core/directives/ms-card/templates/template-12/template-12.html'" ng-model="participacion"></ms-card>
-
-                <!-- <div audios code="participacion.url"></div> -->
-
             </div>
 
             <div ng-if="participacion.evento == 'Mongo Mensajes' && participacion.fileType == 'video'">
-                <div class="md-title mt-32">Video</div>
-                {{participacion}}
-                <br><br>
+                <ms-card template="'app/core/directives/ms-card/templates/template-13/template-13.html'" ng-model="participacion"></ms-card>
             </div>
 
 
