@@ -39,7 +39,7 @@
         <!-- <ms-card template="'app/core/directives/ms-card/templates/template-1/template-1.html'" ng-model="vm.cards[0]"></ms-card> -->
         <!-- / MS-CARD -->
 
-        <div ng-repeat="participacion in ::vm.participaciones">
+        <div ng-if="mostrar" ng-repeat="participacion in ::vm.participaciones">
             
             <div ng-if="participacion.evento == 'Mongo Mensajes' && participacion.fileType == 'image'">
                 <ms-card template="'app/core/directives/ms-card/templates/template-11/template-11.html'" ng-model="participacion"></ms-card>
@@ -64,14 +64,19 @@
             <div ng-if="participacion.evento == 'Subscribed members'">
                 <ms-card template="'app/core/directives/ms-card/templates/template-16/template-16.html'" ng-model="participacion"></ms-card>
             </div>
+        </div>
 
-
+        <div ng-if="!mostrar" layout="column" flex layout-align="center center">
+            <md-progress-circular class="md-accent" md-diameter="42">
+            </md-progress-circular>
         </div>
 
     </div>
     <!-- / CONTENT -->
 
-    <loadingl align="center" ng-show="!mostrar"></loadingl>
+    <!-- <loadingl align="center" ng-show="!mostrar"></loadingl> -->
+
+    
 
 </div>
 

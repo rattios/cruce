@@ -36,7 +36,7 @@
 
             <!-- CONTENT -->
             
-            <div class="content fullpage-datatable" layout="column" flex>
+            <div ng-if="mostrar" class="content fullpage-datatable" layout="column" flex>
 
                 <table class="dataTable row-border hover" datatable="ng" dt-instance="vm.dtInstance"
                        dt-options="vm.dtOptions">
@@ -88,7 +88,11 @@
             </div>
 
             <!-- / CONTENT -->
-            <loadingl align="center" ng-show="!mostrar"></loadingl>
+            <!-- <loadingl align="center" ng-show="!mostrar"></loadingl> -->
+            <div ng-if="!mostrar" layout="column" flex layout-align="center center">
+                <md-progress-circular class="md-accent" md-diameter="42">
+                </md-progress-circular>
+            </div>
 
         </div>
         <!-- / CONTENT CARD -->
