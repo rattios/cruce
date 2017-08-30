@@ -53,6 +53,18 @@
                 <ms-card template="'app/core/directives/ms-card/templates/template-13/template-13.html'" ng-model="participacion"></ms-card>
             </div>
 
+            <div ng-if="participacion.evento == 'Sorteo web' ">
+                <ms-card template="'app/core/directives/ms-card/templates/template-14/template-14.html'" ng-model="participacion"></ms-card>
+            </div>
+
+            <div ng-if="participacion.evento == 'Cleaned members'">
+                <ms-card template="'app/core/directives/ms-card/templates/template-15/template-15.html'" ng-model="participacion"></ms-card>
+            </div>
+
+            <div ng-if="participacion.evento == 'Subscribed members'">
+                <ms-card template="'app/core/directives/ms-card/templates/template-16/template-16.html'" ng-model="participacion"></ms-card>
+            </div>
+
 
         </div>
 

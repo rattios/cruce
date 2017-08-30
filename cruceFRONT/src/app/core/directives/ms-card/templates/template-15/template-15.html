@@ -1,0 +1,22 @@
+<div class="template-15 p-16">
+    <div class="pb-16" layout="row" layout-align="space-between center">
+        <div class="info">
+            <div class="title secondary-text" ng-if="card.Nombre">
+                {{card.Nombre}} - {{card.Apellido}}
+            </div>
+
+            <div class="subtitle h2" ng-if="card.evento">
+                {{card.evento}}
+            </div>
+        </div>
+
+        <div class="media ml-16">
+            <img class="image" ng-src="http://elrincondechina.com/wp-content/uploads/2016/05/SORTEO2.png" alt="logo"
+                 ng-show="true">
+        </div>
+    </div>
+
+    <div class="text">
+        {{card.fecha | date:"MM/dd/yyyy '-' h:mma"}}
+    </div>
+</div>

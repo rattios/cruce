@@ -40,6 +40,12 @@
                         alert('Sin participaciones');
                 }
 
+                for (var i = 0; i < vm.participaciones.length; i++) {
+                    if(vm.participaciones[i].evento != 'Mongo Mensajes'){
+                        vm.participaciones[i].fecha = new Date(vm.participaciones[i].fecha);
+                    }
+                }
+
                 $timeout(function() {
                     $scope.mostrar=true;
                     $scope.$apply();
