@@ -22,7 +22,7 @@
                 url    : '/clientes',
                 views  : {
                     'content@app': {
-                        templateUrl: 'app/main/cruce_clientes/cruce_clientes.html',
+                        templateUrl: 'app/main/cruce_demo/cruce_clientes/cruce_clientes.html',
                         controller : 'cruce_clientesController as vm'
                     }
                 }/*,
@@ -37,7 +37,7 @@
                 url    : '/clientes/participaciones',
                 views  : {
                     'content@app': {
-                        templateUrl: 'app/main/cruce_clientes/participaciones_cliente/participaciones_cliente.html',
+                        templateUrl: 'app/main/cruce_demo/cruce_clientes/participaciones_cliente/participaciones_cliente.html',
                         controller : 'participaciones_clienteController as vm'
                     }
                 },
@@ -59,16 +59,17 @@
         //msApiProvider.register('inspectores.ver_inspectores', ['app/data/sample/sample.json']);
 
         // Navigation
-        msNavigationServiceProvider.saveItem('cruce', {
+        /*msNavigationServiceProvider.saveItem('cruce', {
             title : 'CRUCE',
             group : true,
             weight: 5
-        });
+        });*/
 
         msNavigationServiceProvider.saveItem('cruce.clientes', {
             title: 'Clientes',
             icon  : 'icon-account-multiple',
-            state: 'app.clientes'
+            state: 'app.clientes',
+            weight: 2
         });
     }
 })();

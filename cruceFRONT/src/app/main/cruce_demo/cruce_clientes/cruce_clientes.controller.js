@@ -60,7 +60,7 @@
                 },
                 {
                     // Target the actions column
-                    targets           : 4,
+                    targets           : 5,
                     responsivePriority: 1,
                     filterable        : false,
                     sortable          : false,

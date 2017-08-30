@@ -11,7 +11,7 @@
     {
         $locationProvider.html5Mode(true);
 
-        $urlRouterProvider.otherwise('/clientes');
+        $urlRouterProvider.otherwise('/cruce-consola');
 
         /**
          * Layout Style Switcher

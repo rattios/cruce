@@ -26,7 +26,7 @@
             'app.quick-panel',
 
             // Apps
-            'app.dashboards',
+            /*'app.dashboards',
             'app.calendar',
             'app.e-commerce',
             'app.mail',
@@ -45,11 +45,12 @@
             'app.ui',
 
             // Components
-            'app.components',
+            'app.components',*/
 
             'LocalStorageModule',
 
             //Cruce clientes
-            'app.cruce_clientes.clientes'
+            'app.cruce_clientes.clientes',
+            'app.dashboards2'
         ]);
 })();

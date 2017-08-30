@@ -1,0 +1,382 @@
+<div id="dashboard-project" class="page-layout simple right-sidenav" layout="row">
+
+    <!-- CENTER -->
+    <div class="center" flex ms-scroll>
+
+        <!-- HEADER -->
+        <div class="header md-accent-bg" layout="column" layout-align="space-between">
+            <div layout="row" layout-align="space-between">
+                <div>
+                    <span class="md-display-1 font-weight-300">Vivomedia!</span>
+                </div>
+
+                <div class="toolbar">
+                    <md-button class="md-icon-button sidenav-toggle" ng-click="vm.toggleSidenav('sidenav')" hide-gt-md
+                               aria-label="Toggle sidenav">
+                        <md-icon md-font-icon="icon-menu" class="icon"></md-icon>
+                    </md-button>
+                </div>
+            </div>
+
+            <!-- <div layout="row">
+                <div class="selected-project">{{vm.selectedProject.name}}</div>
+
+                <md-menu id="projects-menu" md-offset="0 48">
+                    <md-button class="md-icon-button project-selector" ng-click="$mdOpenMenu()"
+                               aria-label="Select project" md-menu-origin md-menu-align-target>
+                        <md-icon md-font-icon="icon-dots-horizontal"></md-icon>
+                    </md-button>
+
+                    <md-menu-content width="3" class="md-background-bg">
+                        <md-menu-item ng-repeat="project in vm.projects">
+                            <md-button ng-click="vm.selectProject(project)" aria-label="{{project.name}}">
+                                <span ng-class="{'secondary-text': vm.selectedProject == project}">{{project.name}}</span>
+                            </md-button>
+                        </md-menu-item>
+                    </md-menu-content>
+                </md-menu>
+            </div> -->
+        </div>
+        <!-- / HEADER -->
+
+        <!-- CONTENT -->
+        <div class="content">
+
+            <div ng-if="!mostrar" layout="column" flex layout-align="center center">
+                <md-progress-circular class="md-accent" md-diameter="42">
+                </md-progress-circular>
+            </div>
+
+            <md-tabs md-dynamic-height ng-if="mostrar">
+
+                <md-tab label="Home">
+
+                    <!-- WIDGET GROUP -->
+                    <div class="widget-group" layout="row" flex="100" layout-wrap>
+
+                        <!-- WIDGET 1 -->
+                        <ms-widget flippable="true" layout="column" flex="100" flex-gt-xs="50" flex-gt-md="25">
+
+                            <!-- Front -->
+                            <ms-widget-front class="white-bg">
+                                <!-- <div class="pl-16 pr-8 pv-16 h-55" layout="row" layout-align="space-between center">
+                                    <div class="h3">prueba</div> 
+                                </div> -->
+
+                                <br>
+
+                                <div class="pt-8 pb-32" layout="column" layout-align="center center">
+                                    <div class="light-blue-fg font-size-72 line-height-72">
+                                        {{vm.part1.length}}
+                                    </div>
+                                    <div class="h3 secondary-text font-weight-500">1 Evento</div>
+                                </div>
+
+                                <!-- <div class="p-16 grey-50-bg border-top" layout="row" layout-align="start center">
+                                    <span class="h4 secondary-text text-truncate">{{vm.widget1.data.extra.label}}:</span>
+                                    <span class="h4 ml-8">{{vm.widget1.data.extra.count[vm.widget1.currentRange]}}</span>
+                                </div> -->
+                            </ms-widget-front>
+                            <!-- / Front -->
+                        </ms-widget>
+                        <!-- / WIDGET 1 -->
+
+                        <!-- WIDGET 2 -->
+                        <ms-widget flippable="true" layout="column" flex="100" flex-gt-xs="50" flex-gt-md="25">
+
+                            <!-- Front -->
+                            <ms-widget-front class="white-bg">
+                                <!-- <div class="pl-16 pr-8 pv-16 h-55" layout="row" layout-align="space-between center">
+                                    <div class="h3">{{vm.widget2.title}}</div> 
+                                </div> -->
+
+                                <br>
+
+                                <div class="pt-8 pb-32" layout="column" layout-align="center center">
+                                    <div class="red-fg font-size-72 line-height-72">
+                                        {{vm.part2.length}}
+                                    </div>
+                                    <div class="h3 secondary-text font-weight-500">2 Eventos</div>
+                                </div>
+
+                                <!-- <div class="p-16 grey-50-bg border-top" layout="row" layout-align="start center">
+                                    <span class="h4 secondary-text text-truncate">{{vm.widget2.data.extra.label}}:</span>
+                                    <span class="h4 ml-8">{{vm.widget2.data.extra.count}}</span>
+                                </div> -->
+                            </ms-widget-front>
+                            <!-- / Front -->
+
+                        </ms-widget>
+                        <!-- / WIDGET 2 -->
+
+                        <!-- WIDGET 3 -->
+                        <ms-widget flippable="true" layout="column" flex="100" flex-gt-xs="50" flex-gt-md="25">
+
+                            <!-- Front -->
+                            <ms-widget-front class="white-bg">
+                                <!-- <div class="pl-16 pr-8 pv-16 h-55" layout="row" layout-align="space-between center">
+                                    <div class="h3">{{vm.widget3.title}}</div>
+                                </div> -->
+
+                                <br>
+
+                                <div class="pt-8 pb-32" layout="column" layout-align="center center">
+                                    <div class="orange-fg font-size-72 line-height-72">
+                                        {{vm.part3.length}}
+                                    </div>
+                                    <div class="h3 secondary-text font-weight-500">3 Eventos</div>
+                                </div>
+
+                                <!-- <div class="p-16 grey-50-bg border-top" layout="row" layout-align="start center">
+                                    <span class="h4 secondary-text text-truncate">{{vm.widget3.data.extra.label}}:</span>
+                                    <span class="h4 ml-8">{{vm.widget3.data.extra.count}}</span>
+                                </div> -->
+                            </ms-widget-front>
+                            <!-- / Front -->
+                        </ms-widget>
+                        <!-- / WIDGET 3 -->
+
+                        <!-- WIDGET 4 -->
+                        <ms-widget flippable="true" layout="column" flex="100" flex-gt-xs="50" flex-gt-md="25">
+
+                            <!-- Front -->
+                            <ms-widget-front class="white-bg">
+                                <!-- <div class="pl-16 pr-8 pv-16 h-55" layout="row" layout-align="space-between center">
+                                    <div class="h3">{{vm.widget4.title}}</div>
+                                </div> -->
+
+                                <br>
+
+                                <div class="pt-8 pb-32" layout="column" layout-align="center center">
+                                    <div class="blue-grey-fg font-size-72 line-height-72">{{vm.part4.length}}
+                                    </div>
+                                    <div class="h3 secondary-text font-weight-500">4 Eventos</div>
+                                </div>
+
+                                <!-- <div class="p-16 grey-50-bg border-top" layout="row" layout-align="start center">
+                                    <span class="h4 secondary-text text-truncate">{{vm.widget4.data.extra.label}}:</span>
+                                    <span class="h4 ml-8">{{vm.widget4.data.extra.count}}</span>
+                                </div> -->
+                            </ms-widget-front>
+                            <!-- / Front -->
+                        </ms-widget>
+                        <!-- / WIDGET 4 -->
+
+                    </div>
+                    <!-- / WIDGET GROUP -->
+
+                
+                    <!-- WIDGET GROUP -->
+                    <div class="widget-group" layout="row" flex="100" layout-wrap>
+
+                        <!-- WIDGET 6 -->
+                        <ms-widget layout="column" flex="100" flex-gt-sm="50">
+
+                            <div class="md-title">Porcentaje de participación por evento</div>
+                            <div ng-if="mostrar" class="card md-whiteframe-4dp" style="background-color: #FFF">
+                                <c3chart bindto-id="pie-plot1-chart">
+                                    <chart-column column-id="Mongo mensajes"
+                                                  column-values="{{vm.N_Parse}}"
+                                                  column-type="pie"/>
+                                    <chart-column column-id="Sorteo web"
+                                                  column-values="{{vm.N_SorteoWeb}}"
+                                                  column-type="pie"/>
+                                    <chart-column column-id="Cleaned members"
+                                                  column-values="{{vm.N_Cleaned_members}}"
+                                                  column-type="pie"/>
+                                    <chart-column column-id="Subscribed members"
+                                                  column-values="{{vm.N_Subscribed_members}}"
+                                                  column-type="pie"/>
+                                    <chart-pie expand="true"/>
+                                </c3chart>
+                            </div>
+
+
+                        </ms-widget>
+                        <!-- / WIDGET 6 -->
+
+                        <!-- WIDGET 7 -->
+                        <ms-widget layout="column" flex="100" flex-gt-sm="50">
+
+                            <div class="md-title">Numero de participación por evento</div>
+                            <div ng-if="mostrar" class="card md-whiteframe-4dp" style="background-color: #FFF">
+                                <br>
+                                <br>
+                                <canvas id="polar-area" class="chart chart-polar-area" chart-data="vm.polarChart.data" chart-labels="vm.polarChart.labels"></canvas>
+                                <br>
+                            </div>
+
+
+                        </ms-widget>
+                        <!-- / WIDGET 7 -->
+
+                    </div>
+                    <!-- / WIDGET GROUP -->
+
+                <!-- WIDGET GROUP -->
+                    <div class="widget-group" layout="row" flex="100" layout-wrap>
+
+                        <!-- WIDGET 8 -->
+                        <ms-widget layout="column" flex="100" >
+
+                            <div class="md-title">Movimientos Sorteo web</div>
+                            <div ng-if="mostrar" class="card md-whiteframe-4dp" style="background-color: #FFF">
+                                <canvas id="line" class="chart chart-line" chart-data="vm.lineChart.data"
+                                        chart-labels="vm.lineChart.labels" chart-legend="true" chart-series="vm.lineChart.series" chart-colours="vm.lineChart.colours">
+                                </canvas>
+                            </div>
+                        </ms-widget>
+                        <!-- / WIDGET 8 -->
+
+                    </div>
+                    <!-- / WIDGET GROUP -->
+
+                    <!-- WIDGET GROUP -->
+                    <div class="widget-group" layout="row" flex="100" layout-wrap>
+
+                        <!-- WIDGET 9 -->
+                        <ms-widget layout="column" flex="100" >
+
+                            <div class="md-title">Movimientos Mongo mensajes</div>
+                            <div ng-if="mostrar" class="card md-whiteframe-4dp" style="background-color: #FFF">
+                                <canvas id="line2" class="chart chart-line" chart-data="vm.lineChart2.data"
+                                        chart-labels="vm.lineChart2.labels" chart-legend="true" chart-series="vm.lineChart2.series" chart-colours="vm.lineChart2.colours">
+                                </canvas>
+                            </div>
+                        </ms-widget>
+                        <!-- / WIDGET 9 -->
+
+                    </div>
+                    <!-- / WIDGET GROUP -->
+
+                    <!-- WIDGET GROUP -->
+                    <div class="widget-group" layout="row" flex="100" layout-wrap>
+
+                        <!-- WIDGET 10 -->
+                        <ms-widget layout="column" flex="100" >
+
+                            <div class="md-title">Movimientos Cleaned members</div>
+                            <div ng-if="mostrar" class="card md-whiteframe-4dp" style="background-color: #FFF">
+                                <canvas id="line3" class="chart chart-line" chart-data="vm.lineChart3.data"
+                                        chart-labels="vm.lineChart3.labels" chart-legend="true" chart-series="vm.lineChart3.series" chart-colours="vm.lineChart3.colours">
+                                </canvas>
+                            </div>
+                        </ms-widget>
+                        <!-- / WIDGET 10 -->
+
+                    </div>
+                    <!-- / WIDGET GROUP -->
+
+                    <!-- WIDGET GROUP -->
+                    <div class="widget-group" layout="row" flex="100" layout-wrap>
+
+                        <!-- WIDGET 11 -->
+                        <ms-widget layout="column" flex="100" >
+
+                            <div class="md-title">Movimientos Subscribed members</div>
+                            <div ng-if="mostrar" class="card md-whiteframe-4dp" style="background-color: #FFF">
+                                <canvas id="line4" class="chart chart-line" chart-data="vm.lineChart4.data"
+                                        chart-labels="vm.lineChart4.labels" chart-legend="true" chart-series="vm.lineChart4.series" chart-colours="vm.lineChart4.colours">
+                                </canvas>
+                            </div>
+                        </ms-widget>
+                        <!-- / WIDGET 11 -->
+
+                    </div>
+                    <!-- / WIDGET GROUP -->
+
+                </md-tab>
+
+                
+                <md-tab label="Clientes">
+
+                    <!-- WIDGET GROUP -->
+                    <div class="widget-group" layout="row" flex="100" layout-wrap>
+
+                        <!-- WIDGET 11 -->
+                        <ms-widget layout="row" flex="100" ng-if="mostrar">
+
+                            <!-- Front -->
+                            <ms-widget-front class="white-bg" >
+
+                                <div class="p-24 mb-8 border-bottom" layout="row" layout-align="space-between center">
+                                    <div class="h2">{{vm.widget11.title}}</div>
+                                    <div class="text-boxed red-bg white-fg m-0">{{vm.inspectores.length}}
+                                        clientes
+                                    </div>
+                                </div>
+
+                                <table class="dataTable row-border hover" datatable="ng"
+                                       dt-options="vm.widget11.dtOptions">
+                                    <thead>
+                                        <tr>
+                                            <th class="secondary-text">
+                                                <div class="table-header">
+                                                    <span class="column-title">ID</span>
+                                                </div>
+                                            </th>
+                                            <th class="secondary-text">
+                                                <div class="table-header">
+                                                    <span class="column-title">Email</span>
+                                                </div>
+                                            </th>
+                                            <th class="secondary-text">
+                                                <div class="table-header">
+                                                    <span class="column-title">N° Participaciones</span>
+                                                </div>
+                                            </th>
+                                            <th class="secondary-text">
+                                                <div class="table-header">
+                                                    <span class="column-title">N° Eventos</span>
+                                                </div>
+                                            </th>
+                                            <th class="secondary-text">
+                                                <div class="table-header">
+                                                    <span class="column-title">Base de Datos</span>
+                                                </div>
+                                            </th>
+                                            <th class="secondary-text">
+                                                <div class="table-header">
+                                                    <span class="column-title">Acción</span>
+                                                </div>
+                                            </th>                            
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr ng-show="mostrar" ng-repeat="inspector in ::vm.inspectores">                   
+                                            <td>{{ $index + 1 }}</td>
+                                            <td>{{ inspector.email }}</td>
+                                            <td>{{ inspector.participaciones }}</td>
+                                            <td>{{ inspector.participaciones_en }}</td>
+                                            <td>{{ inspector.participaciones_evento }}</td>
+                                            <td>
+                                            <md-button title="Ver participaciones" class="edit-button md-icon-button" ng-click="vm.verAgenda(inspector.email)" aria-label="Product details">
+                                                    <md-icon md-font-icon="icon-library-books" class="s16"></md-icon>
+                                                </md-button>              
+                                            </td>
+
+                                        </tr>
+                                    </tbody>
+                                </table>
+
+                            </ms-widget-front>
+                            <!-- / Front -->
+
+                        </ms-widget>
+                        <!-- / WIDGET 11 -->
+
+                    </div>
+                    <!-- / WIDGET GROUP -->
+
+                </md-tab>
+            </md-tabs>
+
+        </div>
+        <!-- / CONTENT -->
+
+    </div>
+    <!-- / CENTER -->
+
+    
+
+</div>
