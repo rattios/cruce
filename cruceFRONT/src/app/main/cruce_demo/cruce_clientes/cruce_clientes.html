@@ -24,6 +24,10 @@
                 <md-icon md-font-icon="icon-magnify" class="white-text icon search-icon"></md-icon>
                 <input id="e-commerce-products-search" class="search-input" type="text" placeholder="Buscar" flex>
             </div>
+
+            <div class="button-export" layout="column" flex>
+                <md-button class="md-button md-default-theme md-ink-ripple pull-right" ng-click="vm.exportar('#table_export')">Exportar</md-button>
+            </div>
         </div>
         <!-- / CONTENT HEADER -->
 
@@ -75,7 +79,7 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <tr ng-show="mostrar" ng-repeat="inspector in ::vm.inspectores">                   
+                        <tr ng-show="mostrar" ng-repeat="inspector in ::vm.inspectores">  
                             <td>{{ $index + 1 }}</td>
                             <td>{{ inspector.email }}</td>
                             <td>{{ inspector.participaciones }}</td>
@@ -102,6 +106,49 @@
 
         </div>
         <!-- / CONTENT CARD -->
+
+        <div ng-show="false" class="dataTable_wrapper">
+            <table class="table table-striped table-hover" id="table_export">
+                <thead>
+                    <tr>                              
+                        <th class="secondary-text">
+                            <div class="table-header">
+                                <span class="column-title">ID</span>
+                            </div>
+                        </th>
+                        <th class="secondary-text">
+                            <div class="table-header">
+                                <span class="column-title">Email</span>
+                            </div>
+                        </th>
+                        <th class="secondary-text">
+                            <div class="table-header">
+                                <span class="column-title"># Participaciones</span>
+                            </div>
+                        </th>
+                        <th class="secondary-text">
+                            <div class="table-header">
+                                <span class="column-title"># Eventos</span>
+                            </div>
+                        </th>
+                        <th class="secondary-text">
+                            <div class="table-header">
+                                <span class="column-title">Base de Datos</span>
+                            </div>
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr ng-repeat="inspector in ::vm.inspectores" class="odd gradeX">
+                        <td>{{ $index + 1 }}</td>
+                        <td>{{ inspector.email }}</td>
+                        <td>{{ inspector.participaciones }}</td>
+                        <td>{{ inspector.participaciones_en }}</td>
+                        <td>{{ inspector.participaciones_evento }}</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
 
     </div>
     <!-- / CENTER -->

@@ -51,6 +51,7 @@
 
             //Cruce clientes
             'app.cruce_clientes.clientes',
-            'app.dashboards2'
+            'app.dashboards2',
+            'app.cruce_data'
         ]);
 })();

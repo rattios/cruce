@@ -1,0 +1,119 @@
+<div id="e-commerce-products" class="page-layout carded fullwidth" layout="row">
+
+    <!-- TOP BACKGROUND -->
+    <div class="top-bg md-accent-bg"></div>
+    <!-- / TOP BACKGROUND -->
+
+    <!-- CENTER -->
+    <div class="center" layout="column" flex>
+
+        <!-- CONTENT HEADER -->
+        <div class="header" layout="row" layout-align="space-between center">
+            <div class="white-fg" layout="column" layout-align="start start">
+                <div class="h1" layout="row" layout-align="start center">
+                    <md-icon md-font-icon="icon-content-save-all"></md-icon>
+                    <span>Mongo</span>
+                </div>
+                <div class="product-count secondary-text">
+                    <span>Total :</span>
+                    <span>{{vm.inspectores.length}}</span>
+                </div>
+            </div>
+
+            <div  ng-if="mostrar" class="white-fg" layout="column" layout-align="start start">
+                <div layout="column" layout-align="start center">
+                    <div >
+                        Ultima Importación: {{vm.ultimaImportacion}}
+                    </div>
+                    <div >
+                        <md-button class="btnVarios md-raised md-warn" ng-click="vm.actualizar(vm.ultimaImportacion)">Actualizar</md-button>
+                    </div>   
+                </div>
+            </div>
+
+            <div class="search" layout="row" layout-align="start center" flex>
+                <md-icon md-font-icon="icon-magnify" class="white-text icon search-icon"></md-icon>
+                <input id="e-commerce-products-search" class="search-input" type="text" placeholder="Buscar" flex>
+            </div>
+        </div>
+        <!-- / CONTENT HEADER -->
+
+        <!-- CONTENT CARD -->
+        <div class="content-card" layout="column" flex>
+
+            <!-- CONTENT TOOLBAR -->
+
+            <!-- / CONTENT TOOLBAR -->
+
+            <!-- CONTENT -->
+            
+            <div ng-if="mostrar" class="content fullpage-datatable" layout="column" flex>
+
+                <table class="dataTable row-border hover" datatable="ng" dt-instance="vm.dtInstance"
+                       dt-options="vm.dtOptions">
+                    <thead>
+                        <tr>
+                            <th class="secondary-text">
+                                <div >
+                                    <span class="column-title"></span>
+                                </div>
+                            </th>
+                            <th class="secondary-text">
+                                <div class="table-header">
+                                    <span class="column-title">ID</span>
+                                </div>
+                            </th>
+                            <th class="secondary-text">
+                                <div class="table-header">
+                                    <span class="column-title">Nombre</span>
+                                </div>
+                            </th>
+                            <th class="secondary-text">
+                                <div class="table-header">
+                                    <span class="column-title">Fecha</span>
+                                </div>
+                            </th>
+                            <th class="secondary-text">
+                                <div class="table-header">
+                                    <span class="column-title">Cantidad</span>
+                                </div>
+                            </th>
+                            <th class="secondary-text">
+                                <div class="table-header">
+                                    <span class="column-title">Acción</span>
+                                </div>
+                            </th>                            
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr ng-show="mostrar" ng-repeat="inspector in ::vm.inspectores">    <td></td>
+                            <td>{{ inspector.id }}</td>
+                            <td>{{ inspector.nombre }}</td>
+                            <td>{{ inspector.fecha }}</td>
+                            <td>{{ inspector.cant }}</td>
+                            <td>
+                            <md-button title="Ver registros" class="edit-button md-icon-button" ng-click="vm.verAgenda(inspector.id, inspector.fecha)" aria-label="Product details">
+                                    <md-icon md-font-icon="icon-library-books" class="s16"></md-icon>
+                                </md-button>              
+                            </td>
+
+                        </tr>                       
+                    </tbody>
+                </table>
+
+            </div>
+
+            <!-- / CONTENT -->
+            <!-- <loadingl align="center" ng-show="!mostrar"></loadingl> -->
+            <div ng-if="!mostrar" layout="column" flex layout-align="center center">
+                <md-progress-circular class="md-accent" md-diameter="42">
+                </md-progress-circular>
+            </div>
+
+        </div>
+        <!-- / CONTENT CARD -->
+
+    </div>
+    <!-- / CENTER -->
+
+</div>

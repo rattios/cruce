@@ -7,7 +7,7 @@
         .controller('cruce_clientesController', cruce_clientesController);
 
     /** @ngInject */
-    function cruce_clientesController( URLService, $state, $http, $timeout, localStorageService, $mdDialog, $scope,$document)
+    function cruce_clientesController( URLService, Excel, $filter, $state, $http, $timeout, localStorageService, $mdDialog, $scope,$document)
     {
         var vm = this;
         vm.url = URLService.url;
@@ -93,6 +93,17 @@
             localStorageService.set('cliente_email', email);
             $state.go('app.participaciones');
         }
+
+        function exportar(tableId) {
+            var fecha = $filter('date')(new Date(),'dd-MM-yyyy');
+            var exportHref=Excel.tableToExcel(tableId, 'CLIENTES');
+            var a = document.createElement('a');
+            a.href = exportHref;
+            a.download = 'CLIENTES_'+fecha+'.xls';
+            a.click();
+        }
+
+        vm.exportar = exportar;
 
 
 

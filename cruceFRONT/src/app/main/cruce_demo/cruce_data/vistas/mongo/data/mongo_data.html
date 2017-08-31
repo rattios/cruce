@@ -1,0 +1,82 @@
+<div id="cliente-participaciones" class="page-layout simple fullwidth" >
+
+    <!-- HEADER -->
+    <!-- CONTENT HEADER -->
+        <div class="center header md-accent-bg" layout="row" layout-align="space-between center">
+            
+            <div class="white-fg" layout="column" layout-align="start start">
+                <div class="h1" layout="row" layout-align="start center">
+                    <md-button class="md-fab md-warn" aria-label="volver" ng-click="vm.atras()"><md-icon md-font-icon="icon-arrow-left"></md-icon></md-button>
+                    <md-icon md-font-icon="icon-calendar"></md-icon>
+                    <span>{{vm.mongo_fecha}}</span>
+                </div>
+                <div class="product-count secondary-text" >
+                    <span>Total :</span>
+                    <span>{{vm.participaciones.length}}</span>
+                </div>
+            </div>
+
+            <!-- 
+            <div class="search" layout="row" layout-align="start center" flex>
+                <md-icon md-font-icon="icon-magnify" class="white-text icon search-icon"></md-icon>
+                <input id="e-commerce-products-search" class="search-input" type="text" placeholder="Buscar" flex>
+            </div> -->
+
+        </div>
+        <!-- / CONTENT HEADER -->
+    <!-- / HEADER -->
+
+    <!-- CONTENT -->
+    <div class="content" md-background-bg layout="column" flex layout-align="center center">
+
+        <!-- DEMO CONTENT -->
+        <!-- <div ng-include="'app/main/ui/page-layouts/demo/demo-content.html'"></div> -->
+        <!-- / DEMO CONTENT -->
+
+        <!-- <div class="md-title mt-32">Template 1</div> -->
+
+        <!-- MS-CARD -->
+        <!-- <ms-card template="'app/core/directives/ms-card/templates/template-1/template-1.html'" ng-model="vm.cards[0]"></ms-card> -->
+        <!-- / MS-CARD -->
+
+        <div ng-if="mostrar" ng-repeat="participacion in ::vm.participaciones">
+            
+            <div ng-if="participacion.evento == 'Mongo Mensajes' && participacion.fileType == 'image'">
+                <ms-card template="'app/core/directives/ms-card/templates/template-11/template-11.html'" ng-model="participacion"></ms-card>
+            </div>
+
+            <div ng-if="participacion.evento == 'Mongo Mensajes' && participacion.fileType == 'audio'">
+                <ms-card template="'app/core/directives/ms-card/templates/template-12/template-12.html'" ng-model="participacion"></ms-card>
+            </div>
+
+            <div ng-if="participacion.evento == 'Mongo Mensajes' && participacion.fileType == 'video'">
+                <ms-card template="'app/core/directives/ms-card/templates/template-13/template-13.html'" ng-model="participacion"></ms-card>
+            </div>
+
+            <div ng-if="participacion.evento == 'Sorteo web' ">
+                <ms-card template="'app/core/directives/ms-card/templates/template-14/template-14.html'" ng-model="participacion"></ms-card>
+            </div>
+
+            <div ng-if="participacion.evento == 'Cleaned members'">
+                <ms-card template="'app/core/directives/ms-card/templates/template-15/template-15.html'" ng-model="participacion"></ms-card>
+            </div>
+
+            <div ng-if="participacion.evento == 'Subscribed members'">
+                <ms-card template="'app/core/directives/ms-card/templates/template-16/template-16.html'" ng-model="participacion"></ms-card>
+            </div>
+        </div>
+
+        <div ng-if="!mostrar" layout="column" flex layout-align="center center">
+            <md-progress-circular class="md-accent" md-diameter="42">
+            </md-progress-circular>
+        </div>
+
+    </div>
+    <!-- / CONTENT -->
+
+    <!-- <loadingl align="center" ng-show="!mostrar"></loadingl> -->
+
+    
+
+</div>
+
