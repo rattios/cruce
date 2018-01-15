@@ -6,7 +6,9 @@ use Illuminate\Http\Request;
 
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
-use Illuminate\Support\Facades\DB;
+//use Illuminate\Support\Facades\DB;
+use Hash;
+use DB;
 
 class UsuarioController extends Controller
 {
@@ -15,30 +17,18 @@ class UsuarioController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    /*Retorna todos los usuarios menos el admin*/
     public function index()
     {
-        //$usuarios = \App\TecUserInsp::where('tipo_user', '!=', 'c')->get();
-        $usuarios = \App\TecUserInsp::where('uid', '!=', 1)->get();
+        //cargar todos los usuarios
+        $usuarios = \App\User::all();
 
-        $users = DB::select(
-            "SELECT uid, user, password FROM tecprecinc_user_insp WHERE uid = ANY 
-            (SELECT uid FROM tec_user_insp 
-                WHERE uid <> 1 )"
-            );
-
-        for ($i=0; $i <count($usuarios) ; $i++) { 
-            for ($j=0; $j <count($users) ; $j++) { 
-                if($usuarios[$i]->uid == $users[$j]->uid){
-                    $usuarios[$i]->user = $users[$j]->user;
-                    //$usuarios[$i]->password = $users[$j]->password;
-                }
-            }
-        }
-
-        return response()->json(['status' => 'ok',
-                                'usuarios'=> $usuarios], 200);
+        if(count($usuarios) == 0){
+            return response()->json(['error'=>'No existen usuarios.'], 404);          
+        }else{
+            return response()->json(['status'=>'ok', 'usuarios'=>$usuarios], 200);
+        } 
     }
+
 
     /**
      * Show the form for creating a new resource.
@@ -58,52 +48,36 @@ class UsuarioController extends Controller
      */
     public function store(Request $request)
     {
-        // Listado de campos recibidos teóricamente.
-        $user=$request->input('user'); //requerido
-        $password=md5($request->input('password')); //requerido
-        $tipo_user=$request->input('tipo_user'); //requerido
-        $nombre=$request->input('nombre');
-        $telefono=$request->input('telefono');
-        $correo=$request->input('correo');
-        $firma=$request->input('firma');
-        
-        /*Primero creo una instancia en la tabla tecprecinc_user_insp*/
-        $tec_user = new \App\Tec_user;
-        $tec_user->user = $user;
-        $tec_user->password = $password;
 
-        if($tec_user->save()){
-           $uid = $tec_user->uid;
-
-           /*Creo la instancia para la tabla tec_user_insp*/
-           $tec_user_insp = new \App\TecUserInsp;
-           $tec_user_insp->uid = $uid;
-           $tec_user_insp->tipo_user = $tipo_user;
-
-           if ($nombre) {
-               $tec_user_insp->nombre = $nombre;
-           }
-           if ($telefono) {
-               $tec_user_insp->telefono = $telefono;
-           }
-           if ($correo) {
-               $tec_user_insp->correo = $correo;
-           }
-           if ($firma) {
-               $tec_user_insp->firma = $firma;
-           }
-           
-           
-           if ($tec_user_insp->save()) {
-               return response()->json(['status'=>'ok'], 200);
-           }else{
-                return response()->json(['error'=>'No se pudo crear el usuario en la tabla tec_user_insp.'], 500);
-           }
-
-        }else{
-            return response()->json(['error'=>'No se pudo crear el usuario en la tabla tecprecinc_user_insp.'], 500);
+        // Primero comprobaremos si estamos recibiendo todos los campos.
+        if ( !$request->input('user') || !$request->input('password') ||
+             !$request->input('nombre'))
+        {
+            // Se devuelve un array errors con los errores encontrados y cabecera HTTP 422 Unprocessable Entity – [Entidad improcesable] Utilizada para errores de validación.
+            return response()->json(['error'=>'Faltan datos necesarios para el proceso de alta.'],422);
         } 
+        
+        $aux = \App\User::where('user', $request->input('user'))->get();
+        if(count($aux)!=0){
+           // Devolvemos un código 409 Conflict. 
+            return response()->json(['error'=>'Ya existe un usuario con esas credenciales.'], 409);
+        }
+
+        /*Primero creo una instancia en la tabla usuarios*/
+        $usuario = new \App\User;
+        $usuario->user = $request->input('user');
+        $usuario->password = Hash::make($request->input('password'));
+        $usuario->nombre = $request->input('nombre');
+
+        if($usuario->save()){
+           return response()->json(['status'=>'ok', 'usuario'=>$usuario], 200);
+        }else{
+            return response()->json(['error'=>'Error al crear el usuario.'], 500);
+        }
+
     }
+
+
 
     /**
      * Display the specified resource.
@@ -113,8 +87,18 @@ class UsuarioController extends Controller
      */
     public function show($id)
     {
-        //
+        //cargar un usuario
+        $usuario = \App\User::find($id);
+
+        if(count($usuario)==0){
+            return response()->json(['error'=>'No existe el usuario con id '.$id], 404);          
+        }else{
+
+            return response()->json(['status'=>'ok', 'usuario'=>$usuario], 200);
+        }
     }
+
+
 
     /**
      * Show the form for editing the specified resource.
@@ -122,70 +106,9 @@ class UsuarioController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit(Request $request, $uid)
+    public function edit($id)
     {
-        $tec_user = \App\Tec_user::find($uid);
-
-        if (empty($tec_user)) {
-            return response()->json(['error'=>'No se encuntra un usuario con ese codigo en la tabla tecprecinc_user_insp.',
-                'uid' => $uid],404);
-        }
-
-        $tec_user_insp = \App\TecUserInsp::find($uid);
-
-        if (empty($tec_user_insp)) {
-            return response()->json(['error'=>'No se encuntra un usuario con ese codigo en la tabla tec_user_insp.',
-                'uid' => $uid],404);
-        }
-
-
-        //return $request->input('nombre');
-        // Listado de campos recibidos teóricamente.
-        $user=$request->input('user');
-        $password=$request->input('password');
-        $tipo_user=$request->input('tipo_user');
-        $nombre=$request->input('nombre');
-        $telefono=$request->input('telefono');
-        $correo=$request->input('correo');
-        $firma=$request->input('firma');
-
-        if ($password) {
-            $password = md5($password);
-        }
-
-        
-        if($user || $password){
-            if($user){
-                $tec_user->user=$user;
-            }
-            if ($password) {
-                $tec_user->password=$password;
-            }
-
-            if($tec_user->save()){
-               if(!$tipo_user && !$nombre && !$telefono && !$correo && !$firma){
-                    return response()->json(['status'=>'ok-1'], 200);
-               }
-
-            }else{
-                return response()->json(['error'=>'No se pudo actualizar el usuario en la tabla tecprecinc_user_insp.'], 500);
-            } 
-        }
-
-       $tec_user_insp->tipo_user = $tipo_user;
-       $tec_user_insp->nombre = $nombre;
-       $tec_user_insp->telefono = $telefono;
-       $tec_user_insp->correo = $correo;
-       $tec_user_insp->firma = $firma;
-
-       if ($tec_user_insp->save()) {
-           return response()->json(['status'=>'ok-2'], 200);
-       }else{
-            return response()->json(['error'=>'No se pudo actualizar el usuario en la tabla tec_user_insp.'], 500);
-       }
-
-
-
+        //
     }
 
     /**
@@ -197,7 +120,7 @@ class UsuarioController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        
     }
 
     /**
@@ -206,32 +129,20 @@ class UsuarioController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($uid)
+    public function destroy($id)
     {
-        $tec_user = \App\Tec_user::find($uid);
+        // Comprobamos si el usuario que nos están pasando existe o no.
+        $usuario=\App\User::find($id);
 
-        if (empty($tec_user)) {
-            return response()->json(['error'=>'No se encuntra un usuario con ese codigo en la tabla tecprecinc_user_insp.',
-                'uid' => $uid],404);
+        if (count($usuario)==0)
+        {
+            // Devolvemos error codigo http 404
+            return response()->json(['error'=>'No existe el usuario con id '.$id], 404);
         }
 
-        $tec_user_insp = \App\TecUserInsp::find($uid);
+        // Eliminamos el usuario.
+        $usuario->delete();
 
-        if (empty($tec_user_insp)) {
-            return response()->json(['error'=>'No se encuntra un usuario con ese codigo en la tabla tec_user_insp.',
-                'uid' => $uid],404);
-        }
-
-        if ($tec_user->delete()) {
-            if ($tec_user_insp->delete()) {
-                return response()->json(['status'=>'ok'], 200);
-            }
-            else{
-               return response()->json(['error'=>'No se pudo eliminar el usuario en la tabla tec_user_insp.'], 500); 
-            }
-        }
-        else{
-            return response()->json(['error'=>'No se pudo eliminar el usuario en la tabla tecprecinc_user_insp.'], 500);
-        }
+        return response()->json(['status'=>'ok', 'message'=>'Se ha eliminado correctamente el usuario.'], 200);
     }
 }
