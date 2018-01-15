@@ -26,7 +26,7 @@ class User extends Model implements AuthenticatableContract,
     // Si éste no fuera el caso entonces hay que indicar cuál es nuestra clave primaria en la tabla:
     //protected $primaryKey = 'id';
 
-    //public $timestamps = false;
+    public $timestamps = false;
 
     /**
      * The attributes that are mass assignable.
