@@ -15,7 +15,6 @@ Route::get('/', function () {
     //return view('welcome');
 
 
-
     
 });
 
@@ -34,25 +33,27 @@ Route::group(  ['middleware' =>'cors'], function(){
     //Cliente
     Route::get('/cruce/clientes','ClienteController@clientes');
     Route::get('/lista/clientes','ClienteController@listaClientes');
+    Route::get('/dashboard','ClienteController@dashboard');
     Route::get('/cruce/clientes/telefonos','ClienteController@cruceTelefonos');
     Route::post('/cliente','ClienteController@store');
     Route::get('/clientes/participaciones/{email}','ClienteController@getParticipaciones');
     Route::get('/clientes/registrar/sinTelefono','ClienteController@registarSinTelefono');
 
-    //----Pruebas LoginController
+    Route::get('/importaciones','ImportacionesController@index');
+    Route::get('/importaciones/{id}','ImportacionesController@get_for_id');
+    Route::post('/importar/{id}','ImportacionesController@import');
+
     Route::post('/login/web','LoginController@loginWeb');
+    Route::post('/login/facebook','FacebookController@store');
+    Route::post('/login/twitter','TwitterController@store');
+    Route::put('/login/instagram/{id}','InstagramController@update');
+    Route::put('/login/instagrams','InstagramController@edit');
+    Route::get('/instagram/{id}','InstagramController@show');
 
-    //----Pruebas UsuarioController
-    Route::get('/usuarios','UsuarioController@index');
-    Route::post('/usuarios','UsuarioController@store'); 
-    //Route::put('/usuarios/{id}','UsuarioController@update');
-    Route::delete('/usuarios/{id}','UsuarioController@destroy');
-    Route::get('/usuarios/{id}','UsuarioController@show');
-
+    Route::get('/datos/twitter','TwitterController@datos');    
     
     Route::group(['middleware' => 'jwt-auth'], function(){
 
-    
 
     });
 });

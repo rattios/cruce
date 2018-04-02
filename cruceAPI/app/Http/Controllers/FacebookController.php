@@ -1,0 +1,138 @@
+<?php
+
+namespace App\Http\Controllers;
+
+use Illuminate\Http\Request;
+
+use App\Http\Requests;
+use App\Http\Controllers\Controller;
+
+class FacebookController extends Controller
+{
+    /**
+     * Display a listing of the resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function index()
+    {
+        //
+    }
+
+    /**
+     * Show the form for creating a new resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function create()
+    {
+        //
+    }
+
+    /**
+     * Store a newly created resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function store(Request $request)
+    {
+                
+        // Primero comprobaremos si estamos recibiendo todos los campos.
+        if ( !$request->input('id_facebook') ||
+            !$request->input('email'))
+        {
+            // Se devuelve un array errors con los errores encontrados y cabecera HTTP 422 Unprocessable Entity – [Entidad improcesable] Utilizada para errores de validación.
+            return response()->json(['error'=>'Faltan datos necesarios para el proceso de alta.'],422);
+        }
+
+        //Comprobamos si existe un registro con las credenciales id_facebook y email
+        $facebook = \App\Facebook::where('email', $request->input('email'))->first();
+        //return $facebook;
+        if(count($facebook)!=0){
+           $facebook->access_token = $request->input('access_token');
+           $facebook->data = $request->input('data');
+           //return $facebook;
+           if ($facebook->save()) {
+                return response()->json(['message'=>'Facebook actualizado con éxito.',
+                    'facebook'=>$facebook], 200);
+            }else{
+                return response()->json(['error'=>'Error al actualizar el facebook.'], 500);
+            }
+        }
+        //return $request->all();
+        $nuevoFacebook=new \App\Facebook;
+        $nuevoFacebook->access_token= $request->input('access_token');
+        $nuevoFacebook->id_facebook= $request->input('id_facebook');
+        $nuevoFacebook->email= $request->input('email');
+        $nuevoFacebook->data= 'a';
+        $nuevoFacebook->nombre= $request->input('nombre');
+        /*$nuevoFacebook=new \App\Facebook;
+        $nuevoFacebook->access_token= 'asdasd';
+        $nuevoFacebook->id_facebook= 'asd';
+        $nuevoFacebook->email= 'as';
+        $nuevoFacebook->data= 'a';
+        $nuevoFacebook->nombre= 'asdads';*/
+        //return $nuevoFacebook;
+        if ($nuevoFacebook->save()) {
+           return response()->json(['message'=>'Nuevo facebook registrado.',
+             'facebook'=>$nuevoFacebook], 200);
+        }else{
+            return response()->json(['error'=>'Error al registrar el nuevo facebook.'], 500);
+        }
+        
+        /*
+        if($nuevoFacebook=\App\Facebook::create($request->all())){
+           return response()->json(['message'=>'Nuevo facebook registrado.',
+             'facebook'=>$nuevoFacebook], 200);
+        }else{
+            return response()->json(['error'=>'Error al registrar el nuevo facebook.'], 500);
+        }*/
+        
+    }
+
+    /**
+     * Display the specified resource.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function show($id)
+    {
+        //
+    }
+
+    /**
+     * Show the form for editing the specified resource.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function edit($id)
+    {
+        //
+    }
+
+    /**
+     * Update the specified resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function update(Request $request, $id)
+    {
+        //
+    }
+
+    /**
+     * Remove the specified resource from storage.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function destroy($id)
+    {
+        //
+    }
+}

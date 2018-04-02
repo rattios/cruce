@@ -1,0 +1,20 @@
+<div class="row">
+  <div class="col-lg-6" style="display:block; margin:auto">
+    <nb-card>
+      <nb-card-header>Inicio de sesión con la API de Instagram</nb-card-header>
+      <nb-card-body>
+
+        <button *ngIf="isLogin" class="btn btn-info" (click)="loginInstagram()">Instagram</button>
+
+        <button *ngIf="!isLogin" class="btn btn-info" (click)="acceder()" >Acceder a tokens</button>
+
+      </nb-card-body>
+    </nb-card>
+  </div>
+</div>
+
+<toaster-container [toasterconfig]="config"></toaster-container>
+
+<div class="my-container">
+    <ngx-loading [show]="loading" [config]="{ backdropBorderRadius: '4px' }"></ngx-loading>
+</div>
