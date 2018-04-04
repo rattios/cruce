@@ -1,0 +1,22 @@
+<nb-card size="medium">
+  <!-- <nb-card-header>Solar Energy Consumption</nb-card-header> -->
+  <nb-card-body>
+    <div class="picture" style.background-image="url('{{img}}')"></div>
+
+    <div class="details">
+      <div class="title" *ngIf="data.evento">
+        {{data.evento}}
+      </div>
+    </div>
+  </nb-card-body>
+
+  <nb-card-footer>
+      <div class="description" *ngIf="data.usuario">
+        <strong>{{data.usuario}}</strong>
+      </div>
+      <div class="description" *ngIf="data.fecha">
+        {{data.fecha | date:"MM/dd/yyyy '-' h:mma"}}
+      </div>
+  </nb-card-footer>
+
+</nb-card>

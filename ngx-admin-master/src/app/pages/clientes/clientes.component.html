@@ -1,0 +1,122 @@
+<nb-card *ngIf="mostrar">
+  <nb-card-header>
+    <div class="row show-grid">
+          <div class="col-6">
+            <div>Lista de Clientes</div>
+          </div>
+          <div class="col-6">
+            <div>
+              <div style="text-align: right;">
+               <strong>Buscar: </strong>
+               <input  type="text"  id="inputName" [(ngModel)]="inputName" (ngModelChange)="FilterByName()"/>
+              </div>
+            </div>
+          </div>
+        </div>
+  </nb-card-header>
+
+  <nb-card-body>
+
+    <table class="table table-striped">
+      <thead>
+         <!-- <th style="text-align: center;">ID</th> -->
+         <th style="text-align: center;">Email</th>
+         <th style="text-align: center;">N° Participaciones</th>
+         <th style="text-align: center;">N° Eventos</th>
+         <th style="text-align: center;">Base de Datos</th>
+         <th style="text-align: center;">Acciones</th>
+      </thead>
+      <tbody>
+         <tr *ngFor="let item of items" >
+            <td style="text-align: center; vertical-align:middle;">{{item.email}}</td>
+            <td style="text-align: center; vertical-align:middle;">{{item.participaciones}}</td>
+            <td style="text-align: center; vertical-align:middle;">{{item.participaciones_en}}</td>
+            <td style="text-align: center; vertical-align:middle;">{{item.participaciones_evento}}</td>
+            <td style="text-align: center; vertical-align:middle;">
+              <button type="button" class="btn btn-primary btn-icon" title="Ver participaciones" (click)="verParticipaciones(item, modal2)">
+                <i class="fa fa-eye"></i>
+              </button>
+            </td>
+         </tr>
+      </tbody>
+    </table>
+      
+  </nb-card-body>
+  <nb-card-footer>
+    <div class="btn-toolbar" role="toolbar" style="margin: 0;">
+      <div class="btn-group">
+         <label style="margin-top:10px">Página {{currentIndex}}/{{pageNumber}} </label>
+      </div>
+      <div class="btn-group pull-right">
+         <ul class="pagination" >
+            <li class="page-item" [ngClass]="{'disabled': (currentIndex == 1 || pageNumber == 0)}" ><a class="page-link"  (click)="prevPage()" >Atrás</a></li>
+               <li class="page-item" *ngFor="let page of pagesIndex"  [ngClass]="{'active': (currentIndex == page)}">
+                  <a class="page-link" (click)="setPage(page)"  >{{page}} </a>
+               </li>
+            <li class="page-item" [ngClass]="{'disabled': (currentIndex == pageNumber || pageNumber == 0)}" ><a class="page-link"   (click)="nextPage()" >Siguiente</a></li>
+         </ul>
+      </div>
+    </div>  
+  </nb-card-footer>
+</nb-card>
+
+<ng-template #modal2 let-c="close" let-d="dismiss" size="lg">
+  <div class="modal-header">
+    <h4 class="modal-title">Cliente: {{objSelected.email}}</h4>
+    <button type="button" class="close" aria-label="Close" (click)="d('Cross click')">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+
+    <div *ngFor="let participacion of participaciones" >
+
+      <div *ngIf="participacion.evento == 'Mongo Mensajes' && participacion.fileType == 'image'" class="row">
+        <div style="display:block; margin:auto" class="col-md-6">
+          <ngx-template-1 [data]="participacion"></ngx-template-1>
+        </div>
+      </div>
+
+      <div *ngIf="participacion.evento == 'Mongo Mensajes' && participacion.fileType == 'audio'" class="row">
+        <div style="display:block; margin:auto" class="col-md-6">
+          <ngx-template-2 [data]="participacion"></ngx-template-2>
+        </div>
+      </div>
+
+      <div *ngIf="participacion.evento == 'Mongo Mensajes' && participacion.fileType == 'video'" class="row">
+        <div style="display:block; margin:auto" class="col-md-6">
+          <ngx-template-3 [data]="participacion"></ngx-template-3>
+        </div>
+      </div>
+
+      <div *ngIf="participacion.evento == 'Sorteo web'" class="row">
+        <div style="display:block; margin:auto" class="col-md-6">
+          <ngx-template-4 [data]="participacion"></ngx-template-4>
+        </div>
+      </div>
+
+      <div *ngIf="participacion.evento == 'Cleaned members'" class="row">
+        <div style="display:block; margin:auto" class="col-md-6">
+          <ngx-template-5 [data]="participacion"></ngx-template-5>
+        </div>
+      </div>
+
+      <div *ngIf="participacion.evento == 'Subscribed members'" class="row">
+        <div style="display:block; margin:auto" class="col-md-6">
+          <ngx-template-6 [data]="participacion"></ngx-template-6>
+        </div>
+      </div>
+
+    </div>
+
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-secondary" (click)="c('Close click')">Atrás</button>
+  </div>
+</ng-template>
+
+<toaster-container [toasterconfig]="config"></toaster-container>
+
+<div class="my-container">
+    <ngx-loading [show]="loading" [config]="{ backdropBorderRadius: '4px' }"></ngx-loading>
+</div>

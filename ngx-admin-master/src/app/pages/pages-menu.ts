@@ -67,6 +67,12 @@ export const MENU_ITEMS: NbMenuItem[] = [
       },  
     ],
   },
+  {
+    title: 'Clientes',
+    icon: 'ion-ios-people-outline',
+    link: '/pages/clientes',
+  },
+  
   /*{
     title: 'FEATURES',
     group: true,
