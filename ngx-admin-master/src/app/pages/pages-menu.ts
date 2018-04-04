@@ -73,7 +73,7 @@ export const MENU_ITEMS: NbMenuItem[] = [
     link: '/pages/clientes',
   },
   
-  /*{
+  {
     title: 'FEATURES',
     group: true,
   },
@@ -221,5 +221,5 @@ export const MENU_ITEMS: NbMenuItem[] = [
         link: '/auth/reset-password',
       },
     ],
-  },*/
+  },
 ];

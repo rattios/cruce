@@ -20,11 +20,36 @@ import { PlayerComponent } from './rooms/player/player.component';
 import { TrafficComponent } from './traffic/traffic.component';
 import { TrafficChartComponent } from './traffic/traffic-chart.component';
 
+//Mis imports
+import { LoadingModule, ANIMATION_TYPES  } from 'ngx-loading';
+import { ToasterModule } from 'angular2-toaster';
+
+import { NgxChartsModule } from '@swimlane/ngx-charts';
+import { ChartModule } from 'angular2-chartjs';
+
+import { ChartjsBarComponent } from './chartjsDas/chartjs-bar.component';
+import { ChartjsLineComponent } from './chartjsDas/chartjs-line.component';
+import { ChartjsPieComponent } from './chartjsDas/chartjs-pie.component';
+import { ChartjsMultipleXaxisComponent } from './chartjsDas/chartjs-multiple-xaxis.component';
+import { ChartjsBarHorizontalComponent } from './chartjsDas/chartjs-bar-horizontal.component';
+import { ChartjsRadarComponent } from './chartjsDas/chartjs-radar.component';
 
 @NgModule({
   imports: [
+    NgxChartsModule,
+    ChartModule,
+    ToasterModule,
     ThemeModule,
     NgxEchartsModule,
+    LoadingModule.forRoot({
+        animationType: ANIMATION_TYPES.chasingDots,
+        backdropBackgroundColour: 'rgba(0,0,0,0.5)', 
+        backdropBorderRadius: '4px',
+        primaryColour: '#ffffff', 
+        secondaryColour: '#ffffff', 
+        tertiaryColour: '#ffffff',
+        fullScreenBackdrop: true
+    }),
   ],
   declarations: [
     DashboardComponent,
@@ -44,6 +69,14 @@ import { TrafficChartComponent } from './traffic/traffic-chart.component';
     SolarComponent,
     TrafficComponent,
     TrafficChartComponent,
+
+    ChartjsBarComponent,
+    ChartjsLineComponent,
+    ChartjsPieComponent,
+    ChartjsMultipleXaxisComponent,
+    ChartjsBarHorizontalComponent,
+    ChartjsRadarComponent,
+   
   ],
 })
 export class DashboardModule { }

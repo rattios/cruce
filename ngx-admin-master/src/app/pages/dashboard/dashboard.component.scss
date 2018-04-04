@@ -19,4 +19,21 @@
       height: nb-theme(card-height-medium);
     }
   }
+
+  ngx-chartjs-pie,
+  ngx-chartjs-bar,
+  ngx-chartjs-line,
+  ngx-chartjs-multiple-xaxis,
+  ngx-chartjs-bar-horizontal,
+  ngx-chartjs-radar {
+    display: block;
+    height: nb-theme(card-height-medium);
+    width: 100%;
+
+    /deep/ chart {
+      display: block;
+      height: 100%;
+      width: 100%;
+    }
+  }
 }

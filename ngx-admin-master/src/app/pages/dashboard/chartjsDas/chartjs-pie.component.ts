@@ -1,4 +1,4 @@
-import { Component, OnDestroy } from '@angular/core';
+import { Component, OnDestroy, Input, OnInit } from '@angular/core';
 import { NbThemeService } from '@nebular/theme';
 
 @Component({
@@ -12,17 +12,24 @@ export class ChartjsPieComponent implements OnDestroy {
   options: any;
   themeSubscription: any;
 
+  @Input() dataDiagrama:any;
+
   constructor(private theme: NbThemeService) {
+
+  }
+
+  ngOnInit() {
+
     this.themeSubscription = this.theme.getJsTheme().subscribe(config => {
 
       const colors: any = config.variables;
       const chartjs: any = config.variables.chartjs;
 
       this.data = {
-        labels: ['Download Sal151es', 'In-Store Sales', 'Mail Sales'],
+        labels: ['Mongo mensajes', 'Sorteo web', 'Cleaned members', 'Subscribed members'],
         datasets: [{
-          data: [300, 500, 100],
-          backgroundColor: [colors.primaryLight, colors.infoLight, colors.successLight],
+          data: [this.dataDiagrama.N_Parse, this.dataDiagrama.N_SorteoWeb, this.dataDiagrama.N_Cleaned_members, this.dataDiagrama.N_Subscribed_members],
+          backgroundColor: [colors.primaryLight, colors.infoLight, colors.successLight, colors.warningLight],
         }],
       };
 

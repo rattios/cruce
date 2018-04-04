@@ -1,29 +1,46 @@
-<nb-card size="medium">
-  <!-- <nb-card-header>Solar Energy Consumption</nb-card-header> -->
-  <nb-card-body>
-    <!-- <div class="picture" style.background-image="url('{{img}}')" *ngIf="data.url"></div> -->
+<div class="header">Audio</div>
 
+<div class="body">
+
+  <div class="track-info">
+    <div class="cover" style.background-image="url('{{track.cover}}')"></div>
     <div class="details">
-      <div class="title">
-        (Audio) En construcción...! 
-      </div>
-
-      <div class="title" *ngIf="data.evento">
-        {{data.evento}}
-      </div>
-      <div class="description" *ngIf="data.descripcion">
-        {{data.descripcion}}
-      </div>
+      <h4>{{ track.name }}</h4>
+      <span>{{ track.artist | date:"MM/dd/yyyy '-' h:mma" }}</span>
     </div>
-  </nb-card-body>
+  </div>
 
-  <nb-card-footer>
-      <div class="description" *ngIf="data.nombre">
-        <strong>{{data.nombre}}</strong>
-      </div>
-      <div class="description" *ngIf="data.fecha">
-        {{data.fecha | date:"MM/dd/yyyy '-' h:mma"}}
-      </div>
-  </nb-card-footer>
+  <div class="progress-wrap">
+    <input type="range" class="progress" [value]="getProgress()" min="0" max="100" step="0.01"
+           (input)="setProgress(duration.value)" #duration>
+    <div class="progress-foreground" [style.width.%]="getProgress()"></div>
+  </div>
 
-</nb-card>
+  <div class="timing">
+    <small class="current">{{ player.currentTime | timing }}</small>
+    <small class="remaining">- {{ player.duration - player.currentTime | timing }}</small>
+  </div>
+
+  <div class="controls">
+    <i class="nb-shuffle shuffle" [class.active]="shuffle" (click)="toggleShuffle()"></i>
+    <i class="nb-skip-backward prev" (click)="prev()"></i>
+    <i class="play" [class.nb-play]="player.paused" [class.nb-pause]="!player.paused" (click)="playPause()"></i>
+    <i class="nb-skip-forward next" (click)="next()"></i>
+    <i class="nb-loop loop" [class.active]="player.loop" (click)="toggleLoop()"></i>
+  </div>
+
+</div>
+
+<div class="footer">
+
+  <div class="volume">
+    <i class="nb-volume-mute"></i>
+    <div class="progress-wrap">
+      <input type="range" class="progress" [value]="getVolume()" max="100"
+             (input)="setVolume(volume.value)" #volume>
+      <div class="progress-foreground" [style.width.%]="getVolume()"></div>
+    </div>
+    <i class="nb-volume-high"></i>
+  </div>
+
+</div>
