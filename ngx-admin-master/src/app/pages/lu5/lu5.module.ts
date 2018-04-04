@@ -16,9 +16,10 @@ import { SocialLoginModule} from 'angularx-social-login';
 import { AuthServiceConfig, GoogleLoginProvider, FacebookLoginProvider } from 'angularx-social-login';
 import { LoginOpt } from 'angularx-social-login';
 
+import { StatusCardComponent } from './lu5-twitter/status-card/status-card.component';
 
 let fbLoginOptions: LoginOpt = {
-  scope: 'user_posts,user_likes,user_about_me,user_birthday,user_friends,user_location,user_website,publish_pages,pages_messaging,pages_messaging_subscriptions,email',
+  scope: 'user_posts,user_likes,user_birthday,user_friends,user_location,publish_pages,pages_messaging,pages_messaging_subscriptions,email',
   return_scopes: true,
   enable_profile_selector: true
 }; // https://developers.facebook.com/docs/reference/javascript/FB.login/v2.11
@@ -73,6 +74,7 @@ export const firebaseCredentials = {
   ],
   declarations: [
     ...routedComponents,
+   StatusCardComponent,
   ],
    providers: [
     {

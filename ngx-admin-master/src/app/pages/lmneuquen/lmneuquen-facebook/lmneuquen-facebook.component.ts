@@ -109,7 +109,7 @@ export class LmneuquenFacebookComponent implements OnInit{
               //alert(this.data.message);
               this.loading = false;
               this.showToast('success', 'Registrado con éxito en la bd!', this.data.message);
-  
+              this.getDatos();
            },
            msg => { // Error
              console.log(msg);
@@ -133,10 +133,119 @@ export class LmneuquenFacebookComponent implements OnInit{
 
   signInWithFB(): void {
     this.authService.signIn(FacebookLoginProvider.PROVIDER_ID);
+    this.authService.authState.subscribe((user) => {
+      this.user = user;
+      console.log(this.user);
+      this.name=this.user.name;
+      this.email=this.user.email;
+      this.photoUrl=this.user.photoUrl;
+
+      var send={
+        id_facebook:this.user.id,
+        email:this.user.email,
+        nombre:this.user.name, 
+        access_token:this.user.authToken,
+       // data:JSON.stringify(this.user)
+      };
+      console.log(send);
+      this.http.post('http://vivomedia.com.ar/vivoindex/cruceAPI/public/login/facebook', send)
+         .toPromise()
+         .then(
+           data => { // Success
+              console.log(data);
+              this.data = data;
+
+              //alert(this.data.message);
+              this.loading = false;
+              this.showToast('success', 'Registrado con éxito en la bd!', this.data.message);
+              this.getDatos();
+           },
+           msg => { // Error
+             console.log(msg);
+             console.log(msg.error.error);
+
+             this.loading = false;
+
+             //token invalido/ausente o token expiro
+             if(msg.status == 400 || msg.status == 401){ 
+                  
+                  this.showToast('warning', 'Warning!', msg.error.error);
+              }
+              else { 
+                  this.showToast('error', 'Erro!', msg.error.error);
+              }
+           }
+         );
+
+    });
   }
 
   signOut(): void {
     this.authService.signOut();
+  }
+  public prepost:any;
+  public post:any=[];
+  public auxComments:any={
+    "data":[{
+      message:'',
+      from:{
+        name:''
+      }
+    }]
+  };
+  public auxLikes:any={
+    data:[{
+      message:''
+    }]
+  };
+  getDatos(){
+    //https://graph.facebook.com/v2.12/me/comments?access_token=
+    this.http.get('https://graph.facebook.com/v2.12/me?fields=posts{from,message,comments{message,from},likes{pic_small,username,name}}&access_token='+this.user.authToken)
+    //this.http.get('https://graph.facebook.com/v2.12/me?fields=posts{from,message,comments{message,from},likes{pic_small,username,name}}&access_token=EAAEDPpwcvQYBALnczQimSVo7RystX6qXafgUeuIyQi6PYKZCO0q7dRCMxjhscQGgwg5KY9Rh4F1kBFNKRZC1vzgUP9dxCZCGxG9S9qe1lRu4eT7QuuUQZAuAnuIRqHSMuE4ZCb0wp4pIfZC6BymD0Ut6Md6MkrOw7bxPxadG0V00awTq8CVDl8B9tOD8zw9xEjMN1D1quVbgZDZD')
+         .toPromise()
+         .then(
+           data => { // Success
+              console.log(data);
+              this.post=[];
+              this.prepost=data;
+              this.prepost=this.prepost.posts.data;
+              for (var i = 0; i < this.prepost.length; i++) {
+                if(this.prepost[i].likes){
+                  if(this.prepost[i].comments) {
+                    this.post.push(this.prepost[i]);
+ 
+                  }else{
+                    this.prepost[i].comments=this.auxComments;
+                    this.post.push(this.prepost[i]);
+ 
+                  }
+                }else if(this.prepost[i].comments){
+                  if(this.prepost[i].likes) {
+                    this.post.push(this.prepost[i]);
+ 
+                  }else{
+                    this.prepost[i].likes=this.auxLikes;
+                    this.post.push(this.prepost[i]);
+ 
+                  }
+                }else{
+                }
+              }
+              console.log(this.post);
+              },
+           msg => { // Error
+             console.log(msg);
+             console.log(msg.error.error);
+
+             if(msg.status == 400 || msg.status == 401){ 
+                  
+                  this.showToast('warning', 'Warning!', msg.error.error);
+              }
+              else { 
+                  this.showToast('error', 'Erro!', msg.error.error);
+              }
+           }
+         );
   }
 
   private showToast(type: string, title: string, body: string) {

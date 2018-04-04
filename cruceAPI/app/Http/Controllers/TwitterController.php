@@ -21,14 +21,16 @@ class TwitterController extends Controller
         ];
 
         Twitter::reconfig($request_token);
-
-        $data = Twitter::getUserTimeline(['count' => 10, 'format' => 'array']);
-        return response()->json(['twitter'=>compact('data')], 200);
+        $mentions = Twitter::getMentionsTimeline(['count' => 50, 'format' => 'array']);
+        $timeline = Twitter::getUserTimeline(['count' => 10, 'format' => 'array']);
+        return response()->json(['mentions'=>compact('mentions'),'timeline'=>compact('timeline')], 200);
+       
        // return view('twitter',compact('data'));
     }
 
     public function twitterFollowers(Request $request)
     {   
+
         $datos = \App\Twitter::where('display_name', $request->input('display_name'))->first();
         
         $request_token = [
@@ -38,7 +40,8 @@ class TwitterController extends Controller
 
         Twitter::reconfig($request_token);
 
-        $data = Twitter::getFriends(['count' => 10, 'format' => 'array']);
+       // $data = Twitter::getFriends(['count' => 50, 'format' => 'array']);
+        $data = Twitter::getFollowers(['count' => 50, 'format' => 'array']);
         return response()->json(['twitter'=>compact('data')], 200);
        // return view('twitter',compact('data'));
     }
