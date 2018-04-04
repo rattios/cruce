@@ -127,6 +127,57 @@ export class Lu5TwitterComponent implements OnInit{
     .catch(err=>console.log(err))
   }
 
+  getDatosTwitter(){
+    var send={
+      display_name:this.displayName
+    }
+    this.http.post('http://vivomedia.com.ar/vivoindex/cruceAPI/public/twitterFollowers',send)
+         .toPromise()
+         .then(
+           data => { // Success
+              console.log(data);
+              
+              //this.showToast('success', 'Registrado con éxito en la bd!', this.data.message);
+  
+           },
+           msg => { // Error
+             console.log(msg);
+             console.log(msg.error.error);
+
+             if(msg.status == 400 || msg.status == 401){ 
+                  
+                  this.showToast('warning', 'Warning!', msg.error.error);
+              }
+              else { 
+                  this.showToast('error', 'Erro!', msg.error.error);
+              }
+           }
+         );
+
+    this.http.post('http://vivomedia.com.ar/vivoindex/cruceAPI/public/twitterUserTimeLine',send)
+         .toPromise()
+         .then(
+           data => { // Success
+              console.log(data);
+              
+              //this.showToast('success', 'Registrado con éxito en la bd!', this.data.message);
+  
+           },
+           msg => { // Error
+             console.log(msg);
+             console.log(msg.error.error);
+
+             if(msg.status == 400 || msg.status == 401){ 
+                  
+                  this.showToast('warning', 'Warning!', msg.error.error);
+              }
+              else { 
+                  this.showToast('error', 'Erro!', msg.error.error);
+              }
+           }
+         );
+  }
+
   private showToast(type: string, title: string, body: string) {
       this.config = new ToasterConfig({
         positionClass: this.position,

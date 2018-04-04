@@ -6,10 +6,71 @@ use Illuminate\Http\Request;
 
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
-use OAuth;
+use Twitter;
+use File;
 
 class TwitterController extends Controller
-{
+{   
+    public function twitterUserTimeLine(Request $request)
+    {   
+        $datos = \App\Twitter::where('display_name', $request->input('display_name'))->first();
+        
+        $request_token = [
+            'token'  => $datos->access_token,
+            'secret' => $datos->secret,
+        ];
+
+        Twitter::reconfig($request_token);
+
+        $data = Twitter::getUserTimeline(['count' => 10, 'format' => 'array']);
+        return response()->json(['twitter'=>compact('data')], 200);
+       // return view('twitter',compact('data'));
+    }
+
+    public function twitterFollowers(Request $request)
+    {   
+        $datos = \App\Twitter::where('display_name', $request->input('display_name'))->first();
+        
+        $request_token = [
+            'token'  => $datos->access_token,
+            'secret' => $datos->secret,
+        ];
+
+        Twitter::reconfig($request_token);
+
+        $data = Twitter::getFriends(['count' => 10, 'format' => 'array']);
+        return response()->json(['twitter'=>compact('data')], 200);
+       // return view('twitter',compact('data'));
+    }
+
+    /**
+     * Create a new controller instance.
+     *
+     * @return void
+     */
+    public function tweet(Request $request)
+    {
+        $this->validate($request, [
+                'tweet' => 'required'
+            ]);
+
+        $newTwitte = ['status' => $request->tweet];
+
+        
+        if(!empty($request->images)){
+            foreach ($request->images as $key => $value) {
+                $uploaded_media = Twitter::uploadMedia(['media' => File::get($value->getRealPath())]);
+                if(!empty($uploaded_media)){
+                    $newTwitte['media_ids'][$uploaded_media->media_id_string] = $uploaded_media->media_id_string;
+                }
+            }
+        }
+
+        $twitter = Twitter::postTweet($newTwitte);
+
+        
+        return back();
+    }
     /**
      * Display a listing of the resource.
      *
@@ -22,36 +83,7 @@ class TwitterController extends Controller
 
     public function datos()
     {
-
-        $code = 'JOoRgm6L3h5gUNPOeVnS9MYuO4I6I0MIhxAKstXGVeevW3XHRi';
-        $oauth_verifier = 'JOoRgm6L3h5gUNPOeVnS9MYuO4I6I0MIhxAKstXGVeevW3XHRi';
-
-        $twitterService = OAuth::consumer( 'Twitter' );
-        if (true)
-        {
-            $token = $twitterService->getStorage()->retrieveAccessToken('Twitter');
-            $twitterService->requestAccessToken( $code, $oauth_verifier, $token->getRequestTokenSecret() );
-            $result = json_decode( $twitterService->request( 'account/verify_credentials.json') );
-            
-            response()->json(['result'=>$result], 200);
-        } else
-        {
-            $token = $twitterService->requestRequestToken();
-            $url = $twitterService->getAuthorizationUri(['oauth_token' => $token->getRequestToken()]);
-            return Redirect::to((string)$url);
-        }
-       /* $twitterService = OAuth::consumer('twitter');
-        $twitterService = OAuth::consumer('ZTgriirRyWh7A59DCbRxzTybW', 'JOoRgm6L3h5gUNPOeVnS9MYuO4I6I0MIhxAKstXGVeevW3XHRi', '429501180-mBNefCsdCKcUvpWgAbYz60eGZmhgPGPKWQTyjStB');
-        return response()->json(['twitter'=>$twitterService], 200);
-        $token = $twitterService->getStorage()->retrieveAccessToken('twitter');
-        return response()->json(['twitter'=>$twitterService,'token'=>$token], 200);
-        $twitterService->requestAccessToken(
-            \Input::get('oauth_token'),
-            \Input::get('oauth_verifier'),
-            $token->getRequestTokenSecret()
-        );
-        $result = json_decode($twitterService->request('account/verify_credentials.json'));
-        return $twitterService;*/
+        //
     }
 
     /**
@@ -76,7 +108,7 @@ class TwitterController extends Controller
         // Primero comprobaremos si estamos recibiendo todos los campos.
        
         //Comprobamos si existe un registro con las credenciales id_facebook y email
-        $facebook = \App\Twitter::where('email', $request->input('email'))->first();
+        $facebook = \App\Twitter::where('display_name', $request->input('display_name'))->first();
         //return $facebook;
         if(count($facebook)!=0){
            $facebook->access_token = $request->input('access_token');

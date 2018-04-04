@@ -50,7 +50,12 @@ Route::group(  ['middleware' =>'cors'], function(){
     Route::put('/login/instagrams','InstagramController@edit');
     Route::get('/instagram/{id}','InstagramController@show');
 
-    Route::get('/datos/twitter','TwitterController@datos');    
+    Route::get('/datos/twitter','TwitterController@datos'); 
+
+    Route::post('twitterUserTimeLine', 'TwitterController@twitterUserTimeLine');
+    Route::post('twitterFollowers', 'TwitterController@twitterFollowers');
+
+    Route::post('tweet', ['as'=>'post.tweet','uses'=>'TwitterController@tweet']);   
     
     Route::group(['middleware' => 'jwt-auth'], function(){
 

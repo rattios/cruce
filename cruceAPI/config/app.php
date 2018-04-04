@@ -147,7 +147,8 @@ return [
         Tymon\JWTAuth\Providers\JWTAuthServiceProvider::class,
         Barryvdh\Cors\ServiceProvider::class,
         Anouar\Fpdf\FpdfServiceProvider::class,
-        'Jenssegers\OAuth\OAuthServiceProvider',
+        'Thujohn\Twitter\TwitterServiceProvider',
+
     ],
 
     /*
@@ -198,7 +199,8 @@ return [
         'JWTAuth' => Tymon\JWTAuth\Facades\JWTAuth::class,
         'JWTFactory' => Tymon\JWTAuth\Facades\JWTFactory::class,
         'Fpdf' => Anouar\Fpdf\Facades\Fpdf::class,
-        'OAuth'     => 'Jenssegers\OAuth\Facades\OAuth',
+        'Twitter' => 'Thujohn\Twitter\Facades\Twitter',
+
     ],
 
 ];
