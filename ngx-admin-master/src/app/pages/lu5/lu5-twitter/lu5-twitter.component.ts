@@ -105,6 +105,7 @@ export class Lu5TwitterComponent implements OnInit{
               //alert(this.data.message);
               this.loading = false;
               this.showToast('success', 'Registrado con éxito en la bd!', this.data.message);
+              this.getDatosTwitter();
   
            },
            msg => { // Error
@@ -127,6 +128,10 @@ export class Lu5TwitterComponent implements OnInit{
     .catch(err=>console.log(err))
   }
 
+  public usuarios:any;
+  public mentions:any;
+  public timeline:any;
+  public publicaciones:any;
   getDatosTwitter(){
     var send={
       display_name:this.displayName
@@ -136,6 +141,8 @@ export class Lu5TwitterComponent implements OnInit{
          .then(
            data => { // Success
               console.log(data);
+              this.usuarios=data;
+              this.usuarios=this.usuarios.twitter.data.users;
               
               //this.showToast('success', 'Registrado con éxito en la bd!', this.data.message);
   
@@ -159,6 +166,9 @@ export class Lu5TwitterComponent implements OnInit{
          .then(
            data => { // Success
               console.log(data);
+              this.publicaciones=data;
+              this.mentions=this.publicaciones.mentions.mentions;
+              this.timeline=this.publicaciones.timeline.timeline;
               
               //this.showToast('success', 'Registrado con éxito en la bd!', this.data.message);
   
