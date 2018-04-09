@@ -4,12 +4,12 @@ import { Injectable } from '@angular/core';
 export class RutaBaseService {
 
 	//Local freddy
-	public api_base = 'http://localhost/gitHub/cruce/';
-	public images_base = 'http://localhost/gitHub/cruce/images_uploads/';
+	//public api_base = 'http://localhost/gitHub/cruce/';
+	//public images_base = 'http://localhost/gitHub/cruce/images_uploads/';
 
 	//Remoto
-	//public api_base = 'http://vivomedia.com.ar/vivoindex/';
-	//public images_base = 'http://vivomedia.com.ar/vivoindex/images_uploads/';
+	public api_base = 'http://vivomedia.com.ar/vivoindex/';
+	public images_base = 'http://vivomedia.com.ar/vivoindex/images_uploads/';
 
 	constructor() { }
 

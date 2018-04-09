@@ -72,7 +72,7 @@ export const MENU_ITEMS: NbMenuItem[] = [
     icon: 'ion-ios-people-outline',
     link: '/pages/clientes',
   },
-  
+  /*
   {
     title: 'FEATURES',
     group: true,
@@ -221,5 +221,5 @@ export const MENU_ITEMS: NbMenuItem[] = [
         link: '/auth/reset-password',
       },
     ],
-  },
+  },*/
 ];
