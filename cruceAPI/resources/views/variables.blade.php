@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
     <head>
-        <title>Login Indicadores</title>
+        <title>Demo Indicadores</title>
 
         <link href="https://fonts.googleapis.com/css?family=Lato:300" rel="stylesheet" type="text/css">
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap.css">
@@ -40,8 +40,7 @@
 
             .content-form{
                 background-color: rgba(0,0,0,0.8);
-                padding: 45px 40px;
-                margin-top: 20px;
+                padding: 50px 60px;
                 border-radius: 3px;
                 min-width: 400px;
             }
@@ -80,13 +79,27 @@
                 display: block;
                 position: relative;
             }
+
+            .triangle {
+              display: inline-block;
+              margin: auto;
+              vertical-align: middle;
+            }
+
+            .triangle-4 {
+              width: 30px;
+              height: 30px;
+              border-bottom: solid 25px rgba(0,0,0,0.8);
+              border-left: solid 25px transparent;
+              border-right: solid 25px transparent;
+            }
         </style>
     </head>
     <body>
         <div class="container">
             <div class="content">
 
-                 @if ($errors->any())
+                @if ($errors->any())
                     <div class="alert alert-danger" role="alert">
                         <p>Por favor corrige los errores:</p>
 
@@ -98,19 +111,23 @@
                     </div>
                 @endif
                 
-                <div class="title">API INDICADORES</div>
-
+                <div class="title">CONFIGURACIÓN <br>DE LA BASE DE DATOS</div>
+                <div class="triangle triangle-4"></div>
                 <div class="content-form">
                     <form method="POST">
                         <div class="form-group">
+                            <i class="fa fa-database icon-input" aria-hidden="true"></i>
+                            <input class="form-control input-form" type="text" name="DB_DATABASE" id="DB_DATABASE" placeholder="NOMBRE DE BASE DE DATOS">
+                        </div>
+                        <div class="form-group">
                             <i class="fa fa-user icon-input" aria-hidden="true"></i>
-                            <input class="form-control input-form" type="text" placeholder="USER" name="user" id="user">
+                            <input type="text" class="form-control input-form" name="DB_USERNAME" id="DB_USERNAME" placeholder="USER">
                         </div>
                         <div class="form-group">
                             <i class="fa fa-lock icon-input" aria-hidden="true"></i>
-                            <input class="form-control input-form" type="password" placeholder="PASSWORD" name="password" id="password">
+                            <input type="text" class="form-control input-form" name="DB_PASSWORD" id="DB_PASSWORD" placeholder="PASSWORD">
                         </div>
-                        <button class="btn button-login">LOGIN</button>
+                        <button class="btn button-login">GUARDAR</button>
                         
                     </form>
                 </div>

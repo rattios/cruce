@@ -6,8 +6,40 @@ use App\User;
 use Illuminate\Http\Request;
 use Tymon\JWTAuth\Exceptions\JWTException;
 use Tymon\JWTAuth\Facades\JWTAuth;
+use Validator;
+use Redirect;
+
 class LoginController extends Controller
 {
+    public function loginLaravel(Request $request)
+    {
+
+        $data = $request->all();
+
+        $rules = array(
+            'user' => 'required',
+            'password'=>'required'
+            );
+
+        $validator = Validator::make($data, $rules);
+
+        if ($validator->fails())
+        {
+
+            return Redirect::back()->withErrors($validator->messages())->withInput();
+        }
+
+
+        $user = $request->input('user');
+        $password = $request->input('password');
+
+        if ($user == 'indicadores' && $password == 'indicadores2018') {
+            return view('variables');
+        }else{
+            return view('welcome');
+        }
+    }
+
     public function loginWeb(Request $request)
     {
         $credentials = $request->only('user', 'password');

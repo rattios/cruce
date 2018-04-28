@@ -12,13 +12,15 @@
 */
 
 Route::get('/', function () {
-    //return view('welcome');
-
-
-    
+    return view('welcome'); 
 });
 
 Route::group(  ['middleware' =>'cors'], function(){
+
+    //Login para acceder al config del .env
+    Route::post('/','LoginController@loginLaravel');
+    //SetEnv
+    Route::post('/variables','SetEnvController@setEnv');
 
     //Parse
     //Route::get('/parse','ParseController@llenarTablaMessages');
