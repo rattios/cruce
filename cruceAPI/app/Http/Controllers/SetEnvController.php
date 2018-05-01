@@ -16,7 +16,7 @@ class SetEnvController extends Controller
     {
         $data = $request->all();
 
-        $rules = array(
+        /*$rules = array(
             'DB_DATABASE' => 'required',
             'DB_USERNAME'=>'required',
             'DB_PASSWORD'=>'required'
@@ -28,11 +28,13 @@ class SetEnvController extends Controller
         {
 
             return Redirect::back()->withErrors($validator->messages())->withInput();
-        }
+        }*/
 
         $DB_DATABASE = $request->input('DB_DATABASE');
         $DB_USERNAME = $request->input('DB_USERNAME');
         $DB_PASSWORD = $request->input('DB_PASSWORD');
+
+        //return response()->json(['status'=>$DB_PASSWORD], 200);
 
         //return response()->json(['DB_DATABASE'=>$DB_DATABASE, 'DB_USERNAME'=>$DB_USERNAME, 'DB_PASSWORD'=>$DB_PASSWORD ], 200);
 
@@ -59,7 +61,7 @@ class SetEnvController extends Controller
         $fp = fopen($envFile, 'w');
         fwrite($fp, $str);
         fclose($fp);
-
+        return view('pruebaConfiguracion'); 
         return response()->json(['status'=>'ok'], 200);
     }
 

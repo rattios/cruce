@@ -99,22 +99,11 @@
         <div class="container">
             <div class="content">
 
-                @if ($errors->any())
-                    <div class="alert alert-danger" role="alert">
-                        <p>Por favor corrige los errores:</p>
-
-                        <ul>
-                            @foreach($errors->all() as $error)
-                            <li>{{ $error }}</li>
-                            @endforeach
-                        </ul>
-                    </div>
-                @endif
-                
+               
                 <div class="title">CONFIGURACIÓN <br>DE LA BASE DE DATOS</div>
                 <div class="triangle triangle-4"></div>
                 <div class="content-form">
-                    <form method="POST">
+                    <form method="POST"  action="{{url('/variables')}}">
                         <div class="form-group">
                             <i class="fa fa-database icon-input" aria-hidden="true"></i>
                             <input class="form-control input-form" type="text" name="DB_DATABASE" id="DB_DATABASE" placeholder="NOMBRE DE BASE DE DATOS">
