@@ -1,0 +1,26 @@
+facebook_comments 
+	message	usuario	comments_id
+	{name: "Stalin Rangel", id: "10216006607658431"}
+facebook_friends
+	usuario	email	facebook_id
+
+facebook_likes
+	data	like_id
+	{pic_small: "https://lookaside.facebook.com/platform/profilepic…=50&width=50&ext=1526574864&hash=AeQ2_oOI9on0j0DN", name: "Yosephaider Vanegas", id: "10215079476850992"}
+	
+facebook_post
+usuario	texto	post_id
+
+twitter_followers
+		screen_name	name	location	email	twitter_id
+
+twitter_tweets
+	entities	favorite_count	retweet_count	text	tweet_id
+		hashtags
+			{text: "14May", indices: Array(2)}
+		urls
+			{url: "https://t.co/JH4AKngzox", expanded_url: "http://www.rattios.com", display_url: "rattios.com", indices: Array(2)}
+		user_mentions
+			{screen_name: "erangeld", name: "Edrangel", id: 429501180, id_str: "429501180", indices: Array(2)}
+twitter_tweets_other
+entities	favorite_count	retweet_count	text	tweet_id
