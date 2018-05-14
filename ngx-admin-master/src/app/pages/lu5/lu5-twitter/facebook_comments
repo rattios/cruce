@@ -5,7 +5,7 @@ facebook_friends
 	usuario	email	facebook_id
 
 facebook_likes
-	data	like_id
+	data,like_id
 	{pic_small: "https://lookaside.facebook.com/platform/profilepic…=50&width=50&ext=1526574864&hash=AeQ2_oOI9on0j0DN", name: "Yosephaider Vanegas", id: "10215079476850992"}
 	
 facebook_post

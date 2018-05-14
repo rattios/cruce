@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 14-05-2018 a las 22:47:37
+-- Tiempo de generación: 14-05-2018 a las 23:59:27
 -- Versión del servidor: 10.1.26-MariaDB
 -- Versión de PHP: 7.1.8
 
@@ -61736,7 +61736,7 @@ CREATE TABLE `facebook_comments` (
   `id` int(11) NOT NULL,
   `message` text NOT NULL,
   `usuario` varchar(255) NOT NULL,
-  `comments_id` int(100) DEFAULT NULL,
+  `comments_id` varchar(255) DEFAULT NULL,
   `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   `updated_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00'
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
@@ -61765,7 +61765,7 @@ CREATE TABLE `facebook_friends` (
 CREATE TABLE `facebook_likes` (
   `id` int(11) NOT NULL,
   `data` text NOT NULL,
-  `like_id` int(100) DEFAULT NULL,
+  `like_id` varchar(255) DEFAULT NULL,
   `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   `updated_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00'
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
@@ -61780,7 +61780,7 @@ CREATE TABLE `facebook_post` (
   `id` int(11) NOT NULL,
   `usuario` varchar(255) NOT NULL,
   `texto` text NOT NULL,
-  `post_id` int(100) DEFAULT NULL,
+  `post_id` varchar(255) DEFAULT NULL,
   `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   `updated_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00'
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
@@ -65286,7 +65286,7 @@ CREATE TABLE `twitter_followers` (
   `name` varchar(255) DEFAULT NULL,
   `location` text,
   `email` varchar(255) DEFAULT NULL,
-  `twitter_id` int(100) DEFAULT NULL,
+  `twitter_id` varchar(255) DEFAULT NULL,
   `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   `updted_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00'
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
@@ -65303,7 +65303,7 @@ CREATE TABLE `twitter_tweets` (
   `favorite_count` int(11) DEFAULT NULL,
   `retweet_count` int(11) DEFAULT NULL,
   `text` int(11) DEFAULT NULL,
-  `tweet_id` int(100) DEFAULT NULL,
+  `tweet_id` varchar(255) DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
@@ -65320,7 +65320,7 @@ CREATE TABLE `twitter_tweets_other` (
   `favorite_count` int(10) DEFAULT NULL,
   `retweet_count` int(100) DEFAULT NULL,
   `text` varchar(255) DEFAULT NULL,
-  `tweet_id` int(100) DEFAULT NULL,
+  `tweet_id` varchar(255) DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;

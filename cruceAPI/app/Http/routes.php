@@ -58,6 +58,8 @@ Route::group(  ['middleware' =>'cors'], function(){
     Route::post('twitterFollowers', 'TwitterController@twitterFollowers');
 
     Route::post('tweet', ['as'=>'post.tweet','uses'=>'TwitterController@tweet']);   
+
+    Route::post('facebook_friendsController', 'facebook_friendsController@createFriends');
     
     Route::group(['middleware' => 'jwt-auth'], function(){
 
