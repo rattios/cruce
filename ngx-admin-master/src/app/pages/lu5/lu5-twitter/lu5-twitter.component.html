@@ -12,7 +12,7 @@
           Email: {{email}}
         </div>
         <div style="text-align:center">
-          <button class="btn btn-info" (click)="getDatosTwitter()">Obtener datos</button>
+          <button class="btn btn-info" (click)="getDatosTwitter2()">Obtener datos de prueba</button>
         </div>
 
       </nb-card-body>
@@ -71,7 +71,7 @@
             </thead>
             <tbody>
                <tr *ngFor="let item of usuarios" >
-                  <td style="text-align: center; vertical-align:middle;"><img src="{{item.profile_image_url}}" alt=""></td>
+                  <td style="text-align: center; vertical-align:middle;"><img style="width: 40px; height:40px " src="{{item.profile_image_url}}" alt=""></td>
                   <td style="text-align: center; vertical-align:middle;">{{item.name}}</td>
                   <td style="text-align: center; vertical-align:middle;">{{item.screen_name}}</td>
                   <td style="text-align: center; vertical-align:middle;">{{item.location}}</td>
@@ -93,7 +93,7 @@
             </thead>
             <tbody>
                <tr *ngFor="let item of timeline" >
-                  <td style="text-align: center; vertical-align:middle;"><img src="{{item.user.profile_image_url}}" alt=""></td>
+                  <td style="text-align: center; vertical-align:middle;"><img style="width: 40px; height:40px " src="{{item.user.profile_image_url}}" alt=""></td>
                   <td style="text-align: center; vertical-align:middle;">{{item.user.screen_name}}</td>
                   <td style="text-align: center; vertical-align:middle;">{{item.text}}</td>
                   <td style="text-align: center; vertical-align:middle;"><div *ngFor="let men of item.entities.user_mentions">@{{men.screen_name}} </div></td>
@@ -117,7 +117,7 @@
             </thead>
             <tbody>
                <tr *ngFor="let item of mentions" >
-                  <td style="text-align: center; vertical-align:middle;"><img src="{{item.user.profile_image_url}}" alt=""></td>
+                  <td style="text-align: center; vertical-align:middle;"><img style="width: 40px; height:40px " src="{{item.user.profile_image_url}}" alt=""></td>
                   <td style="text-align: center; vertical-align:middle;">{{item.user.screen_name}}</td>
                   <td style="text-align: center; vertical-align:middle;">{{item.text}}</td>
                   <td style="text-align: center; vertical-align:middle;"><div *ngFor="let men of item.entities.user_mentions">@{{men.screen_name}} </div></td>
@@ -127,6 +127,44 @@
                </tr>
             </tbody>
           </table>
+        </nb-tab>
+        <nb-tab tabTitle="Estadísticas">
+          <div class="row">
+            <div class="col-lg-6">
+              <nb-card>
+                <nb-card-header>Interacciones de Twitter</nb-card-header>
+                <nb-card-body>
+                  <ngx-d3-piet></ngx-d3-piet>
+                </nb-card-body>
+              </nb-card>
+            </div>
+            <div class="col-lg-6">
+              <nb-card>
+                <nb-card-header>Comentarios - Me gusta</nb-card-header>
+                <nb-card-body>
+                  <ngx-d3-bart></ngx-d3-bart>
+                </nb-card-body>
+              </nb-card>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-lg-6">
+              <nb-card>
+                <nb-card-header>Usuarios con más Comentarios</nb-card-header>
+                <nb-card-body>
+                  <ngx-d3-advanced-piet></ngx-d3-advanced-piet>
+                </nb-card-body>
+              </nb-card>
+            </div>
+            <div class="col-lg-6">
+              <nb-card>
+                <nb-card-header>Usuarios con más Me gusta</nb-card-header>
+                <nb-card-body>
+                  <ngx-d3-advanced-piet2></ngx-d3-advanced-piet2>
+                </nb-card-body>
+              </nb-card>
+            </div>
+          </div>
         </nb-tab>
       </nb-tabset>
         

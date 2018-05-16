@@ -83,6 +83,16 @@ export class Lu5FacebookComponent implements OnInit{
   }
   
   ngOnInit() {
+    this.http.get('http://localhost/cruce/cruceAPI/public/facebook_comments')
+         .toPromise()
+         .then(
+           data => { // Success
+              console.log(data);
+           },
+           msg => { // Error
+             console.log(msg);
+           }
+         );
     this.authService.authState.subscribe((user) => {
       this.user = user;
       console.log(this.user);
@@ -246,6 +256,60 @@ export class Lu5FacebookComponent implements OnInit{
   signOut(): void {
     this.authService.signOut();
   }
+  public Facebook_friends:any;
+  getDatos2(){
+    //
+    this.photoUrl='http://vivomedia.com.ar/assets/1.png';
+    this.name='usuario';
+    this.email='usuario@correo.com';
+    this.http.get('http://vivomedia.com.ar/vivoindex/cruceAPI/public/posts')
+        .toPromise()
+         .then(
+           data => { // Success
+              console.log(data);
+              this.post=[];
+              this.prepost=data;
+              this.Facebook_friends=this.prepost.Facebook_friends;
+              this.prepost=this.prepost.posts.data;
+              for (var i = 0; i < this.prepost.length; i++) {
+                if(this.prepost[i].likes){
+                  if(this.prepost[i].comments) {
+                    this.post.push(this.prepost[i]);
+ 
+                  }else{
+                    this.prepost[i].comments=this.auxComments;
+                    this.post.push(this.prepost[i]);
+ 
+                  }
+                }else if(this.prepost[i].comments){
+                  if(this.prepost[i].likes) {
+                    this.post.push(this.prepost[i]);
+ 
+                  }else{
+                    this.prepost[i].likes=this.auxLikes;
+                    this.post.push(this.prepost[i]);
+ 
+                  }
+                }else{
+                }
+              }
+              console.log(this.post);
+           },
+           msg => { // Error
+             console.log(msg);
+             console.log(msg.error.error);
+
+             if(msg.status == 400 || msg.status == 401){ 
+                  
+                  this.showToast('warning', 'Warning!', msg.error.error);
+              }
+              else { 
+                  this.showToast('error', 'Erro!', msg.error.error);
+              }
+           }
+         );
+  }
+
 
   private showToast(type: string, title: string, body: string) {
       this.config = new ToasterConfig({

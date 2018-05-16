@@ -24,7 +24,7 @@ class Facebook_likes extends Model
      *
      * @var array
      */
-    protected $fillable = ['data','like_id'];
+    protected $fillable = ['data','like_id','facebook_post_id'];
 
     /**
      * The attributes excluded from the model's JSON form.

@@ -162,6 +162,7 @@ export class Lu5TwitterComponent implements OnInit{
          );
 
     this.http.post('http://vivomedia.com.ar/vivoindex/cruceAPI/public/twitterUserTimeLine',send)
+      //this.http.get('http://vivomedia.com.ar/vivoindex/cruceAPI/public/getTeewts')
          .toPromise()
          .then(
            data => { // Success
@@ -169,6 +170,36 @@ export class Lu5TwitterComponent implements OnInit{
               this.publicaciones=data;
               this.mentions=this.publicaciones.mentions.mentions;
               this.timeline=this.publicaciones.timeline.timeline;
+              
+              //this.showToast('success', 'Registrado con éxito en la bd!', this.data.message);
+  
+           },
+           msg => { // Error
+             console.log(msg);
+             console.log(msg.error.error);
+
+             if(msg.status == 400 || msg.status == 401){ 
+                  
+                  this.showToast('warning', 'Warning!', msg.error.error);
+              }
+              else { 
+                  this.showToast('error', 'Erro!', msg.error.error);
+              }
+           }
+         );
+  }
+  getDatosTwitter2(){
+    this.displayName='usuario de prueba';
+    this.email='usuario@correo.com';
+    this.http.get('http://vivomedia.com.ar/vivoindex/cruceAPI/public/getTeewts')
+         .toPromise()
+         .then(
+           data => { // Success
+              console.log(data);
+              this.publicaciones=data;
+              this.mentions=this.publicaciones.mentions.mentions;
+              this.timeline=this.publicaciones.timeline.timeline;
+              this.usuarios=this.publicaciones.data.users;
               
               //this.showToast('success', 'Registrado con éxito en la bd!', this.data.message);
   

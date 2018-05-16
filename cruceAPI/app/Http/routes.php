@@ -59,7 +59,17 @@ Route::group(  ['middleware' =>'cors'], function(){
 
     Route::post('tweet', ['as'=>'post.tweet','uses'=>'TwitterController@tweet']);   
 
-    Route::post('facebook_friendsController', 'facebook_friendsController@createFriends');
+    Route::get('createFriends', 'facebook_friendsController@createFriends');
+    Route::get('facebookFriends', 'facebook_friendsController@facebookFriends');
+    Route::get('facebookPosts', 'facebook_friendsController@facebookPosts');
+    Route::get('facebook_comments', 'facebook_friendsController@facebook_comments');
+    Route::get('facebook_likes', 'facebook_friendsController@facebook_likes');
+    Route::get('posts', 'facebook_friendsController@posts');
+
+    Route::get('twitter_followers', 'facebook_friendsController@twitter_followers');
+    Route::get('twitter_tweets', 'facebook_friendsController@twitter_tweets');
+    Route::get('twitter_tweets_other', 'facebook_friendsController@twitter_tweets_other');
+    Route::get('getTeewts', 'facebook_friendsController@getTeewts');
     
     Route::group(['middleware' => 'jwt-auth'], function(){
 

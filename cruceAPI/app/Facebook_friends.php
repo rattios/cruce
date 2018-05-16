@@ -24,7 +24,7 @@ class Facebook_friends extends Model
      *
      * @var array
      */
-    protected $fillable = ['usuario', 'email','facebook_id'];
+    protected $fillable = ['usuario', 'email','img','facebook_id'];
 
     /**
      * The attributes excluded from the model's JSON form.

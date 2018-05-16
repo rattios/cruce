@@ -24,7 +24,7 @@ class Twitter_followers extends Model
      *
      * @var array
      */
-    protected $fillable = ['screen_name', 'name', 'location', 'email', 'twitter_id'];
+    protected $fillable = ['screen_name', 'name', 'location', 'email', 'img','twitter_id'];
 
     /**
      * The attributes excluded from the model's JSON form.

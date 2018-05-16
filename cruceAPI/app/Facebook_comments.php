@@ -24,7 +24,7 @@ class Facebook_comments extends Model
      *
      * @var array
      */
-    protected $fillable = ['message', 'usuario', 'comments_id'];
+    protected $fillable = ['message', 'usuario', 'comments_id','facebook_post_id'];
 
     /**
      * The attributes excluded from the model's JSON form.

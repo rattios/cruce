@@ -18,6 +18,18 @@ import { LoginOpt } from 'angularx-social-login';
 
 import { StatusCardComponent } from './lu5-twitter/status-card/status-card.component';
 
+import { NgxEchartsModule } from 'ngx-echarts';
+import { NgxChartsModule } from '@swimlane/ngx-charts';
+import { ChartModule } from 'angular2-chartjs';
+import { D3BarComponent } from './d3/d3-bar.component';
+import { D3PieComponent } from './d3/d3-pie.component';
+import { D3AdvancedPieComponent } from './d3/d3-advanced-pie.component';
+import { D3AdvancedPie2Component } from './d3/d3-advanced-pie2.component';
+import { D3BartComponent } from './d3/d3-bart.component';
+import { D3PietComponent } from './d3/d3-piet.component';
+import { D3AdvancedPietComponent } from './d3/d3-advanced-piet.component';
+import { D3AdvancedPiet2Component } from './d3/d3-advanced-piet2.component';
+
 let fbLoginOptions: LoginOpt = {
   scope: 'user_posts,user_likes,user_birthday,user_friends,user_location,publish_pages,email',
   return_scopes: true,
@@ -70,11 +82,22 @@ export const firebaseCredentials = {
     }),
     AngularFireModule.initializeApp(firebaseCredentials),
     AngularFireAuthModule,
-    SocialLoginModule
+    SocialLoginModule,
+    NgxEchartsModule,
+    NgxChartsModule,
+    ChartModule
   ],
   declarations: [
     ...routedComponents,
    StatusCardComponent,
+   D3BarComponent,
+   D3PieComponent,
+   D3AdvancedPieComponent,
+   D3AdvancedPie2Component,
+   D3BartComponent,
+   D3PietComponent,
+   D3AdvancedPietComponent,
+   D3AdvancedPiet2Component
   ],
    providers: [
     {

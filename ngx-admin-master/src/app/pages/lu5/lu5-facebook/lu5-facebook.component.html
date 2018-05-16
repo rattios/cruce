@@ -8,13 +8,14 @@
           <button class="btn btn-danger" (click)="signOut()">Salir </button>
         </div><br>
         <div style="text-align:center">
-          <img class="card-img-top img-responsive photo" src="{{ photoUrl }}" style="with:50px !important; height:50px !important">
+          <img class="card-img-top img-responsive photo" src="{{ photoUrl }}" style="width:50px !important; height:50px !important">
+          <br>
           <strong>Datos del usuario:</strong><br>
           {{name}}<br>
           {{email}}
         </div>
         <div style="text-align:center">
-          <button class="btn btn-info" (click)="getDatos()">Obtener datos</button>
+          <button class="btn btn-info" (click)="getDatos2()">Obtener datos de prueba</button>
         </div>
       </nb-card-body>
     </nb-card>
@@ -43,6 +44,25 @@
 
       <nb-card-body>
         <nb-tabset>
+          <nb-tab tabTitle="Amigos">
+          <table class="table table-striped">
+            <thead>
+               <!-- <th style="text-align: center;">ID</th> -->
+               <th style="text-align: center;">Imagen</th>
+               <th style="text-align: center;">Usuario</th>
+               <th style="text-align: center;">Email</th>
+
+            </thead>
+            <tbody>
+               <tr *ngFor="let item of Facebook_friends" >
+                  <td style="text-align: center; vertical-align:middle;"><img style="width: 40px; height:40px " src="{{item.img}}" alt=""></td>
+                  <td style="text-align: center; vertical-align:middle;">{{item.usuario}}</td>
+                  <td style="text-align: center; vertical-align:middle;">{{item.email}}</td>
+                  
+               </tr>
+            </tbody>
+          </table>
+        </nb-tab>
         <nb-tab tabTitle="Post">
           <table class="table table-striped">
             <thead>
@@ -61,7 +81,7 @@
                     {{item.message}}
                   </td>
                   <td style="text-align: center; vertical-align:middle;">
-                    <div *ngFor="let lik of item.likes.data"><img src="{{lik.pic_small}}" alt="">  
+                    <div *ngFor="let lik of item.likes.data"><!-- <img src="{{lik.name}}" alt=""> -->{{lik.name}}
                     </div>
                   </td>
                   <td style="text-align: center; vertical-align:middle;">
@@ -71,6 +91,44 @@
                </tr>
             </tbody>
           </table>
+        </nb-tab>
+        <nb-tab tabTitle="Estadísticas">
+          <div class="row">
+            <div class="col-lg-6">
+              <nb-card>
+                <nb-card-header>Interacciones de Facebook</nb-card-header>
+                <nb-card-body>
+                  <ngx-d3-pie></ngx-d3-pie>
+                </nb-card-body>
+              </nb-card>
+            </div>
+            <div class="col-lg-6">
+              <nb-card>
+                <nb-card-header>Comentarios - Me gusta</nb-card-header>
+                <nb-card-body>
+                  <ngx-d3-bar></ngx-d3-bar>
+                </nb-card-body>
+              </nb-card>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-lg-6">
+              <nb-card>
+                <nb-card-header>Usuarios con más Comentarios</nb-card-header>
+                <nb-card-body>
+                  <ngx-d3-advanced-pie></ngx-d3-advanced-pie>
+                </nb-card-body>
+              </nb-card>
+            </div>
+            <div class="col-lg-6">
+              <nb-card>
+                <nb-card-header>Usuarios con más Me gusta</nb-card-header>
+                <nb-card-body>
+                  <ngx-d3-advanced-pie2></ngx-d3-advanced-pie2>
+                </nb-card-body>
+              </nb-card>
+            </div>
+          </div>
         </nb-tab>
       </nb-tabset>
         
