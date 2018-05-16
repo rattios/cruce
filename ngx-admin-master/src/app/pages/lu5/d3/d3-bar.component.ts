@@ -1,4 +1,4 @@
-import { Component, OnDestroy } from '@angular/core';
+import { Component, OnDestroy,Input } from '@angular/core';
 import { NbThemeService } from '@nebular/theme';
 
 @Component({
@@ -17,10 +17,20 @@ import { NbThemeService } from '@nebular/theme';
 })
 export class D3BarComponent implements OnDestroy {
 
-  results = [
-    { name: 'Comentarios', value: 128 },
-    { name: 'Me gusta', value: 191 },
-  ];
+  @Input() informacion:any;
+
+  ngOnInit(): void {
+      console.log(this.informacion);
+      if(this.informacion!=undefined) {
+       
+      }
+      this.results = [
+        { name: 'Comentarios', value: this.informacion.nComentarios },
+        { name: 'Me gusta', value: this.informacion.nMegusta },
+      ];
+    }
+
+  results:any;
   showLegend = true;
   showXAxis = true;
   showYAxis = true;

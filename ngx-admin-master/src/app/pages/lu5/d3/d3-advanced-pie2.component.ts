@@ -1,4 +1,4 @@
-import { Component, OnDestroy } from '@angular/core';
+import { Component, OnDestroy,Input } from '@angular/core';
 import { NbThemeService } from '@nebular/theme';
 
 @Component({
@@ -11,20 +11,35 @@ import { NbThemeService } from '@nebular/theme';
   `,
 })
 export class D3AdvancedPie2Component implements OnDestroy {
-  single = [
-    {
-      name: 'Usuario 13',
-      value: 81,
-    },
-    {
-      name: 'Usuario 66',
-      value: 65,
-    },
-    {
-      name: 'Usuario 12',
-      value: 45,
-    },
-  ];
+  @Input() informacion:any;
+
+  ngOnInit(): void {
+      console.log(this.informacion);
+      if(this.informacion!=undefined) {
+       
+      }
+      /*this.single = [
+        {
+          name: this.informacion.n1Megusta.usuario,
+          value: this.informacion.n1Megusta.n,
+        },
+        {
+          name: this.informacion.n2Megusta.usuario,
+          value: this.informacion.n2Megusta.n,
+        },
+        {
+          name: this.informacion.n3Megusta.usuario,
+          value: this.informacion.n3Megusta.n,
+        },
+      ];*/
+      for (var i = 0; i < this.informacion.lik.length; i++) {
+        this.single.push({
+          name:this.informacion.lik[i].usuario,
+          value:this.informacion.lik[i].n,
+        });
+      }
+  }
+  single:any=[];
   colorScheme: any;
   themeSubscription: any;
 

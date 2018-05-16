@@ -59,6 +59,7 @@ export class Lu5FacebookComponent implements OnInit{
   public name:any;
   public email:any;
   public photoUrl: any;
+  public estadisticas=false;
 
 	//Formularios
 	myFormAgregar: FormGroup;
@@ -257,15 +258,30 @@ export class Lu5FacebookComponent implements OnInit{
     this.authService.signOut();
   }
   public Facebook_friends:any;
+  public nComentarios=0;
+  public nMegusta=0;
+  public nPost=0;
+  public n1Comentarios=0;
+  public n2Comentarios=0;
+  public n3Comentarios=0;
+  public n1Megusta=0;
+  public n2Megusta=0;
+  public n3Megusta=0;
+  public datosEstadisticas:any;
   getDatos2(){
     //
-    this.photoUrl='http://vivomedia.com.ar/assets/1.png';
-    this.name='usuario';
-    this.email='usuario@correo.com';
+    
+    this.estadisticas=false;
+    this.nPost=0;
+    this.nComentarios=0;
+    this.nMegusta=0;
     this.http.get('http://vivomedia.com.ar/vivoindex/cruceAPI/public/posts')
         .toPromise()
          .then(
            data => { // Success
+               this.photoUrl='http://vivomedia.com.ar/assets/1.png';
+               this.name='usuario';
+               this.email='usuario@correo.com';
               console.log(data);
               this.post=[];
               this.prepost=data;
@@ -294,6 +310,65 @@ export class Lu5FacebookComponent implements OnInit{
                 }
               }
               console.log(this.post);
+              for (var a = 0; a < this.post.length; a++) {
+                  this.nPost++;
+                  for (var b = 0; b < this.post[a].comments.data.length; b++) {
+                    this.nComentarios++;
+                  }
+                  for (var c = 0; c < this.post[a].likes.data.length; c++) {
+                    this.nMegusta++;
+                  }
+                }
+              for (var e = 0; e < this.Facebook_friends.length; e++) {
+                this.Facebook_friends[e].nComentarios=0;
+                this.Facebook_friends[e].nMegusta=0;
+                for (var i = 0; i < this.post.length; i++) {
+                  for (var j = 0; j < this.post[i].comments.data.length; j++) {
+                    if(this.post[i].comments.data[j].from.name==this.Facebook_friends[e].usuario) {
+                      this.Facebook_friends[e].nComentarios++;
+                    }
+                  }
+                  for (var k = 0; k < this.post[i].likes.data.length; k++) {
+                    if(this.post[i].likes.data[k].name==this.Facebook_friends[e].usuario) {
+                      this.Facebook_friends[e].nMegusta++;
+                    }
+                  }
+                }
+              }
+              var com:any=[];
+              var lik:any=[];
+              for (var i = 0; i < this.Facebook_friends.length; ++i) {
+                com.push({
+                    usuario:this.Facebook_friends[i].usuario,
+                    n:this.Facebook_friends[i].nComentarios,
+                  });
+                lik.push({
+                    usuario:this.Facebook_friends[i].usuario,
+                    n:this.Facebook_friends[i].nMegusta,
+                  });
+              }
+              com.sort((a, b) => b.n - a.n);
+              lik.sort((a, b) => b.n - a.n);
+              
+              console.log(com);
+              console.log(lik);
+
+              this.datosEstadisticas={
+                nPost:this.nPost,
+                nComentarios:this.nComentarios,
+                nMegusta:this.nMegusta,
+                n1Comentarios:com[0],
+                n2Comentarios:com[1],
+                n3Comentarios:com[2],
+                n1Megusta:lik[0],
+                n2Megusta:lik[1],
+                n3Megusta:lik[2],
+                com:com,
+                lik:lik
+              }
+              console.log(this.datosEstadisticas);
+              this.estadisticas=true;
+
            },
            msg => { // Error
              console.log(msg);

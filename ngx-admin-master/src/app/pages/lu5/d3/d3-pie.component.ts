@@ -1,4 +1,4 @@
-import { Component, OnDestroy } from '@angular/core';
+import { Component, OnDestroy,Input } from '@angular/core';
 import { NbThemeService } from '@nebular/theme';
 
 @Component({
@@ -13,11 +13,21 @@ import { NbThemeService } from '@nebular/theme';
   `,
 })
 export class D3PieComponent implements OnDestroy {
-  results = [
-    { name: 'Posts', value: 25 },
-    { name: 'Comentarios', value: 128 },
-    { name: 'Me gusta', value: 191 },
-  ];
+  @Input() informacion:any;
+
+  ngOnInit(): void {
+      console.log(this.informacion);
+      if(this.informacion!=undefined) {
+       
+      }
+      this.results = [
+        { name: 'Posts', value: this.informacion.nPost },
+        { name: 'Comentarios', value: this.informacion.nComentarios },
+        { name: 'Me gusta', value: this.informacion.nMegusta },
+      ];
+    }
+
+  results:any;
   showLegend = true;
   showLabels = true;
   colorScheme: any;
