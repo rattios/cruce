@@ -1,4 +1,4 @@
-import { Component, OnDestroy } from '@angular/core';
+import { Component, OnDestroy,Input } from '@angular/core';
 import { NbThemeService } from '@nebular/theme';
 
 @Component({
@@ -16,14 +16,32 @@ import { NbThemeService } from '@nebular/theme';
   `,
 })
 export class D3BartComponent implements OnDestroy {
+  @Input() informacion:any;
 
-  results = [
-    { name: 'Comentarios', value: 155 },
-    { name: 'Retweets', value: 128 },
-    { name: 'Me gusta', value: 191 },
-    { name: 'Hashtags', value: 19 },
-    { name: 'Mensiones', value: 30 },
-  ];
+  ngOnInit(): void {
+      console.log(this.informacion);
+      if(this.informacion!=undefined) {
+       
+      }
+
+       this.results = [
+        { name: 'Tweets', value: this.informacion.tweets_count },
+        { name: 'Favoritos', value: this.informacion.favorite_count },
+        { name: 'Retweets', value: this.informacion.retweet_count },
+        { name: 'Hashtags', value:this.informacion.hashtags },
+        { name: 'Urls', value:this.informacion.urls },
+        { name: 'Mentions', value:this.informacion.user_mentions },
+      ];
+      
+
+
+
+
+
+    }
+
+  results:any;
+ 
   showLegend = true;
   showXAxis = true;
   showYAxis = true;

@@ -100,7 +100,34 @@ class InstagramController extends Controller
     public function show($id)
     {
         $book = \App\Instagram::where('id',$id)->first();
-        return $book;
+
+       $ch = curl_init();
+
+        curl_setopt($ch, CURLOPT_URL,"https://api.instagram.com/oauth/access_token");
+        curl_setopt($ch, CURLOPT_POST, 1);
+        curl_setopt($ch, CURLOPT_POSTFIELDS,
+                    "client_id=876f8d74735b4399ab0b7ece2e08262f&client_secret=c05895490ef04fef928cf39126e814ac&grant_type=authorization_code&redirect_uri=http://vivomedia.com.ar/indicadores/instagram&code=".$book->code);
+
+
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+
+
+
+
+
+
+        $server_output = curl_exec ($ch);
+        $server_output = json_decode($server_output);
+        //return $server_output->access_token;
+        $newtoken= $server_output->access_token;
+
+        $book->access_token=$newtoken;
+
+        if($book->save()){
+            return $book;
+        }else{
+            return $this->response->error('could_not_update_instagram_code', 500);
+        }
     }
 
     /**

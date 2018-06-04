@@ -1,4 +1,4 @@
-import { Component, OnInit, ElementRef, ViewChild } from '@angular/core';
+import { Component, OnInit, ElementRef, ViewChild, ChangeDetectorRef } from '@angular/core';
 
 // Mis imports
 import { RouterModule, Routes, Router, ActivatedRoute } from '@angular/router';
@@ -14,7 +14,7 @@ import 'style-loader!angular2-toaster/toaster.css';
 
 import { AuthService } from 'angularx-social-login';
 import { SocialUser } from 'angularx-social-login';
-import { GoogleLoginProvider, FacebookLoginProvider } from 'angularx-social-login';
+import { FacebookLoginProvider, GoogleLoginProvider } from 'angularx-social-login';
 
 
 declare const $: any;
@@ -58,7 +58,7 @@ export class Lu5FacebookComponent implements OnInit{
   };
   public name:any;
   public email:any;
-  public photoUrl: any;
+  public photoUrl: any ='http://vivomedia.com.ar/assets/2.png';
   public estadisticas=false;
 
 	//Formularios
@@ -74,7 +74,7 @@ export class Lu5FacebookComponent implements OnInit{
            private http: HttpClient,
            private router: Router,
            private rutaService: RutaBaseService,
-           public fb: FormBuilder,private authService: AuthService)
+           public fb: FormBuilder,private authService: AuthService,private cdRef:ChangeDetectorRef)
   {
 
   	this.myFormAgregar = this.fb.group({
@@ -94,6 +94,8 @@ export class Lu5FacebookComponent implements OnInit{
              console.log(msg);
            }
          );
+    setTimeout(() => {
+
     this.authService.authState.subscribe((user) => {
       this.user = user;
       console.log(this.user);
@@ -109,6 +111,7 @@ export class Lu5FacebookComponent implements OnInit{
        // data:JSON.stringify(this.user)
       };
       console.log(send);
+      this.loading=true;
       this.http.post('http://vivomedia.com.ar/vivoindex/cruceAPI/public/login/facebook', send)
          .toPromise()
          .then(
@@ -139,6 +142,7 @@ export class Lu5FacebookComponent implements OnInit{
          );
 
     });
+    }, 10000);
   }
   public prepost:any;
   public post:any=[];
@@ -156,6 +160,12 @@ export class Lu5FacebookComponent implements OnInit{
     }]
   };
   getDatos(){
+    this.loading=true;
+    this.estadisticas=false;
+    this.nPost=0;
+    this.nComentarios=0;
+    this.nMegusta=0;
+    this.Facebook_friends=[];
     //https://graph.facebook.com/v2.12/me/comments?access_token=
     this.http.get('https://graph.facebook.com/v2.12/me?fields=posts{from,message,comments{message,from},likes{pic_small,username,name}}&access_token='+this.user.authToken)
     //this.http.get('https://graph.facebook.com/v2.12/me?fields=posts{from,message,comments{message,from},likes{pic_small,username,name}}&access_token=EAAEDPpwcvQYBALnczQimSVo7RystX6qXafgUeuIyQi6PYKZCO0q7dRCMxjhscQGgwg5KY9Rh4F1kBFNKRZC1vzgUP9dxCZCGxG9S9qe1lRu4eT7QuuUQZAuAnuIRqHSMuE4ZCb0wp4pIfZC6BymD0Ut6Md6MkrOw7bxPxadG0V00awTq8CVDl8B9tOD8zw9xEjMN1D1quVbgZDZD')
@@ -189,10 +199,13 @@ export class Lu5FacebookComponent implements OnInit{
                 }
               }
               console.log(this.post);
+              this.getEstadisticas();
+              this.loading=false;
            },
            msg => { // Error
              console.log(msg);
              console.log(msg.error.error);
+             this.loading=false;
 
              if(msg.status == 400 || msg.status == 401){ 
                   
@@ -206,6 +219,7 @@ export class Lu5FacebookComponent implements OnInit{
   }
 
   signInWithFB(): void {
+    this.loading=true;
     this.authService.signIn(FacebookLoginProvider.PROVIDER_ID);
     this.authService.authState.subscribe((user) => {
       this.user = user;
@@ -257,6 +271,9 @@ export class Lu5FacebookComponent implements OnInit{
   signOut(): void {
     this.authService.signOut();
   }
+  private usr: SocialUser;
+  private loggedIn: boolean;
+
   public Facebook_friends:any;
   public nComentarios=0;
   public nMegusta=0;
@@ -270,15 +287,17 @@ export class Lu5FacebookComponent implements OnInit{
   public datosEstadisticas:any;
   getDatos2(){
     //
-    
+    this.loading=true;
     this.estadisticas=false;
     this.nPost=0;
     this.nComentarios=0;
     this.nMegusta=0;
+    this.Facebook_friends=[];
     this.http.get('http://vivomedia.com.ar/vivoindex/cruceAPI/public/posts')
         .toPromise()
          .then(
            data => { // Success
+               this.loading=false;
                this.photoUrl='http://vivomedia.com.ar/assets/1.png';
                this.name='usuario';
                this.email='usuario@correo.com';
@@ -310,6 +329,25 @@ export class Lu5FacebookComponent implements OnInit{
                 }
               }
               console.log(this.post);
+              this.getEstadisticas();
+
+           },
+           msg => { // Error
+             console.log(msg);
+             console.log(msg.error.error);
+             this.loading=false;
+             if(msg.status == 400 || msg.status == 401){ 
+                  
+                  this.showToast('warning', 'Warning!', msg.error.error);
+              }
+              else { 
+                  this.showToast('error', 'Erro!', msg.error.error);
+              }
+           }
+         );
+  }
+
+  public getEstadisticas(){
               for (var a = 0; a < this.post.length; a++) {
                   this.nPost++;
                   for (var b = 0; b < this.post[a].comments.data.length; b++) {
@@ -368,21 +406,7 @@ export class Lu5FacebookComponent implements OnInit{
               }
               console.log(this.datosEstadisticas);
               this.estadisticas=true;
-
-           },
-           msg => { // Error
-             console.log(msg);
-             console.log(msg.error.error);
-
-             if(msg.status == 400 || msg.status == 401){ 
-                  
-                  this.showToast('warning', 'Warning!', msg.error.error);
-              }
-              else { 
-                  this.showToast('error', 'Erro!', msg.error.error);
-              }
-           }
-         );
+              this.cdRef.detectChanges();
   }
 
 

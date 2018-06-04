@@ -1,4 +1,4 @@
-import { Component, OnInit, ElementRef, ViewChild } from '@angular/core';
+import { Component, OnInit, ElementRef, ViewChild, ChangeDetectorRef } from '@angular/core';
 
 // Mis imports
 import { RouterModule, Routes, Router, ActivatedRoute } from '@angular/router';
@@ -47,6 +47,7 @@ export class Lu5TwitterComponent implements OnInit{
 
   public loading = false;
   public mostrar = true;
+  public estadisticas = false;
 
   //Formularios
   myFormAgregar: FormGroup;
@@ -61,7 +62,7 @@ export class Lu5TwitterComponent implements OnInit{
            private http: HttpClient,
            private router: Router,
            private rutaService: RutaBaseService,
-           public fb: FormBuilder, public afAuth: AngularFireAuth)
+           public fb: FormBuilder, public afAuth: AngularFireAuth,private cdRef:ChangeDetectorRef)
   {
 
     this.myFormAgregar = this.fb.group({
@@ -79,9 +80,14 @@ export class Lu5TwitterComponent implements OnInit{
   public secret;
   public id_twitter;
   loginTwitter(){
+    this.estadisticas=false;
+    this.loading = true;
     this.afAuth.auth.signInWithPopup(new firebase.auth.TwitterAuthProvider())
     .then((res)=>{
       console.log(res);
+      this.mentions=[];
+      this.timeline=[];
+      this.usuarios=[];
       this.displayName=res.user.displayName;
       this.email=res.user.email;
       this.accessToken=res.credential.accessToken;
@@ -103,7 +109,7 @@ export class Lu5TwitterComponent implements OnInit{
               this.data = data;
 
               //alert(this.data.message);
-              this.loading = false;
+              //this.loading = false;
               this.showToast('success', 'Registrado con éxito en la bd!', this.data.message);
               this.getDatosTwitter();
   
@@ -113,7 +119,7 @@ export class Lu5TwitterComponent implements OnInit{
              console.log(msg.error.error);
 
              this.loading = false;
-
+ 
              //token invalido/ausente o token expiro
              if(msg.status == 400 || msg.status == 401){ 
                   
@@ -136,6 +142,14 @@ export class Lu5TwitterComponent implements OnInit{
     var send={
       display_name:this.displayName
     }
+    this.mentions=[];
+    this.timeline=[];
+    this.usuarios=[];
+    this.favorite_count=0;
+    this.retweet_count=0;
+    this.hashtags=0;
+    this.urls=0;
+    this.user_mentions=0;
     this.http.post('http://vivomedia.com.ar/vivoindex/cruceAPI/public/twitterFollowers',send)
          .toPromise()
          .then(
@@ -143,14 +157,13 @@ export class Lu5TwitterComponent implements OnInit{
               console.log(data);
               this.usuarios=data;
               this.usuarios=this.usuarios.twitter.data.users;
-              
               //this.showToast('success', 'Registrado con éxito en la bd!', this.data.message);
-  
+              this.getEstadisticas();
            },
            msg => { // Error
              console.log(msg);
              console.log(msg.error.error);
-
+             this.loading = false;
              if(msg.status == 400 || msg.status == 401){ 
                   
                   this.showToast('warning', 'Warning!', msg.error.error);
@@ -170,14 +183,15 @@ export class Lu5TwitterComponent implements OnInit{
               this.publicaciones=data;
               this.mentions=this.publicaciones.mentions.mentions;
               this.timeline=this.publicaciones.timeline.timeline;
-              
+              this.getEstadisticas();
+
               //this.showToast('success', 'Registrado con éxito en la bd!', this.data.message);
   
            },
            msg => { // Error
              console.log(msg);
              console.log(msg.error.error);
-
+             this.loading = false;
              if(msg.status == 400 || msg.status == 401){ 
                   
                   this.showToast('warning', 'Warning!', msg.error.error);
@@ -189,8 +203,18 @@ export class Lu5TwitterComponent implements OnInit{
          );
   }
   getDatosTwitter2(){
+    this.loading = true;
+    this.mentions=[];
+    this.timeline=[];
+    this.usuarios=[];
+    this.favorite_count=0;
+    this.retweet_count=0;
+    this.hashtags=0;
+    this.urls=0;
+    this.user_mentions=0;
     this.displayName='usuario de prueba';
     this.email='usuario@correo.com';
+    this.estadisticas = false;
     this.http.get('http://vivomedia.com.ar/vivoindex/cruceAPI/public/getTeewts')
          .toPromise()
          .then(
@@ -201,13 +225,14 @@ export class Lu5TwitterComponent implements OnInit{
               this.timeline=this.publicaciones.timeline.timeline;
               this.usuarios=this.publicaciones.data.users;
               
+              this.getEstadisticas();
               //this.showToast('success', 'Registrado con éxito en la bd!', this.data.message);
   
            },
            msg => { // Error
              console.log(msg);
              console.log(msg.error.error);
-
+             this.loading = false;
              if(msg.status == 400 || msg.status == 401){ 
                   
                   this.showToast('warning', 'Warning!', msg.error.error);
@@ -217,6 +242,94 @@ export class Lu5TwitterComponent implements OnInit{
               }
            }
          );
+  }
+  public favorite_count=0;
+  public retweet_count=0;
+  public hashtags=0;
+  public urls=0;
+  public user_mentions=0;
+  public datosEstadisticas:any;
+  public getEstadisticas(){
+      console.log(this.timeline);
+      console.log(this.usuarios);
+
+      for (var i = 0; i < this.timeline.length; ++i) {
+        this.favorite_count=this.favorite_count+this.timeline[i].favorite_count;
+        this.retweet_count=this.retweet_count+this.timeline[i].retweet_count;
+
+        for (var j = 0; j < this.timeline[i].entities.hashtags.length; j++) {
+          this.hashtags++;
+        }
+        for (var q = 0; q < this.timeline[i].entities.urls.length; q++) {
+          this.urls++;
+        }
+        for (var k = 0; k < this.timeline[i].entities.user_mentions.length; k++) {
+          this.user_mentions++;
+        }
+      }
+      //usuarios relacionados con los tweets
+      var usr:any=[];
+      for (var i = 0; i < this.mentions.length; i++) {
+            usr.push({
+              usuario:this.mentions[i].user.screen_name,
+              n:0
+            });
+      }
+      var hash = {};
+      usr = usr.filter(function(current) {
+        var exists = !hash[current.usuario] || false;
+        hash[current.usuario] = true;
+        return exists;
+      });
+      for (var i = 0; i < usr.length; i++) {
+        for (var j = 0; j < this.mentions.length; j++) {
+          if(usr[i].usuario==this.mentions[j].user.screen_name) {
+            usr[i].n++;
+          }
+        }
+      }
+      usr.sort((a, b) => b.n - a.n);
+      console.log(usr);
+
+      //seguidores que han twitteado
+      for (var i = 0; i < this.usuarios.length; i++) {
+        this.usuarios[i].nTweets=0;
+        for (var j = 0; j < this.mentions.length; j++) {
+          if(this.usuarios[i].screen_name==this.mentions[j].user.screen_name) {
+            this.usuarios[i].nTweets++;
+          }
+        }
+      }
+
+      var seguidores:any=[];
+      for (var i = 0; i < this.usuarios.length; i++) {
+        seguidores.push({
+          usuario:this.usuarios[i].screen_name,
+          n:this.usuarios[i].nTweets
+        });
+      }
+      seguidores.sort((a, b) => b.n - a.n);
+      console.log(seguidores);
+      this.datosEstadisticas={
+        usr:usr,
+        seguidores:seguidores,
+        tweets_count:this.timeline.length,
+        favorite_count:this.favorite_count,
+        retweet_count:this.retweet_count,
+        hashtags:this.hashtags,
+        urls:this.urls,
+        user_mentions:this.user_mentions,
+      }
+      //this.estadisticas=true;
+
+      console.log(this.datosEstadisticas);
+      setTimeout(() => {
+        console.log("hello");
+        this.estadisticas=true; 
+        this.loading = false; 
+        this.cdRef.detectChanges();
+      }, 2000);
+      
   }
 
   private showToast(type: string, title: string, body: string) {

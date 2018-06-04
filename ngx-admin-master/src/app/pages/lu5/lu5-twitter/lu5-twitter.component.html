@@ -58,28 +58,8 @@
             </div> -->
       </nb-card-header>
 
-      <nb-card-body>
+      <nb-card-body >
         <nb-tabset>
-        <nb-tab tabTitle="Seguidores">
-          <table class="table table-striped">
-            <thead>
-               <!-- <th style="text-align: center;">ID</th> -->
-               <th style="text-align: center;">Imagen</th>
-               <th style="text-align: center;">Nombre</th>
-               <th style="text-align: center;">Usuario</th>
-               <th style="text-align: center;">Dirección</th>
-            </thead>
-            <tbody>
-               <tr *ngFor="let item of usuarios" >
-                  <td style="text-align: center; vertical-align:middle;"><img style="width: 40px; height:40px " src="{{item.profile_image_url}}" alt=""></td>
-                  <td style="text-align: center; vertical-align:middle;">{{item.name}}</td>
-                  <td style="text-align: center; vertical-align:middle;">{{item.screen_name}}</td>
-                  <td style="text-align: center; vertical-align:middle;">{{item.location}}</td>
-                  
-               </tr>
-            </tbody>
-          </table>
-        </nb-tab>
         <nb-tab tabTitle="Tweets">
           <table class="table table-striped">
             <thead>
@@ -88,7 +68,7 @@
                <th style="text-align: center;">Usuario</th>
                <th style="text-align: center;">Texto</th>
                <th style="text-align: center;">Menciones</th>
-               <th style="text-align: center;">Me gusta</th>
+               <th style="text-align: center;">Favoritos</th>
                <th style="text-align: center;">Retweets</th>
             </thead>
             <tbody>
@@ -112,7 +92,7 @@
                <th style="text-align: center;">Usuario</th>
                <th style="text-align: center;">Texto</th>
                <th style="text-align: center;">Menciones</th>
-               <th style="text-align: center;">Me gusta</th>
+               <th style="text-align: center;">Favoritos</th>
                <th style="text-align: center;">Retweets</th>
             </thead>
             <tbody>
@@ -128,21 +108,41 @@
             </tbody>
           </table>
         </nb-tab>
-        <nb-tab tabTitle="Estadísticas">
+        <nb-tab tabTitle="Seguidores">
+          <table class="table table-striped">
+            <thead>
+               <!-- <th style="text-align: center;">ID</th> -->
+               <th style="text-align: center;">Imagen</th>
+               <th style="text-align: center;">Nombre</th>
+               <th style="text-align: center;">Usuario</th>
+               <th style="text-align: center;">Dirección</th>
+            </thead>
+            <tbody>
+               <tr *ngFor="let item of usuarios" >
+                  <td style="text-align: center; vertical-align:middle;"><img style="width: 40px; height:40px " src="{{item.profile_image_url}}" alt=""></td>
+                  <td style="text-align: center; vertical-align:middle;">{{item.name}}</td>
+                  <td style="text-align: center; vertical-align:middle;">{{item.screen_name}}</td>
+                  <td style="text-align: center; vertical-align:middle;">{{item.location}}</td>
+                  
+               </tr>
+            </tbody>
+          </table>
+        </nb-tab>
+        <nb-tab tabTitle="Estadísticas" *ngIf="estadisticas">
           <div class="row">
             <div class="col-lg-6">
               <nb-card>
                 <nb-card-header>Interacciones de Twitter</nb-card-header>
                 <nb-card-body>
-                  <ngx-d3-piet></ngx-d3-piet>
+                  <ngx-d3-piet [informacion]="datosEstadisticas"></ngx-d3-piet>
                 </nb-card-body>
               </nb-card>
             </div>
             <div class="col-lg-6">
               <nb-card>
-                <nb-card-header>Comentarios - Me gusta</nb-card-header>
+                <nb-card-header>Twetts - Retweets - Favoritos - Hashtags - Urls - Menciones</nb-card-header>
                 <nb-card-body>
-                  <ngx-d3-bart></ngx-d3-bart>
+                  <ngx-d3-bart [informacion]="datosEstadisticas"></ngx-d3-bart>
                 </nb-card-body>
               </nb-card>
             </div>
@@ -150,17 +150,17 @@
           <div class="row">
             <div class="col-lg-6">
               <nb-card>
-                <nb-card-header>Usuarios con más Comentarios</nb-card-header>
+                <nb-card-header>Seguidores que realizan más Tweets mencionado esta cuenta</nb-card-header>
                 <nb-card-body>
-                  <ngx-d3-advanced-piet></ngx-d3-advanced-piet>
+                  <ngx-d3-advanced-piet [informacion]="datosEstadisticas"></ngx-d3-advanced-piet>
                 </nb-card-body>
               </nb-card>
             </div>
             <div class="col-lg-6">
               <nb-card>
-                <nb-card-header>Usuarios con más Me gusta</nb-card-header>
+                <nb-card-header>Usuarios de Twitter que realizan más Tweets mencionado esta cuenta</nb-card-header>
                 <nb-card-body>
-                  <ngx-d3-advanced-piet2></ngx-d3-advanced-piet2>
+                  <ngx-d3-advanced-piet2 [informacion]="datosEstadisticas"></ngx-d3-advanced-piet2>
                 </nb-card-body>
               </nb-card>
             </div>

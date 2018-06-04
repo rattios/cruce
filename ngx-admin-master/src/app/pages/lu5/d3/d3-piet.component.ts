@@ -1,4 +1,4 @@
-import { Component, OnDestroy } from '@angular/core';
+import { Component, OnDestroy,Input } from '@angular/core';
 import { NbThemeService } from '@nebular/theme';
 
 @Component({
@@ -13,11 +13,23 @@ import { NbThemeService } from '@nebular/theme';
   `,
 })
 export class D3PietComponent implements OnDestroy {
-  results = [
-    { name: 'Tweets', value: 35 },
-    { name: 'Comentarios', value: 143 },
-    { name: 'Me gusta', value: 256 },
-  ];
+  @Input() informacion:any;
+
+  ngOnInit(): void {
+      console.log(this.informacion);
+      if(this.informacion!=undefined) {
+       
+      }
+      this.results = [
+        { name: 'Tweets', value: this.informacion.tweets_count },
+        { name: 'Favoritos', value: this.informacion.favorite_count },
+        { name: 'Retweets', value: this.informacion.retweet_count },
+      ];
+    }
+
+  results:any;
+
+  
   showLegend = true;
   showLabels = true;
   colorScheme: any;

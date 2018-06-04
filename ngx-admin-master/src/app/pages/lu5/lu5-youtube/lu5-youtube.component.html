@@ -1,0 +1,171 @@
+<div class="row">
+  <div class="col-lg-6" style="display:block; margin:auto">
+    <nb-card>
+      <nb-card-header>Inicio de sesión con la API de Google para obtener tokens de Lu5</nb-card-header>
+      <nb-card-body>
+        <div style="text-align:center">
+          <button class="btn btn-info" (click)="signInWithGoogle()"><!-- <span class="fa fa-facebook"></span> -->Google</button>
+        </div><br>
+        <div style="text-align:center">
+          <img class="card-img-top img-responsive photo" src="{{ photoUrl }}" style="width:50px !important; height:50px !important">
+          <br>
+          <strong>Datos del usuario:</strong><br>
+          {{name}}<br>
+          {{email}}
+        </div>
+        <div style="text-align:center">
+          <button class="btn btn-info" (click)="obternerDatos()">Obtener datos</button>
+        </div>
+      </nb-card-body>
+    </nb-card>
+  </div>
+</div>
+
+<div class="row">
+  <div class="col-lg-12" style="display:block; margin:auto">
+
+    <nb-card>
+      <nb-card-header>
+        <div class="row show-grid">
+              <div class="col-6">
+                <div>Información</div>
+              </div>
+              <div class="col-6">
+                <div>
+                  <div style="text-align: right;">
+                   <!-- <strong>Buscar: </strong>
+                   <input  type="text"  id="inputName" [(ngModel)]="inputName" (ngModelChange)="FilterByName()"/> -->
+                  </div>
+                </div>
+              </div>
+            </div>
+      </nb-card-header>
+
+      <nb-card-body>
+        <nb-tabset>
+          
+        <nb-tab tabTitle="Post">
+          <table class="table table-striped">
+            <thead>
+               <!-- <th style="text-align: center;">ID</th> -->
+               <th style="text-align: center;">Usuario</th>
+               <th style="text-align: center;">Mensaje</th>
+               <th style="text-align: center;">Me gusta</th>
+               <th style="text-align: center;">Comentarios</th>
+            </thead>
+            <tbody>
+               <tr *ngFor="let item of post" >
+                  <td style="text-align: center; vertical-align:middle;">
+                    {{item.from.name}}
+                  </td>
+                  <td style="text-align: center; vertical-align:middle;">
+                    {{item.message}}
+                  </td>
+                  <td style="text-align: center; vertical-align:middle;">
+                    <div *ngFor="let lik of item.likes.data"><!-- <img src="{{lik.name}}" alt=""> -->{{lik.name}}
+                    </div>
+                  </td>
+                  <td style="text-align: center; vertical-align:middle;">
+                    <div *ngFor="let com of item.comments.data">{{com.from.name}}, {{com.message}} </div>
+                  </td>
+                  
+               </tr>
+            </tbody>
+          </table>
+        </nb-tab>
+        <nb-tab tabTitle="Amigos">
+          <table class="table table-striped">
+            <thead>
+               <!-- <th style="text-align: center;">ID</th> -->
+               <th style="text-align: center;">Imagen</th>
+               <th style="text-align: center;">Usuario</th>
+               <th style="text-align: center;">Email</th>
+
+            </thead>
+            <tbody>
+               <tr *ngFor="let item of Facebook_friends" >
+                  <td style="text-align: center; vertical-align:middle;"><img style="width: 40px; height:40px " src="{{item.img}}" alt=""></td>
+                  <td style="text-align: center; vertical-align:middle;">{{item.usuario}}</td>
+                  <td style="text-align: center; vertical-align:middle;">{{item.email}}</td>
+                  
+               </tr>
+            </tbody>
+          </table>
+        </nb-tab>
+        <nb-tab tabTitle="Estadísticas" *ngIf="estadisticas">
+          <div class="row">
+            <div class="col-lg-6">
+              <nb-card>
+                <nb-card-header>Interacciones de Facebook</nb-card-header>
+                <nb-card-body>
+                  <ngx-d3-pie [informacion]="datosEstadisticas"></ngx-d3-pie>
+                </nb-card-body>
+              </nb-card>
+            </div>
+            <div class="col-lg-6">
+              <nb-card>
+                <nb-card-header>Comentarios - Me gusta</nb-card-header>
+                <nb-card-body>
+                  <ngx-d3-bar [informacion]="datosEstadisticas"></ngx-d3-bar>
+                </nb-card-body>
+              </nb-card>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-lg-6">
+              <nb-card>
+                <nb-card-header>Usuarios con más Comentarios</nb-card-header>
+                <nb-card-body>
+                  <ngx-d3-advanced-pie [informacion]="datosEstadisticas"></ngx-d3-advanced-pie>
+                </nb-card-body>
+              </nb-card>
+            </div>
+            <div class="col-lg-6">
+              <nb-card>
+                <nb-card-header>Usuarios con más Me gusta</nb-card-header>
+                <nb-card-body>
+                  <ngx-d3-advanced-pie2 [informacion]="datosEstadisticas"></ngx-d3-advanced-pie2>
+                </nb-card-body>
+              </nb-card>
+            </div>
+          </div>
+          <div class="row">
+            <table class="table table-striped">
+              <thead>
+                 <!-- <th style="text-align: center;">ID</th> -->
+                 <th style="text-align: center;">Usuario</th>
+                 <th style="text-align: center;">Comentarios</th>
+                 <th style="text-align: center;">Me gusta</th>
+              </thead>
+              <tbody>
+                 <tr *ngFor="let item of Facebook_friends" >
+                    <td style="text-align: center; vertical-align:middle;">
+                      {{item.usuario}}
+                    </td>
+                    <td style="text-align: center; vertical-align:middle;">
+                      {{item.nComentarios}}
+                    </td>
+                    <td style="text-align: center; vertical-align:middle;">
+                      {{item.nMegusta}}
+                    </td>
+                 </tr>
+              </tbody>
+            </table>
+          </div>
+        </nb-tab>
+      </nb-tabset>
+        
+          
+      </nb-card-body>
+      <nb-card-footer>
+        
+      </nb-card-footer>
+    </nb-card>
+  </div>
+</div>
+
+<toaster-container [toasterconfig]="config"></toaster-container>
+
+<div class="my-container">
+    <ngx-loading [show]="loading" [config]="{ backdropBorderRadius: '4px' }"></ngx-loading>
+</div>

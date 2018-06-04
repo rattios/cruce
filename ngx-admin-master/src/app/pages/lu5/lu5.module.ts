@@ -36,10 +36,14 @@ let fbLoginOptions: LoginOpt = {
   enable_profile_selector: true
 }; // https://developers.facebook.com/docs/reference/javascript/FB.login/v2.11
 
+const googleLoginOptions: LoginOpt = {
+  scope: 'profile email openid https://www.googleapis.com/auth/youtube.upload https://www.googleapis.com/auth/youtube https://www.googleapis.com/auth/youtubepartner https://www.googleapis.com/auth/plus.login https://www.googleapis.com/auth/userinfo.email'
+};// https://developers.google.com/api-client-library/javascript/reference/referencedocs#gapiauth2clientconfig
+
 let config = new AuthServiceConfig([
   {
     id: GoogleLoginProvider.PROVIDER_ID,
-    provider: new GoogleLoginProvider('624796833023-clhjgupm0pu6vgga7k5i5bsfp6qp6egh.apps.googleusercontent.com')
+    provider: new GoogleLoginProvider('1058000793604-e8r8g27g6ck4mapb2b8fmmkjjai42r4f.apps.googleusercontent.com',googleLoginOptions)
   },
   {
     id: FacebookLoginProvider.PROVIDER_ID,

@@ -70,6 +70,8 @@ Route::group(  ['middleware' =>'cors'], function(){
     Route::get('twitter_tweets', 'facebook_friendsController@twitter_tweets');
     Route::get('twitter_tweets_other', 'facebook_friendsController@twitter_tweets_other');
     Route::get('getTeewts', 'facebook_friendsController@getTeewts');
+
+    Route::get('youtube', 'YoutubeController@index');
     
     Route::group(['middleware' => 'jwt-auth'], function(){
 

@@ -4,7 +4,7 @@ import { NgModule } from '@angular/core';
 import { PagesComponent } from './pages.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { ClientesComponent } from './clientes/clientes.component';
-
+import { ImportarComponent } from './importar/importar.component';
 
 const routes: Routes = [{
   path: '',
@@ -15,6 +15,9 @@ const routes: Routes = [{
   },{
     path: 'clientes',
     component: ClientesComponent,
+  },{
+    path: 'importar',
+    component: ImportarComponent,
   },{
     path: 'ui-features',
     loadChildren: './ui-features/ui-features.module#UiFeaturesModule',

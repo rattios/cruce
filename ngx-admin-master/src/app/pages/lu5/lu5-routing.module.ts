@@ -4,7 +4,7 @@ import { Lu5Component } from './lu5.component';
 import { Lu5FacebookComponent } from './lu5-facebook/lu5-facebook.component';
 import { Lu5TwitterComponent } from './lu5-twitter/lu5-twitter.component';
 import { Lu5InstagramComponent } from './lu5-instagram/lu5-instagram.component';
-
+import { Lu5YoutubeComponent } from './lu5-youtube/lu5-youtube.component';
 
 const routes: Routes = [{
   path: '',
@@ -18,6 +18,9 @@ const routes: Routes = [{
   },{
     path: 'instagram',
     component: Lu5InstagramComponent,
+  },{
+    path: 'youtube',
+    component: Lu5YoutubeComponent,
   }],
 }];
 
@@ -38,4 +41,5 @@ export const routedComponents = [
   Lu5FacebookComponent,
   Lu5TwitterComponent,
   Lu5InstagramComponent,
+  Lu5YoutubeComponent
 ];

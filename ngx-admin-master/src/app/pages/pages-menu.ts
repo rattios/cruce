@@ -28,7 +28,11 @@ export const MENU_ITEMS: NbMenuItem[] = [
       {
         title: 'Instagram',
         link: '/pages/lu5/instagram',
-      },  
+      }, 
+      {
+        title: 'Youtube',
+        link: '/pages/lu5/youtube',
+      }, 
     ],
   },
   {
@@ -66,6 +70,11 @@ export const MENU_ITEMS: NbMenuItem[] = [
         link: '/pages/lmcipolletti/instagram',
       },  
     ],
+  },
+  {
+    title: 'Importaciones',
+    icon: 'ion-ios-cloud-upload',
+    link: '/pages/importar',
   },
   {
     title: 'Clientes',
