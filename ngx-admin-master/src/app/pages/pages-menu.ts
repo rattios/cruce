@@ -74,7 +74,16 @@ export const MENU_ITEMS: NbMenuItem[] = [
   {
     title: 'Importaciones',
     icon: 'ion-ios-cloud-upload',
-    link: '/pages/importar',
+    children: [
+      {
+        title: 'Gestionar Eventos',
+        link: '/pages/importar/gestion_eventos',
+      },
+      {
+        title: 'Importar',
+        link: '/pages/importar/importar',
+      }, 
+    ],
   },
   {
     title: 'Clientes',

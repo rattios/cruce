@@ -71,6 +71,18 @@ Route::group(  ['middleware' =>'cors'], function(){
     Route::get('twitter_tweets_other', 'facebook_friendsController@twitter_tweets_other');
     Route::get('getTeewts', 'facebook_friendsController@getTeewts');
 
+    Route::post('eventos', 'EventosController@store');
+    Route::get('eventos', 'EventosController@index');
+    Route::put('eventos','EventosController@updated');
+    Route::get('/eventos/{id}','EventosController@show');
+    Route::delete('eventos','EventosController@destroy');
+
+    Route::post('importar', 'ImportarEventosController@store');
+    Route::get('importar', 'ImportarEventosController@index');
+    Route::put('importar','ImportarEventosController@updated');
+    Route::get('/importar/{id}','ImportarEventosController@show');
+    Route::delete('importar','ImportarEventosController@destroy');
+
     Route::get('youtube', 'YoutubeController@index');
     
     Route::group(['middleware' => 'jwt-auth'], function(){

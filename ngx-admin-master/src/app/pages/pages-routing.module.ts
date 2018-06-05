@@ -13,9 +13,6 @@ const routes: Routes = [{
     path: 'dashboard',
     component: DashboardComponent,
   },{
-    path: 'clientes',
-    component: ClientesComponent,
-  },{
     path: 'importar',
     component: ImportarComponent,
   },{
@@ -42,6 +39,9 @@ const routes: Routes = [{
   },{
     path: 'lu5',
     loadChildren: './lu5/lu5.module#Lu5Module',
+  },{
+    path: 'importar',
+    loadChildren: './importar/importar.module#ImportarModule',
   },{
     path: 'lmneuquen',
     loadChildren: './lmneuquen/lmneuquen.module#LmneuquenModule',
