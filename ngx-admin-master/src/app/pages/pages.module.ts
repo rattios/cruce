@@ -8,7 +8,7 @@ import { ThemeModule } from '../@theme/theme.module';
 //Mis imports
 import { ClientesModule } from './clientes/clientes.module';
 import { ImportarModule } from './importar/importar.module';
-
+import { AgendasModule } from './agendas/agendas.module';
 const PAGES_COMPONENTS = [
   PagesComponent,
 ];
@@ -20,6 +20,7 @@ const PAGES_COMPONENTS = [
     DashboardModule,
     ClientesModule,
     ImportarModule,
+    AgendasModule,
   ],
   declarations: [
     ...PAGES_COMPONENTS,

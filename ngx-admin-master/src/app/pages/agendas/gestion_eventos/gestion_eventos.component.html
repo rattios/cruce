@@ -1,0 +1,104 @@
+<nb-card>
+  <nb-card-header>
+    <div class="row show-grid">
+          <div class="col-6">
+            <div>Agendas</div>
+          </div>
+          <div class="col-6">
+  
+          </div>
+        </div>
+  </nb-card-header>
+
+  <nb-card-body>
+    <div class="row">
+        <div class="col-sm-12">
+            <h4>Crear agendas:</h4>
+            <input type="text" name="nombre" class="form-control" [(ngModel)]="nombre">
+        </div>
+    </div>
+    <br>
+    <div class="row">
+        <div class="col-sm-12" style="text-align: center">
+            <button type="button" class="btn btn-info" (click)="crear()" >Crear</button>
+        </div>
+    </div>
+    <div class="row" *ngIf="!verRegistros">
+      <div class="row">
+        <div class="col-sm-12">
+            <br><br><br>
+            <h4>Eventos:</h4>
+            <table class="table table-striped">
+              <thead>
+                 <th style="text-align: center;" >ID</th>
+                 <th style="text-align: center;" >Nombre del evento</th>
+                 <th style="text-align: center;" >Cantidad de datos</th>
+                 <th></th>
+              </thead>
+              <tbody>
+                 <tr *ngFor="let item of eventos" >
+                    <td style="text-align: center; vertical-align:middle;" >{{item.id}}</td>
+                    <td style="text-align: center; vertical-align:middle;" >{{item.nombre}}</td>
+                    <td style="text-align: center; vertical-align:middle;" >{{item.n}}</td>
+                    <td><button type="button" class="btn btn-info" (click)="seleccionar(item.registros)" >Ver</button></td>
+                 </tr>
+              </tbody>
+            </table> 
+        </div>
+      </div>
+    </div>
+    <br>
+    <div *ngIf="verRegistros">
+      <div class="row">
+        <hr>
+        <div class="col-sm-12" style="text-align: right;">
+          <button type="button" class="btn btn-info" (click)="volver()" >Volver</button>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-sm-12" style="text-align: center;">
+          <nb-checkbox [(ngModel)]="isName">Nombre</nb-checkbox>
+          <nb-checkbox [(ngModel)]="isTelefono">Teléfono</nb-checkbox>
+          <nb-checkbox [(ngModel)]="isEmail">Email</nb-checkbox>
+          <nb-checkbox [(ngModel)]="isServicio">Servicio</nb-checkbox>
+          <nb-checkbox [(ngModel)]="isValue">Valor</nb-checkbox>
+          <br>
+          <table class="table table-striped">
+            <thead>
+               <!-- <th style="text-align: center;">ID</th> id_evento evento  tipo_del_evento datos_del_envento observaciones nombre  id_usuario  usuario nombre  telefono  dni email ciudad  pais  observaciones url comentarios me_gusta  fecha
+              -->
+               <th style="text-align: center;" *ngIf="isName">Nombre</th>
+               <th style="text-align: center;" *ngIf="isTelefono">Teléfono</th>
+               <th style="text-align: center;" *ngIf="isEmail">Email</th>
+               <th style="text-align: center;" *ngIf="isServicio">Servicio</th>
+               <th style="text-align: center;" *ngIf="isValue">Valor</th>
+               <th style="text-align: center;" >Nº Importación</th>
+            </thead>
+            <tbody>
+               <tr *ngFor="let item of objSelected" >
+                  <td style="text-align: center; vertical-align:middle;" *ngIf="isName">{{item.nombre}}</td>
+                  <td style="text-align: center; vertical-align:middle;" *ngIf="isTelefono">{{item.telefono}}</td>
+                  <td style="text-align: center; vertical-align:middle;" *ngIf="isEmail">{{item.email}}</td>
+                  <td style="text-align: center; vertical-align:middle;" *ngIf="isServicio">{{item.servicio}}</td>
+                  <td style="text-align: center; vertical-align:middle;" *ngIf="isValue">{{item.valor}}</td>
+                  <td style="text-align: center; vertical-align:middle;">{{item.n_importacion}}</td>
+               </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+      
+      <br>
+      
+    </div>
+  </nb-card-body>
+  <nb-card-footer>
+    
+  </nb-card-footer>
+</nb-card>
+
+<toaster-container [toasterconfig]="config"></toaster-container>
+
+<div class="my-container">
+    <ngx-loading [show]="loading" [config]="{ backdropBorderRadius: '4px' }"></ngx-loading>
+</div>

@@ -83,6 +83,18 @@ Route::group(  ['middleware' =>'cors'], function(){
     Route::get('/importar/{id}','ImportarEventosController@show');
     Route::delete('importar','ImportarEventosController@destroy');
 
+    Route::post('agendas', 'AgendasController@store');
+    Route::get('agendas', 'AgendasController@index');
+    Route::put('agendas','AgendasController@updated');
+    Route::get('/agendas/{id}','AgendasController@show');
+    Route::delete('agendas','AgendasController@destroy');
+
+    Route::post('agendaseventos', 'AgendasEventosController@store');
+    Route::get('agendaseventos', 'AgendasEventosController@index');
+    Route::put('agendaseventos','AgendasEventosController@updated');
+    Route::get('/agendaseventos/{id}','AgendasEventosController@show');
+    Route::delete('agendaseventos','AgendasEventosController@destroy');
+
     Route::get('youtube', 'YoutubeController@index');
     
     Route::group(['middleware' => 'jwt-auth'], function(){

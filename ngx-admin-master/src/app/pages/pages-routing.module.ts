@@ -5,6 +5,7 @@ import { PagesComponent } from './pages.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { ClientesComponent } from './clientes/clientes.component';
 import { ImportarComponent } from './importar/importar.component';
+import { AgendasComponent } from './agendas/agendas.component';
 
 const routes: Routes = [{
   path: '',
@@ -15,6 +16,9 @@ const routes: Routes = [{
   },{
     path: 'importar',
     component: ImportarComponent,
+  },{
+    path: 'agendas',
+    component: AgendasComponent,
   },{
     path: 'ui-features',
     loadChildren: './ui-features/ui-features.module#UiFeaturesModule',
@@ -42,6 +46,9 @@ const routes: Routes = [{
   },{
     path: 'importar',
     loadChildren: './importar/importar.module#ImportarModule',
+  },{
+    path: 'agendas',
+    loadChildren: './agendas/agendas.module#AgendasModule',
   },{
     path: 'lmneuquen',
     loadChildren: './lmneuquen/lmneuquen.module#LmneuquenModule',

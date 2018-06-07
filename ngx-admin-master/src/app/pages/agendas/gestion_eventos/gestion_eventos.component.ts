@@ -17,11 +17,11 @@ import { NgbModal, ModalDismissReasons } from '@ng-bootstrap/ng-bootstrap';
 import * as XLSX from 'xlsx';
 
 @Component({
-  selector: 'ngx-importacion',
-  styleUrls: ['./importacion.component.scss'],
-  templateUrl: './importacion.component.html',
+  selector: 'ngx-gestion_eventos',
+  styleUrls: ['./gestion_eventos.component.scss'],
+  templateUrl: './gestion_eventos.component.html',
 })
-export class ImportacionComponent {
+export class GestionEventosComponent {
 
 	//----Alertas---<
 	config: ToasterConfig;
@@ -45,24 +45,8 @@ export class ImportacionComponent {
 
 	public loading = false;
 
-	public objSelected:any;
-
-	public isevento=true;
-	public istipo_del_evento=true;
-	public isdatos_del_envento=false;
-	public isobservaciones=true;
-	public isid_usuario=false;
-	public isusuario=true;
-	public isnombre=true;
-	public istelefono=true;
-	public isdni=true;
-	public isemail=true;
-	public isciudad=false;
-	public ispais=false;
-	public isurl=false;
-	public iscomentarios=false;
-	public isme_gusta=false;
-	public isfecha=true;
+	public nombre= '';
+  public eventos:any;
 
 	constructor(private modalService: NgbModal,
 		private toasterService: ToasterService,
@@ -73,72 +57,65 @@ export class ImportacionComponent {
 
 	}
 
-	public eventos:any;
 	ngOnInit() {
-	    this.http.get('http://vivomedia.com.ar/vivoindex/cruceAPI/public/eventos')
+        this.http.get('http://localhost/cruce/cruceAPI/public/agendas')
+	    //this.http.get('http://vivomedia.com.ar/vivoindex/cruceAPI/public/eventos')
          .toPromise()
          .then(
            data => { // Success
              console.log(data);
              this.eventos=data;
              this.eventos=this.eventos.Eventos;
+             for (var i = 0; i < this.eventos.length; i++) {
+               this.eventos[i].n=this.eventos[i].registros.length;
+             }
              //this.showToast('success', 'Éxito!', 'Se registro el evento!');
            },
            msg => { // Error
              console.log(msg);
-             console.log(msg.error);
+             console.log(msg.error.error);
              this.showToast('error', 'Error!', 'Algo salió mal...!');
            }
          );
 	}
+  public objSelected:any;
 
-	//inside export class
+  public isName=true;
+  public isTelefono=true;
+  public isEmail=true;
+  public isServicio=true;
+  public isValue=true;
 
-	arrayBuffer:any;
-	file:File;
-	incomingfile(event) 
-	  {
-	  this.file= event.target.files[0]; 
-	    setTimeout(() => {
-          this.Upload();
-    	}, 1000);
-	  
-	  }
 
-	 Upload() {
-	      let fileReader = new FileReader();
-	        fileReader.onload = (e) => {
-	            this.arrayBuffer = fileReader.result;
-	            var data = new Uint8Array(this.arrayBuffer);
-	            var arr = new Array();
-	            for(var i = 0; i != data.length; ++i) arr[i] = String.fromCharCode(data[i]);
-	            var bstr = arr.join("");
-	            var workbook = XLSX.read(bstr, {type:"binary"});
-	            var first_sheet_name = workbook.SheetNames[0];
-	            var worksheet = workbook.Sheets[first_sheet_name];
-	            console.log(XLSX.utils.sheet_to_json(worksheet,{raw:true}));
-	            this.objSelected=XLSX.utils.sheet_to_json(worksheet,{raw:true});
-	        }
-	        fileReader.readAsArrayBuffer(this.file);
-	}
-	public n_importacion=0;
-	selec(e){
-		this.n_importacion=0;
-		console.log(e.target.value);
-		for (var i = 0; i < this.eventos.length; i++) {
-			if(e.target.value==this.eventos[i].id) {
-				if(this.eventos[i].registros.length>0) {
-					for (var j = 0; j < this.eventos[i].registros.length; j++) {
-						if(this.eventos[i].registros[j].n_importacion>this.n_importacion) {
-							this.n_importacion=this.eventos[i].registros[j].n_importacion;
-						}
-					}
-				}else{
-					this.n_importacion=0;
-				}	
-			}
-		}
-		console.log(this.n_importacion);
+  public verRegistros=false;
+  seleccionar(registros){
+    this.objSelected=registros;
+    this.verRegistros=true;
+  }
+  volver(){
+    this.verRegistros=false;
+  }
+	crear(){
+		console.log(this.nombre);
+    var send={
+      nombre:this.nombre
+    }
+    //this.http.post(this.rutaService.getRutaApi()+'/cruceAPI/public/eventos',send)
+    //this.http.post('http://vivomedia.com.ar/vivoindex/cruceAPI/public/agendas',send)
+    this.http.post('http://localhost/cruce/cruceAPI/public/agendas',send)
+         .toPromise()
+         .then(
+           data => { // Success
+             console.log(data);
+             this.showToast('success', 'Éxito!', 'Se registro el evento!');
+             this.ngOnInit();
+           },
+           msg => { // Error
+             console.log(msg);
+             console.log(msg.error.error);
+             this.showToast('error', 'Error!', 'Algo salió mal...!');
+           }
+         );
 	}
 
 	private showToast(type: string, title: string, body: string) {
@@ -161,34 +138,7 @@ export class ImportacionComponent {
 	  };
 	  this.toasterService.popAsync(toast);
 	}
-	public evento_id=0;
-	enviar(){
-		console.log(this.evento_id);
-		for (var i = 0; i < this.objSelected.length; i++) {
-			this.objSelected[i].evento_id=this.evento_id;
-			this.objSelected[i].n_importacion=this.n_importacion+1;
-		}
-		console.log(this.objSelected);
-		var send={
-			data:JSON.stringify(this.objSelected)
-		}
-		this.http.post('http://vivomedia.com.ar/vivoindex/cruceAPI/public/importar',send)
-         .toPromise()
-         .then(
-           data => { // Success
-             console.log(data);
-             this.ngOnInit();
-            // this.eventos=data;
-            // this.eventos=this.eventos.Eventos;
-           this.showToast('success', 'Éxito!', 'Se registro la importación!');
-           },
-           msg => { // Error
-             console.log(msg);
-             console.log(msg.error);
-             this.showToast('error', 'Error!', 'Algo salió mal...!');
-           }
-         );
-	}
+
 	//Abrir modal por defecto
 	open(modal) {
 		this.modalService.open(modal);

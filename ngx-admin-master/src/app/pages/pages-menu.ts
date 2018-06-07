@@ -8,12 +8,6 @@ export const MENU_ITEMS: NbMenuItem[] = [
     home: true,
   },
   {
-    title: 'Login',
-    icon: 'nb-locked',
-    link: '/pagessinples/loginf',
-    home: true,
-  },
-  {
     title: 'Lu5',
     icon: 'nb-gear',
     children: [
@@ -86,9 +80,29 @@ export const MENU_ITEMS: NbMenuItem[] = [
     ],
   },
   {
+    title: 'Agendas',
+    icon: 'ion-ios-paper',
+    children: [
+      {
+        title: 'Gestionar Agendas',
+        link: '/pages/agendas/gestion_eventos',
+      },
+      {
+        title: 'Importar Agenda',
+        link: '/pages/agendas/importar',
+      }, 
+    ],
+  },
+  {
     title: 'Clientes',
     icon: 'ion-ios-people-outline',
     link: '/pages/clientes',
+  },
+  {
+    title: 'Login',
+    icon: 'nb-locked',
+    link: '/pagessinples/loginf',
+    home: true,
   },
   /*
   {
