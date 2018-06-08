@@ -17,11 +17,11 @@ import { NgbModal, ModalDismissReasons } from '@ng-bootstrap/ng-bootstrap';
 import * as XLSX from 'xlsx';
 
 @Component({
-  selector: 'ngx-importacion',
-  styleUrls: ['./importacion.component.scss'],
-  templateUrl: './importacion.component.html',
+  selector: 'ngx-usuarios',
+  styleUrls: ['./usuarios.component.scss'],
+  templateUrl: './usuarios.component.html',
 })
-export class ImportacionComponent {
+export class UsuariosComponent {
 
 	//----Alertas---<
 	config: ToasterConfig;
@@ -45,24 +45,8 @@ export class ImportacionComponent {
 
 	public loading = false;
 
-	public objSelected:any=[];
-	public preobjSelected:any;
-	public isevento=true;
-	public istipo_del_evento=true;
-	public isdatos_del_envento=false;
-	public isobservaciones=true;
-	public isid_usuario=false;
-	public isusuario=true;
-	public isnombre=true;
-	public istelefono=true;
-	public isdni=true;
-	public isemail=true;
-	public isciudad=false;
-	public ispais=false;
-	public isurl=false;
-	public iscomentarios=false;
-	public isme_gusta=false;
-	public isfecha=true;
+	public nombre= '';
+  public eventos:any;
 
 	constructor(private modalService: NgbModal,
 		private toasterService: ToasterService,
@@ -73,7 +57,6 @@ export class ImportacionComponent {
 
 	}
 
-	public eventos:any;
 	ngOnInit() {
 	    this.http.get('http://vivomedia.com.ar/vivoindex/cruceAPI/public/eventos')
          .toPromise()
@@ -82,91 +65,65 @@ export class ImportacionComponent {
              console.log(data);
              this.eventos=data;
              this.eventos=this.eventos.Eventos;
+             for (var i = 0; i < this.eventos.length; i++) {
+               this.eventos[i].n=this.eventos[i].registros.length;
+             }
              //this.showToast('success', 'Éxito!', 'Se registro el evento!');
            },
            msg => { // Error
              console.log(msg);
-             console.log(msg.error);
+             console.log(msg.error.error);
              this.showToast('error', 'Error!', 'Algo salió mal...!');
            }
          );
 	}
+  public objSelected:any;
 
-	//inside export class
+  public isevento=true;
+  public istipo_del_evento=true;
+  public isdatos_del_envento=false;
+  public isobservaciones=true;
+  public isid_usuario=false;
+  public isusuario=true;
+  public isnombre=true;
+  public istelefono=true;
+  public isdni=true;
+  public isemail=true;
+  public isciudad=false;
+  public ispais=false;
+  public isurl=false;
+  public iscomentarios=false;
+  public isme_gusta=false;
+  public isfecha=true;
 
-	arrayBuffer:any;
-	file:File;
-	incomingfile(event) 
-	  {
-	  this.file= event.target.files[0]; 
-	    setTimeout(() => {
-          this.Upload();
-    	}, 1000);
-	  
-	  }
-
-	 Upload() {
-	 		this.objSelected=[];
-	      let fileReader = new FileReader();
-	        fileReader.onload = (e) => {
-	            this.arrayBuffer = fileReader.result;
-	            var data = new Uint8Array(this.arrayBuffer);
-	            var arr = new Array();
-	            for(var i = 0; i != data.length; ++i) arr[i] = String.fromCharCode(data[i]);
-	            var bstr = arr.join("");
-	            var workbook = XLSX.read(bstr, {type:"binary"});
-	            var first_sheet_name = workbook.SheetNames[0];
-	            var worksheet = workbook.Sheets[first_sheet_name];
-	            console.log(XLSX.utils.sheet_to_json(worksheet,{raw:true}));
-	            this.preobjSelected=XLSX.utils.sheet_to_json(worksheet,{raw:true});
-	            for (var i = 0; i < this.preobjSelected.length; i++) {
-	            	
-	            	if(this.repetidos(this.preobjSelected[i])){
-	            		
-						this.objSelected.push(this.preobjSelected[i]);
-						//this.insertar(this.aux); comentarios datos_del_envento dni email observaciones telefono usuario
-
-					}
-
-	            }
-
-	        }
-	        fileReader.readAsArrayBuffer(this.file);
-	}
-	repetidos(obj){
-		console.log(obj);
-		for (var a = 0; a < this.eventos.length; a++) {
-			for (var b = 0; b < this.eventos[a].registros.length;b++) {
-				if(this.evento_id==this.eventos[a].registros[b].evento_id) {
-					if(this.eventos[a].registros[b].telefono==obj.telefono && this.eventos[a].registros[b].datos_del_envento==obj.datos_del_envento && this.eventos[a].registros[b].dni==obj.dni && this.eventos[a].registros[b].email==obj.email && this.eventos[a].registros[b].observaciones==obj.observaciones && this.eventos[a].registros[b].usuario==obj.usuario) {
-						return false;
-					}
-				}
-			}
-		}
-		console.log(obj);
-		return true;
-	}
-	public n_importacion=0;
-	public mostrar=false;
-	selec(e){
-		this.n_importacion=0;
-		this.mostrar=true;
-		console.log(e.target.value);
-		for (var i = 0; i < this.eventos.length; i++) {
-			if(e.target.value==this.eventos[i].id) {
-				if(this.eventos[i].registros.length>0) {
-					for (var j = 0; j < this.eventos[i].registros.length; j++) {
-						if(this.eventos[i].registros[j].n_importacion>this.n_importacion) {
-							this.n_importacion=this.eventos[i].registros[j].n_importacion;
-						}
-					}
-				}else{
-					this.n_importacion=0;
-				}	
-			}
-		}
-		console.log(this.n_importacion);
+  public verRegistros=false;
+  seleccionar(registros){
+    this.objSelected=registros;
+    this.verRegistros=true;
+  }
+  volver(){
+    this.verRegistros=false;
+  }
+	crear(){
+		console.log(this.nombre);
+    var send={
+      nombre:this.nombre
+    }
+    //this.http.post(this.rutaService.getRutaApi()+'/cruceAPI/public/eventos',send)
+    this.http.post('http://vivomedia.com.ar/vivoindex/cruceAPI/public/eventos',send)
+         .toPromise()
+         .then(
+           data => { // Success
+             console.log(data);
+             this.showToast('success', 'Éxito!', 'Se registro el evento!');
+             this.ngOnInit();
+           },
+           msg => { // Error
+             console.log(msg);
+             console.log(msg.error.error);
+             this.showToast('error', 'Error!', 'Algo salió mal...!');
+           }
+         );
 	}
 
 	private showToast(type: string, title: string, body: string) {
@@ -189,34 +146,7 @@ export class ImportacionComponent {
 	  };
 	  this.toasterService.popAsync(toast);
 	}
-	public evento_id=0;
-	enviar(){
-		console.log(this.evento_id);
-		for (var i = 0; i < this.objSelected.length; i++) {
-			this.objSelected[i].evento_id=this.evento_id;
-			this.objSelected[i].n_importacion=this.n_importacion+1;
-		}
-		console.log(this.objSelected);
-		var send={
-			data:JSON.stringify(this.objSelected)
-		}
-		this.http.post('http://vivomedia.com.ar/vivoindex/cruceAPI/public/importar',send)
-         .toPromise()
-         .then(
-           data => { // Success
-             console.log(data);
-             this.ngOnInit();
-            // this.eventos=data;
-            // this.eventos=this.eventos.Eventos;
-           this.showToast('success', 'Éxito!', 'Se registro la importación!');
-           },
-           msg => { // Error
-             console.log(msg);
-             console.log(msg.error);
-             this.showToast('error', 'Error!', 'Algo salió mal...!');
-           }
-         );
-	}
+
 	//Abrir modal por defecto
 	open(modal) {
 		this.modalService.open(modal);

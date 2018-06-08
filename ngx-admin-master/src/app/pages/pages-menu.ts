@@ -76,7 +76,11 @@ export const MENU_ITEMS: NbMenuItem[] = [
       {
         title: 'Importar',
         link: '/pages/importar/importar',
-      }, 
+      },
+      {
+        title: 'Usuarios',
+        link: '/pages/importar/usuarios',
+      },
     ],
   },
   {

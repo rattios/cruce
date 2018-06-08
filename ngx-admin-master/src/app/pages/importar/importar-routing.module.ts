@@ -3,6 +3,7 @@ import { Routes, RouterModule } from '@angular/router';
 import { ImportarComponent } from './importar.component';
 import { ImportacionComponent } from './importar/importacion.component';
 import { GestionEventosComponent } from './gestion_eventos/gestion_eventos.component';
+import { UsuariosComponent } from './usuarios/usuarios.component';
 
 
 const routes: Routes = [{
@@ -14,6 +15,9 @@ const routes: Routes = [{
   },{
     path: 'gestion_eventos',
     component: GestionEventosComponent,
+  },{
+    path: 'usuarios',
+    component: UsuariosComponent,
   },],
 }];
 
@@ -32,5 +36,5 @@ export class ImportarRoutingModule {
 export const routedComponents = [
   ImportarComponent,
   ImportacionComponent,
-  GestionEventosComponent
+  UsuariosComponent
 ];

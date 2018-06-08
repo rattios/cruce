@@ -77,6 +77,12 @@ Route::group(  ['middleware' =>'cors'], function(){
     Route::get('/eventos/{id}','EventosController@show');
     Route::delete('eventos','EventosController@destroy');
 
+    Route::post('eventos_usuarios', 'Eventos_usuariosController@store');
+    Route::get('eventos_usuarios', 'Eventos_usuariosController@index');
+    Route::put('eventos_usuarios','Eventos_usuariosController@updated');
+    Route::get('/eventos_usuarios/{id}','Eventos_usuariosController@show');
+    Route::delete('eventos_usuarios','Eventos_usuariosController@destroy');
+
     Route::post('importar', 'ImportarEventosController@store');
     Route::get('importar', 'ImportarEventosController@index');
     Route::put('importar','ImportarEventosController@updated');

@@ -45,8 +45,8 @@ export class ImportacionComponent {
 
 	public loading = false;
 
-	public objSelected:any;
-
+	public preobjSelected:any;
+	public objSelected:any=[];
 	public isName=true;
 	public isTelefono=true;
 	public isEmail=true;
@@ -69,8 +69,9 @@ export class ImportacionComponent {
          .toPromise()
          .then(
            data => { // Success
-             console.log(data);
+             //console.log(data);
              this.eventos=data;
+             console.log(this.eventos);
              this.eventos=this.eventos.Eventos;
              //this.showToast('success', 'Éxito!', 'Se registro el evento!');
            },
@@ -94,8 +95,15 @@ export class ImportacionComponent {
     	}, 1000);
 	  
 	  }
-
+	  public aux={
+	  	nombre:'',
+		telefono:'',
+		email:'',
+		servicio:'',
+		valor:''
+	  }
 	 Upload() {
+	 		this.objSelected=[];
 	      let fileReader = new FileReader();
 	        fileReader.onload = (e) => {
 	            this.arrayBuffer = fileReader.result;
@@ -107,23 +115,56 @@ export class ImportacionComponent {
 	            var first_sheet_name = workbook.SheetNames[0];
 	            var worksheet = workbook.Sheets[first_sheet_name];
 	            console.log(XLSX.utils.sheet_to_json(worksheet,{raw:true}));
-	            this.objSelected=XLSX.utils.sheet_to_json(worksheet,{raw:true});
-	            console.log(this.objSelected[0]);
-	            console.log(this.objSelected[0]['Given Name']);
-	            for (var i = 0; i < this.objSelected.length; ++i) {
-	            	this.objSelected[i].nombre=this.objSelected[i].Name;
-	            	this.objSelected[i].telefono=this.objSelected[i]['Phone 1 - Value'];
-					this.objSelected[i].email=this.objSelected[i]['E-mail 1 - Value'];
-					this.objSelected[i].servicio=this.objSelected[i]['IM 1 - Service'];
-					this.objSelected[i].valor=this.objSelected[i]['IM 1 - Value'];
+	            this.preobjSelected=XLSX.utils.sheet_to_json(worksheet,{raw:true});
+	            
+	            for (var i = 0; i < this.preobjSelected.length; i++) {
+	            	
+	            	if(this.repetidos(this.preobjSelected[i]['Phone 1 - Value'])){
+	            		//this.objSelected.push(this.aux);
+		            	this.aux.nombre=this.preobjSelected[i].Name;
+		            	this.aux.telefono=this.preobjSelected[i]['Phone 1 - Value'];
+						this.aux.email=this.preobjSelected[i]['E-mail 1 - Value'];
+						this.aux.servicio=this.preobjSelected[i]['IM 1 - Service'];
+						this.aux.valor=this.preobjSelected[i]['IM 1 - Value'];
+						this.objSelected.push({
+							nombre:this.preobjSelected[i].Name,
+							telefono:this.preobjSelected[i]['Phone 1 - Value'],
+							email:this.preobjSelected[i]['E-mail 1 - Value'],
+							servicio:this.preobjSelected[i]['IM 1 - Service'],
+							valor:this.preobjSelected[i]['IM 1 - Value']
+						});
+						//this.insertar(this.aux);
+
+					}
+
 	            }
 	            
 	        }
 	        fileReader.readAsArrayBuffer(this.file);
 	}
+	repetidos(obj){
+		//console.log(obj);
+		for (var a = 0; a < this.eventos.length; a++) {
+			for (var b = 0; b < this.eventos[a].registros.length;b++) {
+				if(this.agenda_id==this.eventos[a].registros[b].agenda_id) {
+					if(this.eventos[a].registros[b].telefono==obj) {
+						return false;
+					}
+				}
+			}
+		}
+		console.log(obj);
+		return true;
+	}
+	insertar(insertar){
+		console.log(insertar);
+		this.objSelected.push(insertar);
+	}
 	public n_importacion=0;
+	public mostrar=false;
 	selec(e){
 		this.n_importacion=0;
+		this.mostrar=true;
 		console.log(e.target.value);
 		for (var i = 0; i < this.eventos.length; i++) {
 			if(e.target.value==this.eventos[i].id) {

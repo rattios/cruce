@@ -23,27 +23,11 @@
             <button type="button" class="btn btn-info" (click)="crear()" >Crear</button>
         </div>
     </div>
-    </nb-card-body>
-  <nb-card-footer>
-    
-  </nb-card-footer>
-</nb-card>
-<nb-card>
-  <nb-card-header>
-    <div class="row show-grid">
-          <div class="col-6">
-            <div>Eventos</div>
-          </div>
-          <div class="col-6">
-  
-          </div>
-        </div>
-  </nb-card-header>
-
-  <nb-card-body>
     <div class="row" *ngIf="!verRegistros">
       <div class="row">
         <div class="col-sm-12">
+            <br><br><br>
+            <h4>Eventos:</h4>
             <table class="table table-striped">
               <thead>
                  <th style="text-align: center;" >ID</th>
@@ -63,7 +47,7 @@
         </div>
       </div>
     </div>
-    
+    <br>
     <div *ngIf="verRegistros">
       <div class="row">
         <hr>

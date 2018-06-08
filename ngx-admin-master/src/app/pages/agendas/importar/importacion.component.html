@@ -11,45 +11,48 @@
   </nb-card-header>
 
   <nb-card-body>
-
-    <div style="text-align: center">
-       <input type="file" style="display: inline-block;" (change)="incomingfile($event)" placeholder="Upload file" accept=".xlsx"><br><br>
-    <!--button type="button" class="btn btn-info" (click)="Upload()" >Mostrar Excel</button-->
-    <br><br>
-    <label>Seleccione un evento:</label>
+    <h5>Seleccione una Agenda:</h5>
     
     <select id="evento" name="evento" class="form-control" [(ngModel)]="agenda_id" (change)="selec($event)">
         <option *ngFor="let e of eventos" [value]="e.id">{{e.nombre}}</option>
-    </select>
-    <br>
-    <button type="button" class="btn btn-info" (click)="enviar()" >Agregar Data</button>
-    <br><br><br>
-    <nb-checkbox [(ngModel)]="isName">Nombre</nb-checkbox>
-    <nb-checkbox [(ngModel)]="isTelefono">Teléfono</nb-checkbox>
-    <nb-checkbox [(ngModel)]="isEmail">Email</nb-checkbox>
-    <nb-checkbox [(ngModel)]="isServicio">Servicio</nb-checkbox>
-    <nb-checkbox [(ngModel)]="isValue">Valor</nb-checkbox>
-    <br>
-    <table class="table table-striped">
-      <thead>
-         <!-- <th style="text-align: center;">ID</th> id_evento evento  tipo_del_evento datos_del_envento observaciones nombre  id_usuario  usuario nombre  telefono  dni email ciudad  pais  observaciones url comentarios me_gusta  fecha
-        -->
-         <th style="text-align: center;" *ngIf="isName">Nombre</th>
-         <th style="text-align: center;" *ngIf="isTelefono">Teléfono</th>
-         <th style="text-align: center;" *ngIf="isEmail">Email</th>
-         <th style="text-align: center;" *ngIf="isServicio">Servicio</th>
-         <th style="text-align: center;" *ngIf="isValue">Valor</th>
-      </thead>
-      <tbody>
-         <tr *ngFor="let item of objSelected" >
-            <td style="text-align: center; vertical-align:middle;" *ngIf="isName">{{item.nombre}}</td>
-            <td style="text-align: center; vertical-align:middle;" *ngIf="isTelefono">{{item.telefono}}</td>
-            <td style="text-align: center; vertical-align:middle;" *ngIf="isEmail">{{item.email}}</td>
-            <td style="text-align: center; vertical-align:middle;" *ngIf="isServicio">{{item.servicio}}</td>
-            <td style="text-align: center; vertical-align:middle;" *ngIf="isValue">{{item.valor}}</td>
-         </tr>
-      </tbody>
-    </table>
+    </select><br><br>
+    <div *ngIf="mostrar">
+      <div style="text-align: center">
+       <input type="file" style="display: inline-block;" (change)="incomingfile($event)" placeholder="Upload file" accept=".xlsx"><br><br>
+    <!--button type="button" class="btn btn-info" (click)="Upload()" >Mostrar Excel</button-->
+      <br><br>
+      
+
+      <button type="button" class="btn btn-info" (click)="enviar()" >Agregar Data</button>
+      <br><br><br>
+      <nb-checkbox [(ngModel)]="isName">Nombre</nb-checkbox>
+      <nb-checkbox [(ngModel)]="isTelefono">Teléfono</nb-checkbox>
+      <nb-checkbox [(ngModel)]="isEmail">Email</nb-checkbox>
+      <nb-checkbox [(ngModel)]="isServicio">Servicio</nb-checkbox>
+      <nb-checkbox [(ngModel)]="isValue">Valor</nb-checkbox>
+      <br>
+      <table class="table table-striped">
+        <thead>
+           <!-- <th style="text-align: center;">ID</th> id_evento evento  tipo_del_evento datos_del_envento observaciones nombre  id_usuario  usuario nombre  telefono  dni email ciudad  pais  observaciones url comentarios me_gusta  fecha
+          -->
+           <th style="text-align: center;" *ngIf="isName">Nombre</th>
+           <th style="text-align: center;" *ngIf="isTelefono">Teléfono</th>
+           <th style="text-align: center;" *ngIf="isEmail">Email</th>
+           <th style="text-align: center;" *ngIf="isServicio">Servicio</th>
+           <th style="text-align: center;" *ngIf="isValue">Valor</th>
+        </thead>
+        <tbody>
+           <tr *ngFor="let item of objSelected" >
+              <td style="text-align: center; vertical-align:middle;" *ngIf="isName">{{item.nombre}}</td>
+              <td style="text-align: center; vertical-align:middle;" *ngIf="isTelefono">{{item.telefono}}</td>
+              <td style="text-align: center; vertical-align:middle;" *ngIf="isEmail">{{item.email}}</td>
+              <td style="text-align: center; vertical-align:middle;" *ngIf="isServicio">{{item.servicio}}</td>
+              <td style="text-align: center; vertical-align:middle;" *ngIf="isValue">{{item.valor}}</td>
+           </tr>
+        </tbody>
+      </table>
+    </div>
+    
       
     </div>
    

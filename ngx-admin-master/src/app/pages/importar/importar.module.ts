@@ -5,6 +5,7 @@ import { ImportarRoutingModule, routedComponents } from './importar-routing.modu
 import { ImportacionComponent } from './importar/importacion.component';
 import { GestionEventosComponent } from './gestion_eventos/gestion_eventos.component';
 import { ImportarComponent } from './importar.component';
+import { UsuariosComponent } from './usuarios/usuarios.component';
 
 //Mis imports
 import { LoadingModule, ANIMATION_TYPES  } from 'ngx-loading';
@@ -31,6 +32,7 @@ import { ToasterModule } from 'angular2-toaster';
     ImportarComponent,
     ImportacionComponent,
     GestionEventosComponent,
+    UsuariosComponent,
     ...routedComponents,
   ],
 })

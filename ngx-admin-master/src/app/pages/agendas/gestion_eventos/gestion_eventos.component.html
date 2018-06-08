@@ -23,16 +23,33 @@
             <button type="button" class="btn btn-info" (click)="crear()" >Crear</button>
         </div>
     </div>
+  </nb-card-body>
+  <nb-card-footer>
+    
+  </nb-card-footer>
+  </nb-card>
+  <nb-card>
+  <nb-card-header>
+    <div class="row show-grid">
+          <div class="col-6">
+            <div>Agendas</div>
+          </div>
+          <div class="col-6">
+  
+          </div>
+        </div>
+  </nb-card-header>
+
+  <nb-card-body>
     <div class="row" *ngIf="!verRegistros">
       <div class="row">
         <div class="col-sm-12">
-            <br><br><br>
-            <h4>Eventos:</h4>
+            <br>
             <table class="table table-striped">
               <thead>
                  <th style="text-align: center;" >ID</th>
-                 <th style="text-align: center;" >Nombre del evento</th>
-                 <th style="text-align: center;" >Cantidad de datos</th>
+                 <th style="text-align: center;" >Nombre de la agenda</th>
+                 <th style="text-align: center;" >Cantidad de contactos</th>
                  <th></th>
               </thead>
               <tbody>
