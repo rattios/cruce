@@ -22,7 +22,7 @@ class Eventos_usuariosController extends Controller
         if(count($ImportarEventos) == 0){
             return response()->json(['error'=>'No existen ImportarEventos.'], 404);          
         }else{
-            return response()->json(['status'=>'ok', 'ImportarEventos'=>$ImportarEventos], 200);
+            return response()->json(['status'=>'ok', 'usuarios'=>$ImportarEventos], 200);
         }
     }
 

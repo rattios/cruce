@@ -64,6 +64,9 @@ export class ImportacionComponent {
 	public isme_gusta=false;
 	public isfecha=true;
 
+	public usuarios:any;
+	public nuevos_usuarios:any=[];
+
 	constructor(private modalService: NgbModal,
 		private toasterService: ToasterService,
         private http: HttpClient,
@@ -89,7 +92,22 @@ export class ImportacionComponent {
              console.log(msg.error);
              this.showToast('error', 'Error!', 'Algo salió mal...!');
            }
-         );
+        );
+        this.http.get('http://localhost/cruce/cruceAPI/public/eventos_usuarios')
+         .toPromise()
+         .then(
+           data => { // Success
+             console.log(data);
+             this.usuarios=data;
+             this.usuarios=this.usuarios.usuarios;
+             //this.showToast('success', 'Éxito!', 'Se registro el evento!');
+           },
+           msg => { // Error
+             console.log(msg);
+             console.log(msg.error);
+             this.showToast('error', 'Error!', 'Algo salió mal...!');
+           }
+        );
 	}
 
 	//inside export class
@@ -125,13 +143,63 @@ export class ImportacionComponent {
 	            		
 						this.objSelected.push(this.preobjSelected[i]);
 						//this.insertar(this.aux); comentarios datos_del_envento dni email observaciones telefono usuario
-
 					}
-
 	            }
-
+	            setTimeout(() => {
+			        this.agregarUsuarios();
+			    }, 2000);
 	        }
 	        fileReader.readAsArrayBuffer(this.file);
+	}
+	public n_usuarios:any;
+	agregarUsuarios(){
+		for (var i = 0; i < this.preobjSelected.length; i++) {
+        	if(this.repetidos_usuarios(this.preobjSelected[i])){
+				this.nuevos_usuarios.push({
+					email:this.preobjSelected[i].email,
+					nombre:this.preobjSelected[i].nombre,
+					telefono:this.preobjSelected[i].telefono,
+					dni:this.preobjSelected[i].dni,
+					usuario:this.preobjSelected[i].usuario
+				});
+			}
+        }
+	}
+	guardar_usuarios(){
+		setTimeout(() => {
+        	console.log(this.usuarios);
+        	console.log(this.nuevos_usuarios);
+        	var send={
+				data:JSON.stringify(this.nuevos_usuarios)
+			}
+			this.http.post('http://localhost/cruce/cruceAPI/public/eventos_usuarios',send)
+	         .toPromise()
+	         .then(
+	           data => { // Success
+	             console.log(data);
+	             this.n_usuarios=data;
+	             this.n_usuarios=this.n_usuarios.length;
+	             this.ngOnInit();
+	            // this.eventos=data;
+	            // this.eventos=this.eventos.Eventos;
+	           this.showToast('success', 'Éxito!', 'Se registro '+this.nuevos_usuarios.length+' usuarios nuevos.');
+	           },
+	           msg => { // Error
+	             console.log(msg);
+	             console.log(msg.error);
+	             this.showToast('error', 'Error!', 'Algo salió mal...!');
+	           }
+	         );
+		}, 2000);
+	}
+	repetidos_usuarios(obj){
+		for (var a = 0; a < this.usuarios.length; a++) {
+			if(this.usuarios[a].email==obj.email) {
+				return false;
+			}
+		}
+		console.log(obj.email);
+		return true;
 	}
 	repetidos(obj){
 		console.log(obj);
@@ -209,6 +277,7 @@ export class ImportacionComponent {
             // this.eventos=data;
             // this.eventos=this.eventos.Eventos;
            this.showToast('success', 'Éxito!', 'Se registro la importación!');
+           this.guardar_usuarios();
            },
            msg => { // Error
              console.log(msg);
