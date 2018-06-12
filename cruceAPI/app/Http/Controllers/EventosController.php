@@ -62,7 +62,7 @@ class EventosController extends Controller
     public function show($id)
     {
         //cargar un proveedor
-        $proveedor = \App\Proveedor::find($id);
+        $proveedor = \App\Eventos::find($id);
 
         if(count($proveedor)==0){
             return response()->json(['error'=>'No existe el proveedor con id '.$id], 404);          
@@ -94,7 +94,7 @@ class EventosController extends Controller
     public function update(Request $request, $id)
     {
         //cargar un proveedor
-        $cc=\App\CentroCostos::where('id',$id)->first();;
+        $cc=\App\Eventos::where('id',$id)->first();;
         $cc->fill($request->all());
 
         if($cc->save())
@@ -112,7 +112,7 @@ class EventosController extends Controller
     public function destroy($id)
     {
         // Comprobamos si el proveedor que nos están pasando existe o no.
-        $cc=\App\CentroCostos::find($id);
+        $cc=\App\Eventos::find($id);
 
         if (count($cc)==0)
         {

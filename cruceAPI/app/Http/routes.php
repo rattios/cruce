@@ -73,31 +73,31 @@ Route::group(  ['middleware' =>'cors'], function(){
 
     Route::post('eventos', 'EventosController@store');
     Route::get('eventos', 'EventosController@index');
-    Route::put('eventos','EventosController@updated');
+    Route::put('eventos','EventosController@update');
     Route::get('/eventos/{id}','EventosController@show');
-    Route::delete('eventos','EventosController@destroy');
+    Route::delete('/eventos/{id}','EventosController@destroy');
 
     Route::post('eventos_usuarios', 'Eventos_usuariosController@store');
     Route::get('eventos_usuarios', 'Eventos_usuariosController@index');
-    Route::put('eventos_usuarios','Eventos_usuariosController@updated');
+    Route::put('eventos_usuarios','Eventos_usuariosController@update');
     Route::get('/eventos_usuarios/{id}','Eventos_usuariosController@show');
     Route::delete('eventos_usuarios','Eventos_usuariosController@destroy');
 
     Route::post('importar', 'ImportarEventosController@store');
     Route::get('importar', 'ImportarEventosController@index');
-    Route::put('importar','ImportarEventosController@updated');
+    Route::put('importar/{id}','ImportarEventosController@update');
     Route::get('/importar/{id}','ImportarEventosController@show');
-    Route::delete('importar','ImportarEventosController@destroy');
+    Route::delete('importar/{id}','ImportarEventosController@destroy');
 
     Route::post('agendas', 'AgendasController@store');
     Route::get('agendas', 'AgendasController@index');
-    Route::put('agendas','AgendasController@updated');
+    Route::put('agendas','AgendasController@update');
     Route::get('/agendas/{id}','AgendasController@show');
     Route::delete('agendas','AgendasController@destroy');
 
     Route::post('agendaseventos', 'AgendasEventosController@store');
     Route::get('agendaseventos', 'AgendasEventosController@index');
-    Route::put('agendaseventos','AgendasEventosController@updated');
+    Route::put('agendaseventos','AgendasEventosController@update');
     Route::get('/agendaseventos/{id}','AgendasEventosController@show');
     Route::delete('agendaseventos','AgendasEventosController@destroy');
 

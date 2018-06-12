@@ -2,7 +2,7 @@
   <nb-card-header>
     <div class="row show-grid">
           <div class="col-6">
-            <div>Crear eventos</div>
+            <div>Lista de usuarios</div>
           </div>
           <div class="col-6">
   
@@ -11,116 +11,66 @@
   </nb-card-header>
 
   <nb-card-body>
-    <div class="row">
-        <div class="col-sm-12">
-            <h4>Crear evento:</h4>
-            <input type="text" name="nombre" class="form-control" [(ngModel)]="nombre">
-        </div>
-    </div>
-    <br>
-    <div class="row">
-        <div class="col-sm-12" style="text-align: center">
-            <button type="button" class="btn btn-info" (click)="crear()" >Crear</button>
-        </div>
-    </div>
-    <div class="row" *ngIf="!verRegistros">
-      <div class="row">
-        <div class="col-sm-12">
-            <br><br><br>
-            <h4>Eventos:</h4>
-            <table class="table table-striped">
-              <thead>
-                 <th style="text-align: center;" >ID</th>
-                 <th style="text-align: center;" >Nombre del evento</th>
-                 <th style="text-align: center;" >Cantidad de datos</th>
-                 <th></th>
-              </thead>
-              <tbody>
-                 <tr *ngFor="let item of eventos" >
-                    <td style="text-align: center; vertical-align:middle;" >{{item.id}}</td>
-                    <td style="text-align: center; vertical-align:middle;" >{{item.nombre}}</td>
-                    <td style="text-align: center; vertical-align:middle;" >{{item.n}}</td>
-                    <td><button type="button" class="btn btn-info" (click)="seleccionar(item.registros)" >Ver</button></td>
-                 </tr>
-              </tbody>
-            </table> 
-        </div>
-      </div>
-    </div>
-    <br>
-    <div *ngIf="verRegistros">
+    <div>
       <div class="row">
         <hr>
-        <div class="col-sm-12" style="text-align: right;">
-          <button type="button" class="btn btn-info" (click)="volver()" >Volver</button>
-        </div>
       </div>
       <div class="row">
         <div class="col-sm-12" style="text-align: center;">
-          <nb-checkbox [(ngModel)]="isevento">Evento</nb-checkbox>
-          <nb-checkbox [(ngModel)]="istipo_del_evento">Tipo del evento</nb-checkbox>
-          <nb-checkbox [(ngModel)]="isdatos_del_envento">Datos del envento</nb-checkbox>
-          <nb-checkbox [(ngModel)]="isobservaciones">Observaciones</nb-checkbox>
-          <nb-checkbox [(ngModel)]="isid_usuario">Id usuario</nb-checkbox>
-          <nb-checkbox [(ngModel)]="isusuario">Usuario</nb-checkbox>
-          <nb-checkbox [(ngModel)]="isnombre">Nombre</nb-checkbox>
-          <nb-checkbox [(ngModel)]="istelefono">Télefono</nb-checkbox>
-          <nb-checkbox [(ngModel)]="isdni">Dni</nb-checkbox>
-          <nb-checkbox [(ngModel)]="isemail">Email</nb-checkbox>
-          <nb-checkbox [(ngModel)]="isciudad">Ciudad</nb-checkbox>
-          <nb-checkbox [(ngModel)]="ispais">País</nb-checkbox>
-          <nb-checkbox [(ngModel)]="isurl">Url</nb-checkbox>
-          <nb-checkbox [(ngModel)]="iscomentarios">Comentarios</nb-checkbox>
-          <nb-checkbox [(ngModel)]="isme_gusta">Me gusta</nb-checkbox>
-          <nb-checkbox [(ngModel)]="isfecha">Fecha</nb-checkbox>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-sm-12">
+          <div class="form-group form-black label-floating is-empty">
+                 <label class="labels" style="font-size: 18px; font-weight: bold">Buscar: </label>
+                <input  class="form-control" type="text"  id="inputName" [(ngModel)]="inputName" (ngModelChange)="FilterByName()"/>
+                 <br>
+          </div>
         </div>
       </div>
       <div class="row">
         <div class="col-sm-12" style="text-align: center;">
           <table class="table table-striped">
             <thead>
-               <!-- <th style="text-align: center;">ID</th> id_evento evento  tipo_del_evento datos_del_envento observaciones nombre  id_usuario  usuario nombre  telefono  dni email ciudad  pais  observaciones url comentarios me_gusta  fecha
-              -->
-               <th style="text-align: center;" *ngIf="isevento">Evento</th>
-               <th style="text-align: center;" *ngIf="istipo_del_evento">Tipo del evento</th>
-               <th style="text-align: center;" *ngIf="isdatos_del_envento">Datos del envento</th>
-               <th style="text-align: center;" *ngIf="isobservaciones">Observaciones</th>
-               <th style="text-align: center;" *ngIf="isid_usuario">id_usuario</th>
-               <th style="text-align: center;" *ngIf="isusuario">usuario</th>
-               <th style="text-align: center;" *ngIf="isnombre">nombre</th>
-               <th style="text-align: center;" *ngIf="istelefono">telefono</th>
-               <th style="text-align: center;" *ngIf="isdni">dni</th>
-               <th style="text-align: center;" *ngIf="isemail">email</th>
-               <th style="text-align: center;" *ngIf="isciudad">ciudad</th>
-               <th style="text-align: center;" *ngIf="ispais">pais</th>
-               <th style="text-align: center;" *ngIf="isurl">url</th>
-               <th style="text-align: center;" *ngIf="iscomentarios">comentarios</th>
-               <th style="text-align: center;" *ngIf="isme_gusta">me_gusta</th>
-               <th style="text-align: center;" *ngIf="isfecha">fecha</th>
-               <th style="text-align: center;" >Nº Importación</th>
+               
+               <th style="text-align: center;">ID</th>
+               <th style="text-align: center;">Nombre</th>
+               <th style="text-align: center;">DNI</th>
+               <th style="text-align: center;">Email</th>
+               <th style="text-align: center;">Teléfono</th>
+               <th style="text-align: center;">Usuario</th>
+               
             </thead>
             <tbody>
-               <tr *ngFor="let item of objSelected" >
-                  <td style="text-align: center; vertical-align:middle;" *ngIf="isevento">{{item.evento}}</td>
-                  <td style="text-align: center; vertical-align:middle;" *ngIf="istipo_del_evento">{{item.tipo_del_evento}}</td>
-                  <td style="text-align: center; vertical-align:middle;" *ngIf="isdatos_del_envento">{{item.datos_del_envento}}</td>
-                  <td style="text-align: center; vertical-align:middle;" *ngIf="isobservaciones">{{item.observaciones}}</td>
-                  <td style="text-align: center; vertical-align:middle;" *ngIf="isid_usuario">{{item.id_usuario}}</td>
-                  <td style="text-align: center; vertical-align:middle;" *ngIf="isusuario">{{item.usuario}}</td>
-                  <td style="text-align: center; vertical-align:middle;" *ngIf="isnombre">{{item.nombre}}</td>
-                  <td style="text-align: center; vertical-align:middle;" *ngIf="istelefono">{{item.telefono}}</td>
-                  <td style="text-align: center; vertical-align:middle;" *ngIf="isdni">{{item.dni}}</td>
-                  <td style="text-align: center; vertical-align:middle;" *ngIf="isemail">{{item.email}}</td>
-                  <td style="text-align: center; vertical-align:middle;" *ngIf="isciudad">{{item.ciudad}}</td>
-                  <td style="text-align: center; vertical-align:middle;" *ngIf="ispais">{{item.pais}}</td>
-                  <td style="text-align: center; vertical-align:middle;" *ngIf="isurl">{{item.url}}</td>
-                  <td style="text-align: center; vertical-align:middle;" *ngIf="iscomentarios">{{item.comentarios}}</td>
-                  <td style="text-align: center; vertical-align:middle;" *ngIf="isme_gusta">{{item.me_gusta}}</td>
-                  <td style="text-align: center; vertical-align:middle;" *ngIf="isfecha">{{item.fecha}}</td>
-                  <td style="text-align: center; vertical-align:middle;" >{{item.n_importacion}}</td>
+               <tr *ngFor="let item of items" >
+                  <td style="text-align: center; vertical-align:middle;">{{item.id}}</td>
+                  <td style="text-align: center; vertical-align:middle;">{{item.nombre}}</td>
+                  <td style="text-align: center; vertical-align:middle;">{{item.dni}}</td>
+                  <td style="text-align: center; vertical-align:middle;">{{item.email}}</td>
+                  <td style="text-align: center; vertical-align:middle;">{{item.telefono}}</td>
+                  <td style="text-align: center; vertical-align:middle;">{{item.usuario}}</td>
                </tr>
             </tbody>
           </table>
+          <div class="btn-toolbar" role="toolbar" style="margin: 0;">
+              <div class="btn-group">
+                 <label style="margin-top:10px">Página {{currentIndex}}/{{pageNumber}} </label>
+              </div>
+              <div class="btn-toolbar" role="toolbar" style="margin: 0;">
+                <div class="btn-group">
+                   <label style="margin-top:10px">Página {{currentIndex}}/{{pageNumber}} </label>
+                </div>
+                <div class="btn-group pull-right">
+                   <ul class="pagination" >
+                      <li class="page-item" [ngClass]="{'disabled': (currentIndex == 1 || pageNumber == 0)}" ><a class="page-link"  (click)="prevPage()" >Atrás</a></li>
+                         <li class="page-item" *ngFor="let page of pagesIndex"  [ngClass]="{'active': (currentIndex == page)}">
+                            <a class="page-link" (click)="setPage(page)"  >{{page}} </a>
+                         </li>
+                      <li class="page-item" [ngClass]="{'disabled': (currentIndex == pageNumber || pageNumber == 0)}" ><a class="page-link"   (click)="nextPage()" >Siguiente</a></li>
+                   </ul>
+                </div>
+              </div>  
+            </div>
         </div>
       </div>
       

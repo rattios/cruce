@@ -78,6 +78,7 @@ export class ImportacionComponent {
 
 	public eventos:any;
 	ngOnInit() {
+	    //this.http.get('http://vivomedia.com.ar/vivoindex/cruceAPI/public/eventos')
 	    this.http.get('http://vivomedia.com.ar/vivoindex/cruceAPI/public/eventos')
          .toPromise()
          .then(
@@ -93,7 +94,7 @@ export class ImportacionComponent {
              this.showToast('error', 'Error!', 'Algo salió mal...!');
            }
         );
-        this.http.get('http://localhost/cruce/cruceAPI/public/eventos_usuarios')
+        this.http.get('http://vivomedia.com.ar/vivoindex/cruceAPI/public/eventos_usuarios')
          .toPromise()
          .then(
            data => { // Success
@@ -172,7 +173,7 @@ export class ImportacionComponent {
         	var send={
 				data:JSON.stringify(this.nuevos_usuarios)
 			}
-			this.http.post('http://localhost/cruce/cruceAPI/public/eventos_usuarios',send)
+			this.http.post('http://vivomedia.com.ar/vivoindex/cruceAPI/public/eventos_usuarios',send)
 	         .toPromise()
 	         .then(
 	           data => { // Success
@@ -268,6 +269,7 @@ export class ImportacionComponent {
 		var send={
 			data:JSON.stringify(this.objSelected)
 		}
+		//this.http.post('http://vivomedia.com.ar/vivoindex/cruceAPI/public/importar',send)
 		this.http.post('http://vivomedia.com.ar/vivoindex/cruceAPI/public/importar',send)
          .toPromise()
          .then(

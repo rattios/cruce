@@ -24,7 +24,7 @@ class ImportarEventos extends Model
      *
      * @var array
      */
-    protected $fillable = ['id','evento','tipo_del_evento','datos_del_envento','observaciones','id_usuario','usuario','nombre','telefono','dni','email','ciudad','pais','url','comentarios','me_gusta','fecha','evento_id','n_importacion','created_at','updated_at'];
+    protected $fillable = ['id','evento','tipo_del_evento','datos_del_envento','observaciones','id_usuario','usuario','nombre','telefono','dni','email','ciudad','pais','url','comentarios','me_gusta','fecha','evento_id','n_importacion','ganador','created_at','updated_at'];
 
     /**
      * The attributes excluded from the model's JSON form.

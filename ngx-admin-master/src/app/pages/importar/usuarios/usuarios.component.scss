@@ -126,3 +126,9 @@
     }
   }
 }
+.page-item.active .page-link {
+    z-index: 2;
+    color: #fff;
+    background-color: #40dc89;
+    border-color: #40dc86;
+}

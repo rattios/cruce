@@ -122,6 +122,10 @@ class ImportarEventosController extends Controller
                 $cc->n_importacion=$data[$i]->n_importacion;
              }
              
+             if ( property_exists($data[$i], 'ganador')) {
+                $cc->ganador=$data[$i]->ganador;
+             }
+             
             if($cc->save()){
 
             }else{
@@ -141,7 +145,7 @@ class ImportarEventosController extends Controller
     public function show($id)
     {
         //cargar un proveedor
-        $proveedor = \App\Proveedor::find($id);
+        $proveedor = \App\ImportarEventos::find($id);
 
         if(count($proveedor)==0){
             return response()->json(['error'=>'No existe el proveedor con id '.$id], 404);          
@@ -173,7 +177,7 @@ class ImportarEventosController extends Controller
     public function update(Request $request, $id)
     {
         //cargar un proveedor
-        $cc=\App\CentroCostos::where('id',$id)->first();;
+        $cc=\App\ImportarEventos::where('id',$id)->first();
         $cc->fill($request->all());
 
         if($cc->save())
@@ -188,10 +192,10 @@ class ImportarEventosController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Request $request, $id)
     {
         // Comprobamos si el proveedor que nos están pasando existe o no.
-        $cc=\App\CentroCostos::find($id);
+        $cc=\App\ImportarEventos::where('evento_id',$id)->where('n_importacion',$request->input('importacion'));
 
         if (count($cc)==0)
         {
@@ -204,4 +208,5 @@ class ImportarEventosController extends Controller
 
         return response()->json(['status'=>'ok', 'message'=>'Se ha eliminado correctamente el cc.'], 200);
     }
+
 }

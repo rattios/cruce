@@ -14,6 +14,9 @@ const routes: Routes = [{
     path: 'dashboard',
     component: DashboardComponent,
   },{
+    path: 'clientes',
+    component: ClientesComponent,
+  },{
     path: 'importar',
     component: ImportarComponent,
   },{
@@ -43,6 +46,9 @@ const routes: Routes = [{
   },{
     path: 'lu5',
     loadChildren: './lu5/lu5.module#Lu5Module',
+  },{
+    path: 'lu5youtube',
+    loadChildren: './lu5youtube/lu5youtube.module#Lu5youtubeModule',
   },{
     path: 'importar',
     loadChildren: './importar/importar.module#ImportarModule',

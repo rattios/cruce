@@ -46,7 +46,7 @@ export class UsuariosComponent {
 	public loading = false;
 
 	public nombre= '';
-  public eventos:any;
+  public usuarios:any;
 
 	constructor(private modalService: NgbModal,
 		private toasterService: ToasterService,
@@ -58,16 +58,16 @@ export class UsuariosComponent {
 	}
 
 	ngOnInit() {
-	    this.http.get('http://vivomedia.com.ar/vivoindex/cruceAPI/public/eventos')
+	    this.http.get('http://vivomedia.com.ar/vivoindex/cruceAPI/public/eventos_usuarios')
          .toPromise()
          .then(
            data => { // Success
              console.log(data);
-             this.eventos=data;
-             this.eventos=this.eventos.Eventos;
-             for (var i = 0; i < this.eventos.length; i++) {
-               this.eventos[i].n=this.eventos[i].registros.length;
-             }
+             this.usuarios=data;
+             this.usuarios=this.usuarios.usuarios;
+              this.productList = this.usuarios;
+              this.filteredItems = this.productList;
+              this.init();
              //this.showToast('success', 'Éxito!', 'Se registro el evento!');
            },
            msg => { // Error
@@ -77,33 +77,7 @@ export class UsuariosComponent {
            }
          );
 	}
-  public objSelected:any;
-
-  public isevento=true;
-  public istipo_del_evento=true;
-  public isdatos_del_envento=false;
-  public isobservaciones=true;
-  public isid_usuario=false;
-  public isusuario=true;
-  public isnombre=true;
-  public istelefono=true;
-  public isdni=true;
-  public isemail=true;
-  public isciudad=false;
-  public ispais=false;
-  public isurl=false;
-  public iscomentarios=false;
-  public isme_gusta=false;
-  public isfecha=true;
-
-  public verRegistros=false;
-  seleccionar(registros){
-    this.objSelected=registros;
-    this.verRegistros=true;
-  }
-  volver(){
-    this.verRegistros=false;
-  }
+  
 	crear(){
 		console.log(this.nombre);
     var send={
@@ -186,15 +160,38 @@ export class UsuariosComponent {
          this.refreshItems();
          console.log("this.pageNumber :  "+this.pageNumber);
    }
-
+   checkNull(item){
+     if(item==null) {
+       return false;
+     }else{
+       return true;
+     }
+   }
    FilterByName(){
       this.filteredItems = [];
       if(this.inputName != ""){
             for (var i = 0; i < this.productList.length; ++i) {
-              if (this.productList[i].email.toUpperCase().indexOf(this.inputName.toUpperCase())>=0) {
+              if(this.checkNull(this.productList[i].email)) {
+                if (this.productList[i].email.toUpperCase().indexOf(this.inputName.toUpperCase())>=0) {
+                   this.filteredItems.push(this.productList[i]);
+                }
+              }
+              else if(this.checkNull(this.productList[i].nombre)){
+                if (this.productList[i].nombre.toUpperCase().indexOf(this.inputName.toUpperCase())>=0) {
+                   this.filteredItems.push(this.productList[i]);
+                }
+              }else if(this.checkNull(this.productList[i].telefono)){
+                if (this.productList[i].telefono.toUpperCase().indexOf(this.inputName.toUpperCase())>=0) {
                  this.filteredItems.push(this.productList[i]);
-              }else if (this.productList[i].participaciones_evento.toUpperCase().indexOf(this.inputName.toUpperCase())>=0) {
+                }
+              }else if(this.checkNull(this.productList[i].dni)){
+                if (this.productList[i].dni.toUpperCase().indexOf(this.inputName.toUpperCase())>=0) {
                  this.filteredItems.push(this.productList[i]);
+                }
+              }else if(this.checkNull(this.productList[i].usuario)){
+                if(this.productList[i].usuario.toUpperCase().indexOf(this.inputName.toUpperCase())>=0) {
+                 this.filteredItems.push(this.productList[i]);
+                }
               }
             }
       }else{

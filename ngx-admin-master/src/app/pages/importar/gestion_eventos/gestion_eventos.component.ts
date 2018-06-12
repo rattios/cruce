@@ -58,7 +58,8 @@ export class GestionEventosComponent {
 	}
 
 	ngOnInit() {
-	    this.http.get('http://vivomedia.com.ar/vivoindex/cruceAPI/public/eventos')
+      this.http.get('http://vivomedia.com.ar/vivoindex/cruceAPI/public/eventos')
+	    //this.http.get('http://vivomedia.com.ar/vivoindex/cruceAPI/public/eventos')
          .toPromise()
          .then(
            data => { // Success
@@ -95,11 +96,67 @@ export class GestionEventosComponent {
   public iscomentarios=false;
   public isme_gusta=false;
   public isfecha=true;
+  public isImportacion=false;
 
   public verRegistros=false;
   seleccionar(registros){
     this.objSelected=registros;
     this.verRegistros=true;
+  }
+  eliminar(id){
+    console.log(id);
+    this.http.delete('http://vivomedia.com.ar/vivoindex/cruceAPI/public/eventos/'+id)
+     .toPromise()
+     .then(
+       data => { // Success
+         console.log(data);
+         this.showToast('success', 'Éxito!', 'Se elimino el evento!');
+         this.ngOnInit();
+       },
+       msg => { // Error
+         console.log(msg);
+         console.log(msg.error.error);
+         this.showToast('error', 'Error!', 'Algo salió mal...!');
+       }
+     );
+
+  }
+  eliminar_importacion(id,importacion){
+    console.log(id);
+    console.log(importacion);
+    this.http.delete('http://vivomedia.com.ar/vivoindex/cruceAPI/public/importar/'+id+'?importacion='+importacion)
+     .toPromise()
+     .then(
+       data => { // Success
+         console.log(data);
+         this.showToast('success', 'Éxito!', 'Se elimino la importación!');
+         this.ngOnInit();
+       },
+       msg => { // Error
+         console.log(msg);
+         console.log(msg.error.error);
+         this.showToast('error', 'Error!', 'Algo salió mal...!');
+       }
+     );
+
+  }
+
+  setGanador(item){
+    console.log(item);
+    this.http.put('http://vivomedia.com.ar/vivoindex/cruceAPI/public/importar/'+item.id,item)
+     .toPromise()
+     .then(
+       data => { // Success
+         console.log(data);
+         this.showToast('success', 'Éxito!', 'Se seleccionó el ganador');
+         this.ngOnInit();
+       },
+       msg => { // Error
+         console.log(msg);
+         console.log(msg.error.error);
+         this.showToast('error', 'Error!', 'Algo salió mal...!');
+       }
+     );
   }
   volver(){
     this.verRegistros=false;
@@ -110,6 +167,7 @@ export class GestionEventosComponent {
       nombre:this.nombre
     }
     //this.http.post(this.rutaService.getRutaApi()+'/cruceAPI/public/eventos',send)
+    //this.http.post('http://vivomedia.com.ar/vivoindex/cruceAPI/public/eventos',send)
     this.http.post('http://vivomedia.com.ar/vivoindex/cruceAPI/public/eventos',send)
          .toPromise()
          .then(

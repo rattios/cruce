@@ -58,7 +58,7 @@ export class GestionEventosComponent {
 	}
 
 	ngOnInit() {
-        this.http.get('http://localhost/cruce/cruceAPI/public/agendas')
+        this.http.get('http://vivomedia.com.ar/vivoindex/cruceAPI/public/agendas')
 	    //this.http.get('http://vivomedia.com.ar/vivoindex/cruceAPI/public/eventos')
          .toPromise()
          .then(
@@ -102,7 +102,7 @@ export class GestionEventosComponent {
     }
     //this.http.post(this.rutaService.getRutaApi()+'/cruceAPI/public/eventos',send)
     //this.http.post('http://vivomedia.com.ar/vivoindex/cruceAPI/public/agendas',send)
-    this.http.post('http://localhost/cruce/cruceAPI/public/agendas',send)
+    this.http.post('http://vivomedia.com.ar/vivoindex/cruceAPI/public/agendas',send)
          .toPromise()
          .then(
            data => { // Success

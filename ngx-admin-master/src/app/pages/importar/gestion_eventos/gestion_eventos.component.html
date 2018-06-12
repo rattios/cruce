@@ -56,7 +56,9 @@
                     <td style="text-align: center; vertical-align:middle;" >{{item.id}}</td>
                     <td style="text-align: center; vertical-align:middle;" >{{item.nombre}}</td>
                     <td style="text-align: center; vertical-align:middle;" >{{item.n}}</td>
-                    <td><button type="button" class="btn btn-info" (click)="seleccionar(item.registros)" >Ver</button></td>
+                    <td><button type="button" class="btn btn-info" (click)="seleccionar(item.registros)" >Ver</button>
+                      <button type="button" class="btn btn-danger" (click)="eliminar(item.id)" >X</button>
+                    </td>
                  </tr>
               </tbody>
             </table> 
@@ -71,73 +73,87 @@
           <button type="button" class="btn btn-info" (click)="volver()" >Volver</button>
         </div>
       </div>
+      
       <div class="row">
-        <div class="col-sm-12" style="text-align: center;">
-          <nb-checkbox [(ngModel)]="isevento">Evento</nb-checkbox>
-          <nb-checkbox [(ngModel)]="istipo_del_evento">Tipo del evento</nb-checkbox>
-          <nb-checkbox [(ngModel)]="isdatos_del_envento">Datos del envento</nb-checkbox>
-          <nb-checkbox [(ngModel)]="isobservaciones">Observaciones</nb-checkbox>
-          <nb-checkbox [(ngModel)]="isid_usuario">Id usuario</nb-checkbox>
-          <nb-checkbox [(ngModel)]="isusuario">Usuario</nb-checkbox>
-          <nb-checkbox [(ngModel)]="isnombre">Nombre</nb-checkbox>
-          <nb-checkbox [(ngModel)]="istelefono">Télefono</nb-checkbox>
-          <nb-checkbox [(ngModel)]="isdni">Dni</nb-checkbox>
-          <nb-checkbox [(ngModel)]="isemail">Email</nb-checkbox>
-          <nb-checkbox [(ngModel)]="isciudad">Ciudad</nb-checkbox>
-          <nb-checkbox [(ngModel)]="ispais">País</nb-checkbox>
-          <nb-checkbox [(ngModel)]="isurl">Url</nb-checkbox>
-          <nb-checkbox [(ngModel)]="iscomentarios">Comentarios</nb-checkbox>
-          <nb-checkbox [(ngModel)]="isme_gusta">Me gusta</nb-checkbox>
-          <nb-checkbox [(ngModel)]="isfecha">Fecha</nb-checkbox>
-        </div>
-      </div>
-      <div class="row">
-        <div class="col-sm-12" style="text-align: center;">
-          <table class="table table-striped">
-            <thead>
-               <!-- <th style="text-align: center;">ID</th> id_evento evento  tipo_del_evento datos_del_envento observaciones nombre  id_usuario  usuario nombre  telefono  dni email ciudad  pais  observaciones url comentarios me_gusta  fecha
-              -->
-               <th style="text-align: center;" *ngIf="isevento">Evento</th>
-               <th style="text-align: center;" *ngIf="istipo_del_evento">Tipo del evento</th>
-               <th style="text-align: center;" *ngIf="isdatos_del_envento">Datos del envento</th>
-               <th style="text-align: center;" *ngIf="isobservaciones">Observaciones</th>
-               <th style="text-align: center;" *ngIf="isid_usuario">id_usuario</th>
-               <th style="text-align: center;" *ngIf="isusuario">usuario</th>
-               <th style="text-align: center;" *ngIf="isnombre">nombre</th>
-               <th style="text-align: center;" *ngIf="istelefono">telefono</th>
-               <th style="text-align: center;" *ngIf="isdni">dni</th>
-               <th style="text-align: center;" *ngIf="isemail">email</th>
-               <th style="text-align: center;" *ngIf="isciudad">ciudad</th>
-               <th style="text-align: center;" *ngIf="ispais">pais</th>
-               <th style="text-align: center;" *ngIf="isurl">url</th>
-               <th style="text-align: center;" *ngIf="iscomentarios">comentarios</th>
-               <th style="text-align: center;" *ngIf="isme_gusta">me_gusta</th>
-               <th style="text-align: center;" *ngIf="isfecha">fecha</th>
-               <th style="text-align: center;" >Nº Importación</th>
-            </thead>
-            <tbody>
-               <tr *ngFor="let item of objSelected" >
-                  <td style="text-align: center; vertical-align:middle;" *ngIf="isevento">{{item.evento}}</td>
-                  <td style="text-align: center; vertical-align:middle;" *ngIf="istipo_del_evento">{{item.tipo_del_evento}}</td>
-                  <td style="text-align: center; vertical-align:middle;" *ngIf="isdatos_del_envento">{{item.datos_del_envento}}</td>
-                  <td style="text-align: center; vertical-align:middle;" *ngIf="isobservaciones">{{item.observaciones}}</td>
-                  <td style="text-align: center; vertical-align:middle;" *ngIf="isid_usuario">{{item.id_usuario}}</td>
-                  <td style="text-align: center; vertical-align:middle;" *ngIf="isusuario">{{item.usuario}}</td>
-                  <td style="text-align: center; vertical-align:middle;" *ngIf="isnombre">{{item.nombre}}</td>
-                  <td style="text-align: center; vertical-align:middle;" *ngIf="istelefono">{{item.telefono}}</td>
-                  <td style="text-align: center; vertical-align:middle;" *ngIf="isdni">{{item.dni}}</td>
-                  <td style="text-align: center; vertical-align:middle;" *ngIf="isemail">{{item.email}}</td>
-                  <td style="text-align: center; vertical-align:middle;" *ngIf="isciudad">{{item.ciudad}}</td>
-                  <td style="text-align: center; vertical-align:middle;" *ngIf="ispais">{{item.pais}}</td>
-                  <td style="text-align: center; vertical-align:middle;" *ngIf="isurl">{{item.url}}</td>
-                  <td style="text-align: center; vertical-align:middle;" *ngIf="iscomentarios">{{item.comentarios}}</td>
-                  <td style="text-align: center; vertical-align:middle;" *ngIf="isme_gusta">{{item.me_gusta}}</td>
-                  <td style="text-align: center; vertical-align:middle;" *ngIf="isfecha">{{item.fecha}}</td>
-                  <td style="text-align: center; vertical-align:middle;" >{{item.n_importacion}}</td>
-               </tr>
-            </tbody>
-          </table>
-        </div>
+        <nb-tabset style="overflow-x: hidden;">
+        <nb-tab tabTitle="Datos del evento">
+          <br><br>
+          <div class="row">
+            <div class="col-sm-12" style="text-align: center;">
+              <nb-checkbox [(ngModel)]="isevento">Evento</nb-checkbox>
+              <nb-checkbox [(ngModel)]="istipo_del_evento">Tipo del evento</nb-checkbox>
+              <nb-checkbox [(ngModel)]="isdatos_del_envento">Datos del envento</nb-checkbox>
+              <nb-checkbox [(ngModel)]="isobservaciones">Observaciones</nb-checkbox>
+              <nb-checkbox [(ngModel)]="isid_usuario">Id usuario</nb-checkbox>
+              <nb-checkbox [(ngModel)]="isusuario">Usuario</nb-checkbox>
+              <nb-checkbox [(ngModel)]="isnombre">Nombre</nb-checkbox>
+              <nb-checkbox [(ngModel)]="istelefono">Télefono</nb-checkbox>
+              <nb-checkbox [(ngModel)]="isdni">Dni</nb-checkbox>
+              <nb-checkbox [(ngModel)]="isemail">Email</nb-checkbox>
+              <nb-checkbox [(ngModel)]="isciudad">Ciudad</nb-checkbox>
+              <nb-checkbox [(ngModel)]="ispais">País</nb-checkbox>
+              <nb-checkbox [(ngModel)]="isurl">Url</nb-checkbox>
+              <nb-checkbox [(ngModel)]="iscomentarios">Comentarios</nb-checkbox>
+              <nb-checkbox [(ngModel)]="isme_gusta">Me gusta</nb-checkbox>
+              <nb-checkbox [(ngModel)]="isfecha">Fecha</nb-checkbox><br>
+              <nb-checkbox [(ngModel)]="isImportacion">Eliminar importaciones</nb-checkbox>
+            </div>
+          </div>
+          <div class="col-sm-12" style="text-align: center;">
+            <table class="table table-striped">
+              <thead>
+
+                 <th style="text-align: center;" *ngIf="isevento">Evento</th>
+                 <th style="text-align: center;" *ngIf="istipo_del_evento">Tipo del evento</th>
+                 <th style="text-align: center;" *ngIf="isdatos_del_envento">Datos del envento</th>
+                 <th style="text-align: center;" *ngIf="isobservaciones">Observaciones</th>
+                 <th style="text-align: center;" *ngIf="isid_usuario">id_usuario</th>
+                 <th style="text-align: center;" *ngIf="isusuario">usuario</th>
+                 <th style="text-align: center;" *ngIf="isnombre">nombre</th>
+                 <th style="text-align: center;" *ngIf="istelefono">telefono</th>
+                 <th style="text-align: center;" *ngIf="isdni">dni</th>
+                 <th style="text-align: center;" *ngIf="isemail">email</th>
+                 <th style="text-align: center;" *ngIf="isciudad">ciudad</th>
+                 <th style="text-align: center;" *ngIf="ispais">pais</th>
+                 <th style="text-align: center;" *ngIf="isurl">url</th>
+                 <th style="text-align: center;" *ngIf="iscomentarios">comentarios</th>
+                 <th style="text-align: center;" *ngIf="isme_gusta">me gusta</th>
+                 <th style="text-align: center;" *ngIf="isfecha">fecha</th>
+                 <th style="text-align: center;" >Nº Importación</th>
+                 <th style="text-align: center;" >Ganador</th>
+                 <th style="text-align: center;" *ngIf="isImportacion"></th>
+              </thead>
+              <tbody>
+                 <tr *ngFor="let item of objSelected" >
+                    <td style="text-align: center; vertical-align:middle;" *ngIf="isevento">{{item.evento}}</td>
+                    <td style="text-align: center; vertical-align:middle;" *ngIf="istipo_del_evento">{{item.tipo_del_evento}}</td>
+                    <td style="text-align: center; vertical-align:middle;" *ngIf="isdatos_del_envento">{{item.datos_del_envento}}</td>
+                    <td style="text-align: center; vertical-align:middle;" *ngIf="isobservaciones">{{item.observaciones}}</td>
+                    <td style="text-align: center; vertical-align:middle;" *ngIf="isid_usuario">{{item.id_usuario}}</td>
+                    <td style="text-align: center; vertical-align:middle;" *ngIf="isusuario">{{item.usuario}}</td>
+                    <td style="text-align: center; vertical-align:middle;" *ngIf="isnombre">{{item.nombre}}</td>
+                    <td style="text-align: center; vertical-align:middle;" *ngIf="istelefono">{{item.telefono}}</td>
+                    <td style="text-align: center; vertical-align:middle;" *ngIf="isdni">{{item.dni}}</td>
+                    <td style="text-align: center; vertical-align:middle;" *ngIf="isemail">{{item.email}}</td>
+                    <td style="text-align: center; vertical-align:middle;" *ngIf="isciudad">{{item.ciudad}}</td>
+                    <td style="text-align: center; vertical-align:middle;" *ngIf="ispais">{{item.pais}}</td>
+                    <td style="text-align: center; vertical-align:middle;" *ngIf="isurl">{{item.url}}</td>
+                    <td style="text-align: center; vertical-align:middle;" *ngIf="iscomentarios">{{item.comentarios}}</td>
+                    <td style="text-align: center; vertical-align:middle;" *ngIf="isme_gusta">{{item.me_gusta}}</td>
+                    <td style="text-align: center; vertical-align:middle;" *ngIf="isfecha">{{item.fecha}}</td>
+                    <td style="text-align: center; vertical-align:middle;" >{{item.n_importacion}}</td>
+                    <td style="text-align: center; vertical-align:middle;" ><nb-checkbox [(ngModel)]="item.ganador" (change)="setGanador(item)"></nb-checkbox></td>
+                    <td style="text-align: center; vertical-align:middle;" *ngIf="isImportacion"><button type="button" class="btn btn-danger" (click)="eliminar_importacion(item.evento_id,item.n_importacion)" >X Importación</button></td>
+                 </tr>
+              </tbody>
+            </table>
+          </div>
+        </nb-tab>
+        <!-- <nb-tab tabTitle="Sorteo">
+          <span>Content #2</span>
+        </nb-tab> -->
+      </nb-tabset>
+          
       </div>
       
       <br>

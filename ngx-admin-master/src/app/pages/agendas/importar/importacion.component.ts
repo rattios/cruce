@@ -64,7 +64,7 @@ export class ImportacionComponent {
 
 	public eventos:any;
 	ngOnInit() {
-		this.http.get('http://localhost/cruce/cruceAPI/public/agendas')
+		this.http.get('http://vivomedia.com.ar/vivoindex/cruceAPI/public/agendas')
 	   // this.http.get('http://vivomedia.com.ar/vivoindex/cruceAPI/public/eventos')
          .toPromise()
          .then(
@@ -214,7 +214,7 @@ export class ImportacionComponent {
 			data:JSON.stringify(this.objSelected)
 		}//localhost
 		//this.http.post('http://vivomedia.com.ar/vivoindex/cruceAPI/public/agendaseventos',send)
-		this.http.post('http://localhost/cruce/cruceAPI/public/agendaseventos',send)
+		this.http.post('http://vivomedia.com.ar/vivoindex/cruceAPI/public/agendaseventos',send)
          .toPromise()
          .then(
            data => { // Success

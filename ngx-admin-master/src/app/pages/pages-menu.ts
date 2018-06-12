@@ -25,7 +25,7 @@ export const MENU_ITEMS: NbMenuItem[] = [
       }, 
       {
         title: 'Youtube',
-        link: '/pages/lu5/youtube',
+        link: '/pages/lu5youtube/youtube',
       }, 
     ],
   },
