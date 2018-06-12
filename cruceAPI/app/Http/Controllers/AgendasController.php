@@ -111,18 +111,25 @@ class AgendasController extends Controller
      */
     public function destroy($id)
     {
-        // Comprobamos si el proveedor que nos están pasando existe o no.
         $cc=\App\Agendas::find($id);
 
         if (count($cc)==0)
         {
-            // Devolvemos error codigo http 404
-            return response()->json(['error'=>'No existe el proveedor con id '.$id], 404);
+            //return response()->json(['error'=>'No existe el proveedor con id '.$id], 404);
         } 
        
-        //Eliminar las relaciones(productos) en la tabla pivote
         $cc->delete();
 
-        return response()->json(['status'=>'ok', 'message'=>'Se ha eliminado correctamente el cc.'], 200);
+        $cc2=\App\AgendasEventos::where('agenda_id',$id);
+
+        if (count($cc2)==0)
+        {
+            //return response()->json(['error'=>'No existe el proveedor con id '.$id], 404);
+        } 
+       
+        $cc2->delete();
+
+
+        return response()->json(['status'=>'ok', 'message'=>'Se ha eliminado correctamente la agenda.'], 200);
     }
 }

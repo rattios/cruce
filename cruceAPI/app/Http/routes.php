@@ -93,7 +93,7 @@ Route::group(  ['middleware' =>'cors'], function(){
     Route::get('agendas', 'AgendasController@index');
     Route::put('agendas','AgendasController@update');
     Route::get('/agendas/{id}','AgendasController@show');
-    Route::delete('agendas','AgendasController@destroy');
+    Route::delete('agendas/{id}','AgendasController@destroy');
 
     Route::post('agendaseventos', 'AgendasEventosController@store');
     Route::get('agendaseventos', 'AgendasEventosController@index');

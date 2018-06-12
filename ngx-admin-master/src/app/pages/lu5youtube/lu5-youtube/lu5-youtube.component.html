@@ -44,49 +44,62 @@
       <nb-card-body>
         <nb-tabset>
           
-        <nb-tab tabTitle="Post">
+        <nb-tab tabTitle="Videos">
           <table class="table table-striped">
             <thead>
                <!-- <th style="text-align: center;">ID</th> -->
-               <th style="text-align: center;">Usuario</th>
-               <th style="text-align: center;">Mensaje</th>
+               <th style="text-align: center;">Portada</th>
+               <th style="text-align: center;">Titulo</th>
+               <th style="text-align: center;">Vistas</th>
                <th style="text-align: center;">Me gusta</th>
+               <th style="text-align: center;">Nº</th>
                <th style="text-align: center;">Comentarios</th>
+               <th style="text-align: center;">Url</th>
             </thead>
             <tbody>
-               <tr *ngFor="let item of post" >
+               <tr *ngFor="let item of videos" >
                   <td style="text-align: center; vertical-align:middle;">
-                    {{item.from.name}}
+                    <img src="{{item.thumbnails}}">
                   </td>
                   <td style="text-align: center; vertical-align:middle;">
-                    {{item.message}}
+                    {{item.titulo}}
                   </td>
                   <td style="text-align: center; vertical-align:middle;">
-                    <div *ngFor="let lik of item.likes.data"><!-- <img src="{{lik.name}}" alt=""> -->{{lik.name}}
+                    {{item.vistas}}
+                  </td>
+                  <td style="text-align: center; vertical-align:middle;">
+                    {{item.likes}}
+                  </td>
+                  <td style="text-align: center; vertical-align:middle;">
+                    {{item.ncomentarios}}
+                  </td>
+                  <td style="text-align: left; vertical-align:middle;">
+                    <div *ngFor="let lik of item.comentarios"><!-- <img src="{{lik.name}}" alt=""> --><img style="width: 40px; height:40px " src="{{lik.img}}">{{lik.texto}}<br>
                     </div>
                   </td>
                   <td style="text-align: center; vertical-align:middle;">
-                    <div *ngFor="let com of item.comments.data">{{com.from.name}}, {{com.message}} </div>
+                     <a href="{{item.url}}">{{item.url}}</a>
                   </td>
-                  
                </tr>
             </tbody>
           </table>
         </nb-tab>
-        <nb-tab tabTitle="Amigos">
+        <nb-tab tabTitle="Subscriptores">
           <table class="table table-striped">
             <thead>
                <!-- <th style="text-align: center;">ID</th> -->
                <th style="text-align: center;">Imagen</th>
                <th style="text-align: center;">Usuario</th>
-               <th style="text-align: center;">Email</th>
+               <th style="text-align: center;">Nombre</th>
+               <th style="text-align: center;">ID</th>
 
             </thead>
             <tbody>
-               <tr *ngFor="let item of Facebook_friends" >
-                  <td style="text-align: center; vertical-align:middle;"><img style="width: 40px; height:40px " src="{{item.img}}" alt=""></td>
-                  <td style="text-align: center; vertical-align:middle;">{{item.usuario}}</td>
-                  <td style="text-align: center; vertical-align:middle;">{{item.email}}</td>
+               <tr *ngFor="let item of subscritores" >
+                  <td style="text-align: center; vertical-align:middle;"><img style="width: 40px; height:40px " src="{{item.seguidor.img}}" alt=""></td>
+                  <td style="text-align: center; vertical-align:middle;">{{item.seguidor.usuario}}</td>
+                  <td style="text-align: center; vertical-align:middle;">{{item.seguidor.nombre}}</td>
+                  <td style="text-align: center; vertical-align:middle;">{{item.channel_id}}</td>
                   
                </tr>
             </tbody>

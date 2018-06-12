@@ -64,7 +64,8 @@ class YoutubeController extends Controller
         }
         $s=array(
             'nombre' => $salidaSeguidores->items[0]->snippet->title,
-            'usuario' => $customUrl
+            'usuario' => $customUrl,
+            'img'=> $salidaSeguidores->items[0]->snippet->thumbnails->default->url
         );
         
         return $s;
@@ -153,6 +154,8 @@ class YoutubeController extends Controller
                 'id'=>$salida_lista[$i]->snippet->resourceId->videoId,
                 'url'=>'https://www.youtube.com/watch?v='.$salida_lista[$i]->snippet->resourceId->videoId,
                 'created_at'=>$salida_lista[$i]->snippet->publishedAt,
+                'titulo'=>$salida_lista[$i]->snippet->title,
+                'descripcion'=>$salida_lista[$i]->snippet->description,
                 'thumbnails'=>$salida_lista[$i]->snippet->thumbnails->default->url,
                 'likes'=>$salidaVideo->items[0]->statistics->likeCount,
                 'ncomentarios'=>$salidaVideo->items[0]->statistics->commentCount,

@@ -53,14 +53,19 @@ export class Lu5YoutubeComponent implements OnInit{
       
     });
   }
-
+  public subscritores:any;
+  public videos:any;
+  public youtube:any;
   obternerDatos(){
    
-    this.http.get('http://localhost/cruce/cruceAPI/public/youtube?token='+this.authToken)
+    this.http.get('http://vivomedia.com.ar/vivoindex/cruceAPI/public/youtube?token='+this.authToken)
      .toPromise()
      .then(
        data => { // Success
-          console.log(data);       
+          console.log(data);  
+          this.youtube=data;
+          this.subscritores=this.youtube.subscritores;
+          this.videos=this.youtube.videos;
        },
        msg => { // Error
          console.log(msg);
