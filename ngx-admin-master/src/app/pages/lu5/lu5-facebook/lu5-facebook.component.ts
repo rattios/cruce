@@ -56,10 +56,13 @@ export class Lu5FacebookComponent implements OnInit{
     email:'',
     photoUrl:''
   };
-  public name:any;
-  public email:any;
+  public name:any='';
+  public email:any='';
   public photoUrl: any ='http://vivomedia.com.ar/assets/2.png';
   public estadisticas=false;
+  public token:any='EAACEdEose0cBAAZBprP2Yqjh2MOJXfBBTLZC9ZBAMkVkt1TETadAJEDdxYtZACKmAUqyBKEVutNh4uQKjXo4HDZBpoBJGFU38HKa662QIrWZBZAtp3gcv5NUSuq9CfBRi9yPPgOZAI14PGZCp87pASrHQYZAJTcvgfz7ZAbx6pLH8Yp8HU7dR1aucIax61sjoP5ypzzu1D0lkxQ6QZDZD';
+  public pagina:any='lasperlascasacervecera';
+  public Facebook_friends:any=[];
 
 	//Formularios
 	myFormAgregar: FormGroup;
@@ -102,7 +105,7 @@ export class Lu5FacebookComponent implements OnInit{
       this.name=this.user.name;
       this.email=this.user.email;
       this.photoUrl=this.user.photoUrl;
-
+      this.token=this.user.authToken;
       var send={
         id_facebook:this.user.id,
         email:this.user.email,
@@ -150,7 +153,8 @@ export class Lu5FacebookComponent implements OnInit{
     "data":[{
       message:'',
       from:{
-        name:''
+        name:'',
+        id:0
       }
     }]
   };
@@ -199,7 +203,186 @@ export class Lu5FacebookComponent implements OnInit{
                 }
               }
               console.log(this.post);
-              this.getEstadisticas();
+              //this.getEstadisticas();
+              this.loading=false;
+           },
+           msg => { // Error
+             console.log(msg);
+             console.log(msg.error.error);
+             this.loading=false;
+
+             if(msg.status == 400 || msg.status == 401){ 
+                  
+                  this.showToast('warning', 'Warning!', msg.error.error);
+              }
+              else { 
+                  this.showToast('error', 'Erro!', msg.error.error);
+              }
+           }
+         );
+  }
+  usuariosComment(){
+    for (var i = 0; i < this.post.length; ++i) {
+      for (var j = 0; j < this.post[i].comments.data.length; ++j) {
+        if(this.post[i].comments.data[j].from.name!='') {
+          //usuarios.push(this.post[i].comments.data[j].from.name);
+          this.Facebook_friends.push({
+            usuario:this.post[i].comments.data[j].from.name,
+            facebook_id:this.post[i].comments.data[j].from.id,
+          });
+        }
+      }   
+    }
+    console.log(this.Facebook_friends);
+  }
+  usuariosLike(){
+    for (var i = 0; i < this.post.length; ++i) {
+      for (var j = 0; j < this.post[i].likes.data.length; ++j) {
+        if(this.post[i].likes.data[j].name!='') {
+          this.Facebook_friends.push({
+            usuario:this.post[i].likes.data[j].name,
+            facebook_id:this.post[i].likes.data[j].id,
+          });
+        }
+      }   
+    }
+    console.log(this.Facebook_friends);
+  }
+  removeDuplicates(originalArray, prop) {
+     var newArray = [];
+     var lookupObject  = {};
+
+     for(var i in originalArray) {
+        lookupObject[originalArray[i][prop]] = originalArray[i];
+     }
+
+     for(i in lookupObject) {
+         newArray.push(lookupObject[i]);
+     }
+      return newArray;
+  }
+
+  paging(url){
+
+    this.http.get(url)
+    //this.http.get('https://graph.facebook.com/v2.12/me?fields=posts{from,message,comments{message,from},likes{pic_small,username,name}}&access_token=EAAEDPpwcvQYBALnczQimSVo7RystX6qXafgUeuIyQi6PYKZCO0q7dRCMxjhscQGgwg5KY9Rh4F1kBFNKRZC1vzgUP9dxCZCGxG9S9qe1lRu4eT7QuuUQZAuAnuIRqHSMuE4ZCb0wp4pIfZC6BymD0Ut6Md6MkrOw7bxPxadG0V00awTq8CVDl8B9tOD8zw9xEjMN1D1quVbgZDZD')
+         .toPromise()
+         .then(
+           data => { // Success
+              console.log(data);
+              var next='';
+              this.prepost=data;
+              if( this.prepost.paging.hasOwnProperty('next') ) {
+               next=this.prepost.paging.next;
+              }
+              
+              this.prepost=this.prepost.data;
+              for (var i = 0; i < this.prepost.length; i++) {
+                if(this.prepost[i].likes){
+                  if(this.prepost[i].comments) {
+                    this.post.push(this.prepost[i]);
+ 
+                  }else{
+                    this.prepost[i].comments=this.auxComments;
+                    this.post.push(this.prepost[i]);
+ 
+                  }
+                }else if(this.prepost[i].comments){
+                  if(this.prepost[i].likes) {
+                    this.post.push(this.prepost[i]);
+ 
+                  }else{
+                    this.prepost[i].likes=this.auxLikes;
+                    this.post.push(this.prepost[i]);
+ 
+                  }
+                }else{
+                }
+              }
+              if(next!='') {
+                this.paging(next);
+              }else{
+                this.startEstadisticas();
+              }
+              
+              
+              this.loading=false;
+           },
+           msg => { // Error
+             
+             console.log(msg);
+             this.loading=false;
+
+             if(msg.status == 400 || msg.status == 401){ 
+                  
+                  this.showToast('warning', 'Warning!', msg.error.error);
+              }
+              else { 
+                  this.showToast('error', 'Erro!', msg.error.error);
+              }
+           }
+         );
+  }
+  startEstadisticas(){
+    console.log(this.post);
+    this.usuariosComment();
+    setTimeout(()=>{
+      this.usuariosLike();
+     }, 1000);
+    setTimeout(()=>{
+      this.Facebook_friends = this.removeDuplicates(this.Facebook_friends, "facebook_id");
+      console.log(this.Facebook_friends);
+     }, 2000);
+    setTimeout(()=>{
+      this.getEstadisticas();
+     }, 2500);
+    
+  }
+
+
+  getPagina(){
+    this.loading=true;
+    this.estadisticas=false;
+    this.nPost=0;
+    this.nComentarios=0;
+    this.nMegusta=0;
+    //this.Facebook_friends=[];
+    //https://graph.facebook.com/v2.12/me/comments?access_token=
+    this.http.get('https://graph.facebook.com/v2.12/'+this.pagina+'?fields=posts{from,message,comments{message,from},likes{pic_small,username,name}}&access_token='+this.token)
+    //this.http.get('https://graph.facebook.com/v2.12/me?fields=posts{from,message,comments{message,from},likes{pic_small,username,name}}&access_token=EAAEDPpwcvQYBALnczQimSVo7RystX6qXafgUeuIyQi6PYKZCO0q7dRCMxjhscQGgwg5KY9Rh4F1kBFNKRZC1vzgUP9dxCZCGxG9S9qe1lRu4eT7QuuUQZAuAnuIRqHSMuE4ZCb0wp4pIfZC6BymD0Ut6Md6MkrOw7bxPxadG0V00awTq8CVDl8B9tOD8zw9xEjMN1D1quVbgZDZD')
+         .toPromise()
+         .then(
+           data => { // Success
+              console.log(data);
+              this.post=[];
+              this.prepost=data;
+              var next=this.prepost.posts.paging.next;
+              this.prepost=this.prepost.posts.data;
+              for (var i = 0; i < this.prepost.length; i++) {
+                if(this.prepost[i].likes){
+                  if(this.prepost[i].comments) {
+                    this.post.push(this.prepost[i]);
+ 
+                  }else{
+                    this.prepost[i].comments=this.auxComments;
+                    this.post.push(this.prepost[i]);
+ 
+                  }
+                }else if(this.prepost[i].comments){
+                  if(this.prepost[i].likes) {
+                    this.post.push(this.prepost[i]);
+ 
+                  }else{
+                    this.prepost[i].likes=this.auxLikes;
+                    this.post.push(this.prepost[i]);
+ 
+                  }
+                }else{
+                }
+              }
+              console.log(this.post);
+              this.paging(next);
+              
               this.loading=false;
            },
            msg => { // Error
@@ -351,10 +534,14 @@ export class Lu5FacebookComponent implements OnInit{
               for (var a = 0; a < this.post.length; a++) {
                   this.nPost++;
                   for (var b = 0; b < this.post[a].comments.data.length; b++) {
-                    this.nComentarios++;
+                    if(this.post[a].comments.data[0].from.name!='') {
+                      this.nComentarios++;
+                    }
                   }
                   for (var c = 0; c < this.post[a].likes.data.length; c++) {
-                    this.nMegusta++;
+                    if(this.post[c].likes.data[0].name!='') {
+                      this.nMegusta++;
+                    }
                   }
                 }
               for (var e = 0; e < this.Facebook_friends.length; e++) {
@@ -403,6 +590,35 @@ export class Lu5FacebookComponent implements OnInit{
                 n3Megusta:lik[2],
                 com:com,
                 lik:lik
+              }
+              console.log(this.datosEstadisticas);
+              this.estadisticas=true;
+              this.cdRef.detectChanges();
+  }
+  public getEstadisticas2(){
+              for (var a = 0; a < this.post.length; a++) {
+                  this.nPost++;
+                  for (var b = 0; b < this.post[a].comments.data.length; b++) {
+                    this.nComentarios++;
+                  }
+                  for (var c = 0; c < this.post[a].likes.data.length; c++) {
+                    this.nMegusta++;
+                  }
+                }
+              
+
+              this.datosEstadisticas={
+                nPost:this.nPost,
+                nComentarios:this.nComentarios,
+                nMegusta:this.nMegusta,
+                n1Comentarios:0,
+                n2Comentarios:0,
+                n3Comentarios:0,
+                n1Megusta:0,
+                n2Megusta:0,
+                n3Megusta:0,
+                com:[],
+                lik:[]
               }
               console.log(this.datosEstadisticas);
               this.estadisticas=true;

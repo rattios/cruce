@@ -86,19 +86,28 @@ class YoutubeController extends Controller
             $salidaComentario = curl_exec($chComentarios);
             //return $salidaComentario;
             $salidaComentario = json_decode($salidaComentario);
-            $c=$salidaComentario->items;
             $comentarios=[];
-            for ($i=0; $i < count($c); $i++) { 
-                array_push($comentarios,array(
-                    'channel_id'=>$c[$i]->snippet->topLevelComment->snippet->authorChannelId->value,
-                    'autor'=>$c[$i]->snippet->topLevelComment->snippet->authorDisplayName,
-                    'img'=>$c[$i]->snippet->topLevelComment->snippet->authorProfileImageUrl,
-                    'created_at'=>$c[$i]->snippet->topLevelComment->snippet->publishedAt,
-                    'texto'=>$c[$i]->snippet->topLevelComment->snippet->textOriginal
-                ));
-                //return $c[$i]->snippet->topLevelComment->snippet->textDisplay;
+            try {
+                if ( property_exists($salidaComentario, 'items')) {
+                    $c=$salidaComentario->items;
+                
+                    for ($i=0; $i < count($c); $i++) { 
+                        array_push($comentarios,array(
+                            'channel_id'=>$c[$i]->snippet->topLevelComment->snippet->authorChannelId->value,
+                            'autor'=>$c[$i]->snippet->topLevelComment->snippet->authorDisplayName,
+                            'img'=>$c[$i]->snippet->topLevelComment->snippet->authorProfileImageUrl,
+                            'created_at'=>$c[$i]->snippet->topLevelComment->snippet->publishedAt,
+                            'texto'=>$c[$i]->snippet->topLevelComment->snippet->textOriginal
+                        ));
+                    }
+                }
+            } catch (Exception $e) {
+                return $comentarios;
             }
-            return $comentarios;
+             return $comentarios;
+            
+            
+            
     }
 
     public function index(Request $request)
@@ -148,7 +157,21 @@ class YoutubeController extends Controller
                 ));
 
             $salidaVideo = curl_exec($chVideo);
+            //return $salidaVideo;
             $salidaVideo = json_decode($salidaVideo);
+
+            $likesV=0;
+            $ncomentariosV=0;
+            $vistasV=0;
+            try {
+                if ( property_exists($salidaVideo, 'items')) {
+                    $likesV=$salidaVideo->items[0]->statistics->likeCount;
+                    $ncomentariosV=$salidaVideo->items[0]->statistics->commentCount;
+                    $vistasV=$salidaVideo->items[0]->statistics->viewCount;
+                }
+            } catch (Exception $e) {
+               
+            }
             
             array_push($videos,array(
                 'id'=>$salida_lista[$i]->snippet->resourceId->videoId,
@@ -157,9 +180,9 @@ class YoutubeController extends Controller
                 'titulo'=>$salida_lista[$i]->snippet->title,
                 'descripcion'=>$salida_lista[$i]->snippet->description,
                 'thumbnails'=>$salida_lista[$i]->snippet->thumbnails->default->url,
-                'likes'=>$salidaVideo->items[0]->statistics->likeCount,
-                'ncomentarios'=>$salidaVideo->items[0]->statistics->commentCount,
-                'vistas'=>$salidaVideo->items[0]->statistics->viewCount,
+                'likes'=>$likesV,
+                'ncomentarios'=>$ncomentariosV,
+                'vistas'=>$vistasV,
                 'comentarios'=>$this->get_comentarios($salida_lista[$i]->snippet->resourceId->videoId,$token),
             ));
         }
