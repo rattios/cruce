@@ -179,7 +179,9 @@ export class Lu5FacebookComponent implements OnInit{
               console.log(data);
               this.post=[];
               this.prepost=data;
+              var next=this.prepost.posts.paging.next;
               this.prepost=this.prepost.posts.data;
+              
               for (var i = 0; i < this.prepost.length; i++) {
                 if(this.prepost[i].likes){
                   if(this.prepost[i].comments) {
@@ -204,6 +206,7 @@ export class Lu5FacebookComponent implements OnInit{
               }
               console.log(this.post);
               //this.getEstadisticas();
+              this.paging(next);
               this.loading=false;
            },
            msg => { // Error
@@ -225,11 +228,13 @@ export class Lu5FacebookComponent implements OnInit{
     for (var i = 0; i < this.post.length; ++i) {
       for (var j = 0; j < this.post[i].comments.data.length; ++j) {
         if(this.post[i].comments.data[j].from.name!='') {
-          //usuarios.push(this.post[i].comments.data[j].from.name);
-          this.Facebook_friends.push({
-            usuario:this.post[i].comments.data[j].from.name,
-            facebook_id:this.post[i].comments.data[j].from.id,
-          });
+          console.log(this.post[i].comments.data[j].from.name);
+          if(this.post[i].comments.data[j].from.name!=undefined && this.post[i].comments.data[j].from.id!=undefined) {
+            this.Facebook_friends.push({
+              usuario:this.post[i].comments.data[j].from.name,
+              facebook_id:this.post[i].comments.data[j].from.id,
+            });
+          }
         }
       }   
     }
@@ -239,10 +244,13 @@ export class Lu5FacebookComponent implements OnInit{
     for (var i = 0; i < this.post.length; ++i) {
       for (var j = 0; j < this.post[i].likes.data.length; ++j) {
         if(this.post[i].likes.data[j].name!='') {
-          this.Facebook_friends.push({
-            usuario:this.post[i].likes.data[j].name,
-            facebook_id:this.post[i].likes.data[j].id,
-          });
+          console.log(this.post[i].likes.data[j].name);
+          if(this.post[i].likes.data[j].name!=undefined && this.post[i].likes.data[j].id!=undefined) {
+            this.Facebook_friends.push({
+              usuario:this.post[i].likes.data[j].name,
+              facebook_id:this.post[i].likes.data[j].id,
+            });
+          }
         }
       }   
     }
@@ -263,7 +271,7 @@ export class Lu5FacebookComponent implements OnInit{
   }
 
   paging(url){
-
+    setTimeout(()=>{
     this.http.get(url)
     //this.http.get('https://graph.facebook.com/v2.12/me?fields=posts{from,message,comments{message,from},likes{pic_small,username,name}}&access_token=EAAEDPpwcvQYBALnczQimSVo7RystX6qXafgUeuIyQi6PYKZCO0q7dRCMxjhscQGgwg5KY9Rh4F1kBFNKRZC1vzgUP9dxCZCGxG9S9qe1lRu4eT7QuuUQZAuAnuIRqHSMuE4ZCb0wp4pIfZC6BymD0Ut6Md6MkrOw7bxPxadG0V00awTq8CVDl8B9tOD8zw9xEjMN1D1quVbgZDZD')
          .toPromise()
@@ -272,9 +280,12 @@ export class Lu5FacebookComponent implements OnInit{
               console.log(data);
               var next='';
               this.prepost=data;
-              if( this.prepost.paging.hasOwnProperty('next') ) {
-               next=this.prepost.paging.next;
-              }
+              //console.log(this.prepost.length);
+              //if(this.prepost.length>0){
+                if( this.prepost.paging.hasOwnProperty('next') ) {
+                 next=this.prepost.paging.next;
+                }
+              //}
               
               this.prepost=this.prepost.data;
               for (var i = 0; i < this.prepost.length; i++) {
@@ -302,7 +313,9 @@ export class Lu5FacebookComponent implements OnInit{
               if(next!='') {
                 this.paging(next);
               }else{
+                setTimeout(()=>{
                 this.startEstadisticas();
+                }, 1000);
               }
               
               
@@ -322,14 +335,19 @@ export class Lu5FacebookComponent implements OnInit{
               }
            }
          );
+    }, 1000);
   }
   startEstadisticas(){
     console.log(this.post);
+    console.log(this.Facebook_friends);
+    console.log(JSON.stringify(this.post));
+    console.log(JSON.stringify(this.Facebook_friends));
     this.usuariosComment();
     setTimeout(()=>{
       this.usuariosLike();
      }, 1000);
     setTimeout(()=>{
+
       this.Facebook_friends = this.removeDuplicates(this.Facebook_friends, "facebook_id");
       console.log(this.Facebook_friends);
      }, 2000);
@@ -457,7 +475,6 @@ export class Lu5FacebookComponent implements OnInit{
   private usr: SocialUser;
   private loggedIn: boolean;
 
-  public Facebook_friends:any;
   public nComentarios=0;
   public nMegusta=0;
   public nPost=0;

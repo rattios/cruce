@@ -48,6 +48,9 @@
                   <div style="text-align: right;">
                    <!-- <strong>Buscar: </strong>
                    <input  type="text"  id="inputName" [(ngModel)]="inputName" (ngModelChange)="FilterByName()"/> -->
+                   
+                   <button class="btn btn-info" (click)="startEstadisticas()">Obtener Estadísticas</button>
+        
                   </div>
                 </div>
               </div>
@@ -55,6 +58,7 @@
       </nb-card-header>
 
       <nb-card-body>
+        
         <nb-tabset>
           
         <nb-tab tabTitle="Post">
