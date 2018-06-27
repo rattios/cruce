@@ -493,7 +493,7 @@ export class Lu5FacebookComponent implements OnInit{
     this.nComentarios=0;
     this.nMegusta=0;
     this.Facebook_friends=[];
-    this.http.get('http://vivomedia.com.ar/vivoindex/cruceAPI/public/posts')
+    this.http.get('http://localhost/cruce/cruceAPI/public/posts')
         .toPromise()
          .then(
            data => { // Success

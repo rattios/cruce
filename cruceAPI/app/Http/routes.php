@@ -102,6 +102,11 @@ Route::group(  ['middleware' =>'cors'], function(){
     Route::delete('agendaseventos','AgendasEventosController@destroy');
 
     Route::get('youtube', 'YoutubeController@index');
+
+    //-----Tratamiento de importacion de facebook
+    Route::post('/facebook/posts','FacebookController@storeFacebookPosts');
+    Route::post('/facebook/clientes','FacebookController@storeFacebookClientes');
+
     
     Route::group(['middleware' => 'jwt-auth'], function(){
 

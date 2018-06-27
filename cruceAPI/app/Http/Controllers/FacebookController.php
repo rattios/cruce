@@ -135,4 +135,188 @@ class FacebookController extends Controller
     {
         //
     }
+
+    public function storeFacebookPosts(Request $request)
+    {
+        set_time_limit(1000);
+
+        $posts = $request->input('posts'); 
+
+        $posts = json_decode($posts);
+
+
+        for ($i=0; $i < count($posts); $i++) { 
+
+            if (!$this->checkPostsExist($posts[$i]->id)) {
+
+                if (property_exists($posts[$i], 'message')) {
+                     $aux = $posts[$i]->message;
+                 }else{
+                    $aux = '';
+                 } 
+
+                $nuevoPost=\App\Facebook_post::create([
+                    'usuario' => json_encode($posts[$i]->from),
+                    'texto' => $aux,
+                    'post_id' => $posts[$i]->id
+                ]);
+
+                if (property_exists($posts[$i], 'comments')) {
+                    
+                    $data = $posts[$i]->comments->data;
+
+                    for ($j=0; $j < count($data) ; $j++) { 
+                        if (property_exists($data[$j], 'id')) {
+                            $nuevoComment=\App\Facebook_comments::create([
+                                'message' => $data[$j]->message,
+                                'usuario' => json_encode($data[$j]->from),
+                                'comments_id' => $data[$j]->id,
+                                'facebook_post_id' => $posts[$i]->id
+                            ]);
+                        }
+                        
+                    }
+                }
+
+                if (property_exists($posts[$i], 'likes')) {
+                    
+                    $data = $posts[$i]->likes->data;
+
+                    for ($k=0; $k < count($data) ; $k++) { 
+                        if (property_exists($data[$k], 'id')) {
+                            $nuevoLike=\App\Facebook_likes::create([
+                                'data' => $data[$k]->name,
+                                'like_id' => $data[$k]->id,
+                                'facebook_post_id' => $posts[$i]->id
+                            ]);
+                        }
+                        
+                    }
+                }
+
+            }else{
+
+                if (property_exists($posts[$i], 'comments')) {
+                    
+                    $data = $posts[$i]->comments->data;
+
+                    for ($j=0; $j < count($data) ; $j++) {
+
+                        if (property_exists($data[$j], 'id')) {
+
+                            if (!$this->checkCommentsExist($data[$j]->id, $posts[$i]->id)) {
+                                $nuevoComment=\App\Facebook_comments::create([
+                                    'message' => $data[$j]->message,
+                                    'usuario' => json_encode($data[$j]->from),
+                                    'comments_id' => $data[$j]->id,
+                                    'facebook_post_id' => $posts[$i]->id
+                                ]);
+                            }
+
+                        }
+                    }
+                }
+
+                if (property_exists($posts[$i], 'likes')) {
+                    
+                    $data = $posts[$i]->likes->data;
+
+                    for ($k=0; $k < count($data) ; $k++) { 
+
+                        if (property_exists($data[$k], 'id')) {
+                            if (!$this->checkLikesExist($data[$k]->id, $posts[$i]->id)) {
+                                $nuevoLike=\App\Facebook_likes::create([
+                                    'data' => $data[$k]->name,
+                                    'like_id' => $data[$k]->id,
+                                    'facebook_post_id' => $posts[$i]->id
+                                ]);
+                            }
+                        }
+                    }
+                }
+
+
+            }
+
+
+            
+        }
+        
+
+        return response()->json(['count'=>count($posts)], 200);
+    }
+
+    public function checkPostsExist($post_id)
+    {
+        $post = \App\Facebook_post::where('post_id', $post_id)->get();
+
+        if (count($post)==0)
+        {
+            return false;
+        }else{
+            return true;
+        }
+    }
+
+    public function checkCommentsExist($comments_id, $facebook_post_id)
+    {
+        $comment = \App\Facebook_comments::where('comments_id', $comments_id)
+            ->where('facebook_post_id', $facebook_post_id)->get();
+
+        if (count($comment)==0)
+        {
+            return false;
+        }else{
+            return true;
+        }
+    }
+
+    public function checkLikesExist($like_id, $facebook_post_id)
+    {
+        $like = \App\Facebook_likes::where('like_id', $like_id)
+            ->where('facebook_post_id', $facebook_post_id)->get();
+
+        if (count($like)==0)
+        {
+            return false;
+        }else{
+            return true;
+        }
+    }
+
+    public function storeFacebookClientes(Request $request)
+    {
+        set_time_limit(1000);
+
+        $usuarios = $request->input('usuarios'); 
+
+        $usuarios = json_decode($usuarios);
+
+        for ($i=0; $i < count($usuarios); $i++) { 
+            if (!$this->checkUsuariosExist($usuarios[$i]->facebook_id)) {
+                $nuevoCliente=\App\Facebook_friends::create([
+                    'usuario' => $usuarios[$i]->usuario,
+                    'email' => '',
+                    'img' => '',
+                    'facebook_id' => $usuarios[$i]->facebook_id 
+                ]);
+            }
+        }
+        
+
+        return response()->json(['count'=>count($usuarios)], 200);
+    }
+
+    public function checkUsuariosExist($facebook_id)
+    {
+        $usuario = \App\Facebook_friends::where('facebook_id', $facebook_id)->get();
+
+        if (count($usuario)==0)
+        {
+            return false;
+        }else{
+            return true;
+        }
+    }
+
 }
